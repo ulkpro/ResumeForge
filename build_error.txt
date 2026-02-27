@@ -1,0 +1,7 @@
+﻿src/App.tsx(51,20): error TS2345: Argument of type '{ margin: number[]; filename: string; image: { type: string; quality: number; }; html2canvas: { scale: number; }; jsPDF: { unit: string; format: string; orientation: string; }; }' is not assignable to parameter of type 'Html2PdfOptions'.
+  Types of property 'margin' are incompatible.
+    Type 'number[]' is not assignable to type 'number | [number, number] | [number, number, number, number] | undefined'.
+      Type 'number[]' is not assignable to type '[number, number] | [number, number, number, number]'.
+        Type 'number[]' is not assignable to type '[number, number, number, number]'.
+          Target requires 4 element(s) but source may have fewer.
+src/data.ts(1,10): error TS1484: 'ExperienceData' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
