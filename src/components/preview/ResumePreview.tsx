@@ -137,7 +137,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 )}
 
                 {/* Skills Section */}
-                {data.filter(d => d.type === 'skills' && d.points.some(p => selectedPoints[p.id])).length > 0 && (
+                {data.filter(d => d.type === 'skills').length > 0 && (
                     <div className="resume-section">
                         <h2
                             className="text-[12pt] font-bold uppercase tracking-wider text-black border-b-2 border-black pb-0.5"
@@ -146,20 +146,20 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
 
                         <div className="flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
                             {data.filter(d => d.type === 'skills').map(skill => {
-                                const activePoints = skill.points.filter(p => selectedPoints[p.id]);
-                                if (activePoints.length === 0) return null;
-                                return activePoints.map(p => {
-                                    const colonIdx = p.text.indexOf(':');
-                                    if (colonIdx !== -1) {
-                                        return (
-                                            <div key={p.id} className="text-[10pt] text-black leading-snug">
-                                                <span className="font-semibold">{p.text.substring(0, colonIdx + 1)}</span>
-                                                <span>{p.text.substring(colonIdx + 1)}</span>
-                                            </div>
-                                        );
-                                    }
-                                    return <div key={p.id} className="text-[10pt] text-black">{p.text}</div>;
-                                });
+                                const categoryTitle = skill.category || 'Skills';
+                                const rawText = skill.points[0]?.text || '';
+                                const individualSkills = rawText.split(',').map(s => s.trim()).filter(s => s);
+                                // Only include skills that haven't been explicitly deselected
+                                const activeSkills = individualSkills.filter((_s, idx) =>
+                                    selectedPoints[`${skill.id}-skill-${idx}`] !== false
+                                );
+                                if (activeSkills.length === 0) return null;
+                                return (
+                                    <div key={skill.id} className="text-[10pt] text-black leading-snug">
+                                        <span className="font-semibold">{categoryTitle}: </span>
+                                        <span>{activeSkills.join(', ')}</span>
+                                    </div>
+                                );
                             })}
                         </div>
                     </div>

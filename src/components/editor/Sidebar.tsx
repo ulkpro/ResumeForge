@@ -31,6 +31,55 @@ export function Sidebar({
     selectedPoints, onPointToggle, onAddPoint
 }: SidebarProps) {
 
+    // Helper to render the Skills section with toggle pill buttons
+    const renderSkillsSection = (data: ResumeData[], title: string, sectionKey: string, icon: any) => {
+        if (data.length === 0) return null;
+        return (
+            <div>
+                <SectionHeader icon={icon} title={title} sectionKey={sectionKey} isCollapsed={!!collapsedSections[sectionKey]} onToggle={onToggleSection} />
+                {!collapsedSections[sectionKey] && (
+                    <div className="space-y-5 ml-2 pl-3 border-l-2 border-slate-100">
+                        {data.map(item => {
+                            const categoryTitle = item.category || 'Skills';
+                            const rawText = item.points[0]?.text || '';
+                            const individualSkills = rawText.split(',').map(s => s.trim()).filter(s => s);
+                            return (
+                                <div key={item.id}>
+                                    <h3 className="font-semibold text-slate-700 mb-2 text-[13px] tracking-wide">{categoryTitle}</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {individualSkills.map((skill, idx) => {
+                                            const skillId = `${item.id}-skill-${idx}`;
+                                            const isSelected = selectedPoints[skillId] !== false;
+                                            return (
+                                                <button
+                                                    key={skillId}
+                                                    type="button"
+                                                    onClick={() => onPointToggle(skillId)}
+                                                    className={`
+                                                        px-3 py-1.5 rounded-full text-xs font-medium
+                                                        transition-all duration-200 cursor-pointer select-none
+                                                        border
+                                                        ${isSelected
+                                                            ? 'bg-sky-500 text-white border-sky-500 shadow-sm shadow-sky-200 hover:bg-sky-600'
+                                                            : 'bg-slate-100 text-slate-400 border-slate-200 line-through hover:bg-slate-200 hover:text-slate-500'
+                                                        }
+                                                    `}
+                                                >
+                                                    {skill}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+
     const renderSection = (data: ResumeData[], title: string, sectionKey: string, icon: any) => {
         if (data.length === 0) return null;
         return (
@@ -72,7 +121,8 @@ export function Sidebar({
                 {renderSection(experienceData, "Experience", "experience", BriefcaseBusiness)}
                 {renderSection(projectData, "Projects", "projects", FolderGit2)}
                 {renderSection(educationData, "Education", "education", GraduationCap)}
-                {renderSection(skillsData, "Skills", "skills", Code2)}
+                {/* Render custom Skills section with enable/disable toggles */}
+                {renderSkillsSection(skillsData, "Skills", "skills", Code2)}
             </div>
         </div>
     );
