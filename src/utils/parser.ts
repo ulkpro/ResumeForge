@@ -48,7 +48,7 @@ export function parseMarkdown(fileName: string, rawContent: string): ResumeData 
     const bulletLines = bodyStr.split('\n').filter(line => line.trim().startsWith('-'));
 
     bulletLines.forEach((line, idx) => {
-        let textPart = line.trim().substring(1).trim();
+        const textPart = line.trim().substring(1).trim();
         // Extract tags from the end like [Java, Spring]
         const tagMatch = textPart.match(/\[(.*?)\]$/);
         const tags = tagMatch ? tagMatch[1].split(',').map(t => t.trim()) : [];

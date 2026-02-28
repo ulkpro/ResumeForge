@@ -16473,8 +16473,8 @@ var require_html2pdf = __commonJS({
                   return it && it.Math === Math && it;
                 };
                 module2.exports = // eslint-disable-next-line es/no-global-this -- safe
-                check(typeof globalThis == "object" && globalThis) || check(typeof window == "object" && window) || // eslint-disable-next-line no-restricted-globals -- safe
-                check(typeof self == "object" && self) || check(typeof global == "object" && global) || check(typeof this == "object" && this) || // eslint-disable-next-line no-new-func -- fallback
+                check(typeof globalThis == "object" && globalThis) || check(typeof window == "object" && window) ||  
+                check(typeof self == "object" && self) || check(typeof global == "object" && global) || check(typeof this == "object" && this) ||  
                 /* @__PURE__ */ (function() {
                   return this;
                 })() || Function("return this")();
@@ -21052,7 +21052,7 @@ var require_html2pdf = __commonJS({
                 };
                 var FORCED = !IS_CONCAT_SPREADABLE_SUPPORT || !arrayMethodHasSpeciesSupport("concat");
                 $({ target: "Array", proto: true, arity: 1, forced: FORCED }, {
-                  // eslint-disable-next-line no-unused-vars -- required for `.length`
+                   
                   concat: function concat(arg) {
                     var O = toObject(this);
                     var A = arraySpeciesCreate(O, 0);
@@ -25131,12 +25131,12 @@ var require_html2pdf = __commonJS({
                 const ARIA_ATTR = seal(/^aria-[\-\w]+$/);
                 const IS_ALLOWED_URI = seal(
                   /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp|matrix):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i
-                  // eslint-disable-line no-useless-escape
+                   
                 );
                 const IS_SCRIPT_OR_DATA = seal(/^(?:\w+script|data):/i);
                 const ATTR_WHITESPACE = seal(
                   /[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g
-                  // eslint-disable-line no-control-regex
+                   
                 );
                 const DOCTYPE_NAME = seal(/^html$/i);
                 const CUSTOM_ELEMENT = seal(/^[a-z][.\w]*(-[.\w]+)+$/i);
@@ -25625,7 +25625,7 @@ var require_html2pdf = __commonJS({
                     return createNodeIterator.call(
                       root.ownerDocument || root,
                       root,
-                      // eslint-disable-next-line no-bitwise
+                       
                       NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_TEXT | NodeFilter.SHOW_PROCESSING_INSTRUCTION | NodeFilter.SHOW_CDATA_SECTION,
                       null
                     );
