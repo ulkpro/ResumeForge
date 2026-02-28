@@ -445,13 +445,13 @@ export default function App() {
             <div className="text-center mb-6">
               <h1 className="text-[22pt] font-semibold text-slate-900 tracking-tight mb-1">Uditha H.</h1>
               <p className="text-[10pt] text-slate-600 flex justify-center flex-wrap gap-2 items-center">
-                <span>udithalayank-herathmudiyanselage@uiowa.edu</span>
+                <span>firstname.lastname@xyz.org</span>
                 <span>•</span>
-                <span>(319) 383-3374</span>
+                <span>(999) 999-9999</span>
                 <span>•</span>
-                <span className="text-sky-700">github.com/ulkpro</span>
+                <span className="text-sky-700">github.com/username</span>
                 <span>•</span>
-                <span className="text-sky-700">linkedin.com/in/udithakarunarathne</span>
+                <span className="text-sky-700">linkedin.com/in/username</span>
               </p>
             </div>
 

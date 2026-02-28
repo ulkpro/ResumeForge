@@ -4,5 +4,5 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/resume-maker/', // Add this line!
+  base: '/ResumeForge/', // Fixed to match the repository name!
 })
