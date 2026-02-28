@@ -1,22 +1,73 @@
 @import "tailwindcss";
 
+/* Base body styling */
 body {
-  @apply bg-sky-50 text-slate-900;
-  font-family: 'Inter', system-ui, sans-serif;
-  margin: 0;
-  padding: 0;
+  @apply bg-white text-black m-0 p-0;
+  font-family: 'Inter', 'Helvetica', 'Arial', sans-serif;
+  font-size: 11pt;
+  /* readable size for body text */
+  line-height: 1.4;
+  /* good spacing for readability */
 }
 
+/* Resume container */
 .resume-preview {
-  /* Using standard system fonts for a clean ATS-friendly look */
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'Inter', 'Helvetica', 'Arial', sans-serif;
+  color: #000;
+  max-width: 800px;
+  /* standard resume width */
+  margin: 0 auto;
+  /* center on page */
+  padding: 1.5rem;
+  box-sizing: border-box;
 }
 
+/* Section styling */
 .resume-preview .resume-section {
   break-inside: avoid;
+  margin-bottom: 1.5rem;
 }
 
-/* Custom Scrollbar for the sidebar */
+.resume-preview .section-title {
+  font-size: 13pt;
+  font-weight: 600;
+  color: #000;
+  /* dark slate color for headings */
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Points / bullets */
+.resume-preview .resume-point {
+  margin-bottom: 0.5rem;
+  font-size: 11pt;
+  color: #000;
+  /* slightly lighter than heading */
+}
+
+/* Tags / skills */
+.resume-preview .tag {
+  display: inline-block;
+  background-color: #ffffff;
+  /* light sky blue */
+  color: #000;
+  /* darker blue */
+  font-size: 9pt;
+  font-weight: 500;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+/* Input sliders (if layout controls exist) */
+.resume-preview input[type="range"] {
+  accent-color: #000;
+  /* match theme */
+}
+
+/* Sidebar scrollbars */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }

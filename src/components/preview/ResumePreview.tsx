@@ -30,15 +30,15 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
             }}
         >
             <div className="text-center mb-6">
-                <h1 className="text-[22pt] font-semibold text-slate-900 tracking-tight mb-1">Uditha H.</h1>
-                <p className="text-[10pt] text-slate-600 flex justify-center flex-wrap gap-2 items-center">
+                <h1 className="text-[22pt] font-semibold text-black tracking-tight mb-1">Uditha H.</h1>
+                <p className="text-[10pt] text-black flex justify-center flex-wrap gap-2 items-center">
                     <span>firstname.lastname@xyz.org</span>
                     <span>•</span>
                     <span>(999) 999-9999</span>
                     <span>•</span>
-                    <span className="text-sky-700">github.com/username</span>
+                    <span>github.com/username</span>
                     <span>•</span>
-                    <span className="text-sky-700">linkedin.com/in/username</span>
+                    <span>linkedin.com/in/username</span>
                 </p>
             </div>
 
@@ -47,7 +47,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 {data.filter(d => d.type === 'experience' && d.points.some(p => selectedPoints[p.id])).length > 0 && (
                     <div className="resume-section">
                         <h2
-                            className="text-[12pt] font-bold uppercase tracking-wider text-sky-900 border-b-2 border-sky-900 pb-0.5"
+                            className="text-[12pt] font-bold uppercase tracking-wider text-black border-b-2 border-black pb-0.5"
                             style={{ marginBottom: layout.gapSectionToSub + 'px' }}
                         >Experience</h2>
                         <div className="flex flex-col" style={{ gap: layout.gapSubsections + 'px' }}>
@@ -56,14 +56,14 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                 if (activePoints.length === 0) return null;
                                 return (
                                     <div key={exp.id}>
-                                        <div className="flex justify-between font-semibold text-[11pt] text-slate-800 leading-snug mb-1">
-                                            <span>{exp.designation} <span className="font-normal text-slate-600">| {exp.company}</span></span>
-                                            <span className="text-slate-600 text-[10pt] font-medium">
+                                        <div className="flex justify-between font-semibold text-[11pt] text-black leading-snug mb-1">
+                                            <span>{exp.designation} <span className="font-normal text-black">| {exp.company}</span></span>
+                                            <span className="text-black text-[10pt] font-medium">
                                                 {exp.location && <span className="mr-2">{exp.location}</span>}
                                                 {exp.startDate} – {exp.endDate}
                                             </span>
                                         </div>
-                                        <ul className="list-disc pl-[18px] text-[10pt] text-slate-700 flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
+                                        <ul className="list-disc pl-[18px] text-[10pt] text-black flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
                                             {activePoints.map(p => <li key={p.id}>{p.text}</li>)}
                                         </ul>
                                     </div>
@@ -77,7 +77,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 {data.filter(d => d.type === 'project' && d.points.some(p => selectedPoints[p.id])).length > 0 && (
                     <div className="resume-section">
                         <h2
-                            className="text-[12pt] font-bold uppercase tracking-wider text-sky-900 border-b-2 border-sky-900 pb-0.5"
+                            className="text-[12pt] font-bold uppercase tracking-wider text-black border-b-2 border-black pb-0.5"
                             style={{ marginBottom: layout.gapSectionToSub + 'px' }}
                         >Projects</h2>
                         <div className="flex flex-col" style={{ gap: layout.gapSubsections + 'px' }}>
@@ -86,13 +86,13 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                 if (activePoints.length === 0) return null;
                                 return (
                                     <div key={proj.id}>
-                                        <div className="flex justify-between font-semibold text-[11pt] text-slate-800 leading-snug mb-1">
+                                        <div className="flex justify-between font-semibold text-[11pt] text-black leading-snug mb-1">
                                             <span className="flex items-center gap-1.5">
                                                 {proj.project_name}
                                                 {proj.url && <span className="font-normal text-sky-700 text-[9pt] pt-0.5">| {proj.url}</span>}
                                             </span>
                                         </div>
-                                        <ul className="list-disc pl-[18px] text-[10pt] text-slate-700 flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
+                                        <ul className="list-disc pl-[18px] text-[10pt] text-black flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
                                             {activePoints.map(p => <li key={p.id}>{p.text}</li>)}
                                         </ul>
                                     </div>
@@ -106,7 +106,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 {data.filter(d => d.type === 'education' && (d.points.some(p => selectedPoints[p.id]) || d.points.length === 0)).length > 0 && (
                     <div className="resume-section">
                         <h2
-                            className="text-[12pt] font-bold uppercase tracking-wider text-sky-900 border-b-2 border-sky-900 pb-0.5"
+                            className="text-[12pt] font-bold uppercase tracking-wider text-black border-b-2 border-black pb-0.5"
                             style={{ marginBottom: layout.gapSectionToSub + 'px' }}
                         >Education</h2>
 
@@ -116,16 +116,16 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                 if (activePoints.length === 0 && edu.points.length > 0) return null;
                                 return (
                                     <div key={edu.id}>
-                                        <div className="flex justify-between font-semibold text-[11pt] text-slate-800 mb-0.5">
-                                            <span>{edu.institution}, <span className="font-normal italic text-slate-700">{edu.degree}</span></span>
-                                            <span className="text-slate-600 text-[10pt]">
+                                        <div className="flex justify-between font-semibold text-[11pt] text-black mb-0.5">
+                                            <span>{edu.institution}, <span className="font-normal italic text-black">{edu.degree}</span></span>
+                                            <span className="text-black text-[10pt]">
                                                 {edu.location && <span className="mr-2">{edu.location}</span>}
                                                 {edu.startDate ? `${edu.startDate} – ${edu.endDate}` : edu.endDate}
                                             </span>
                                         </div>
-                                        {edu.gpa && <div className="text-[10pt] text-slate-700 mb-1">GPA: {edu.gpa}</div>}
+                                        {edu.gpa && <div className="text-[10pt] text-black mb-1">GPA: {edu.gpa}</div>}
                                         {activePoints.length > 0 && (
-                                            <ul className="list-disc pl-[18px] text-[10pt] text-slate-700 flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
+                                            <ul className="list-disc pl-[18px] text-[10pt] text-black flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
                                                 {activePoints.map(p => <li key={p.id}>{p.text}</li>)}
                                             </ul>
                                         )}
@@ -140,7 +140,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 {data.filter(d => d.type === 'skills' && d.points.some(p => selectedPoints[p.id])).length > 0 && (
                     <div className="resume-section">
                         <h2
-                            className="text-[12pt] font-bold uppercase tracking-wider text-sky-900 border-b-2 border-sky-900 pb-0.5"
+                            className="text-[12pt] font-bold uppercase tracking-wider text-black border-b-2 border-black pb-0.5"
                             style={{ marginBottom: layout.gapSectionToSub + 'px' }}
                         >Technical Skills</h2>
 

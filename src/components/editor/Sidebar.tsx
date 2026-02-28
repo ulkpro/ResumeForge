@@ -66,7 +66,7 @@ export function Sidebar({
                 {!collapsedSections['layoutControls'] && <LayoutControls layout={layout} setLayout={setLayout} />}
             </div>
 
-            <TagFilters allTags={allTags} selectedTags={selectedTags} onToggle={onTagToggle} onClear={() => onClearTags()} />
+            {/* <TagFilters allTags={allTags} selectedTags={selectedTags} onToggle={onTagToggle} onClear={() => onClearTags()} /> */}
 
             <div className="space-y-6 pb-20">
                 {renderSection(experienceData, "Experience", "experience", BriefcaseBusiness)}
