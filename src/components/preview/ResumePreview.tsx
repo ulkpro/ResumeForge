@@ -58,7 +58,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                     <div key={exp.id}>
                                         <div className="flex justify-between font-semibold text-[11pt] text-black leading-snug mb-1">
                                             <span>{exp.designation} <span className="font-normal text-black">| {exp.company}</span></span>
-                                            <span className="text-black text-[10pt] font-medium">
+                                            <span className="text-black text-[10pt]">
                                                 {exp.location && <span className="mr-2">{exp.location}</span>}
                                                 {exp.startDate} – {exp.endDate}
                                             </span>
@@ -152,13 +152,13 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                     const colonIdx = p.text.indexOf(':');
                                     if (colonIdx !== -1) {
                                         return (
-                                            <div key={p.id} className="text-[10pt] text-slate-800 leading-snug">
+                                            <div key={p.id} className="text-[10pt] text-black leading-snug">
                                                 <span className="font-semibold">{p.text.substring(0, colonIdx + 1)}</span>
                                                 <span>{p.text.substring(colonIdx + 1)}</span>
                                             </div>
                                         );
                                     }
-                                    return <div key={p.id} className="text-[10pt] text-slate-800">{p.text}</div>;
+                                    return <div key={p.id} className="text-[10pt] text-black">{p.text}</div>;
                                 });
                             })}
                         </div>
