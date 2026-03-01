@@ -15,8 +15,8 @@ export const handleExportPDF = async (layout: LayoutSettings) => {
     const opt: any = {
         margin: 0,
         filename: 'resume.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+        image: { type: 'jpeg', quality: 1.0 },
+        html2canvas: { scale: 4, useCORS: true, scrollY: 0 },
         jsPDF: { unit: 'mm', format: layout.pageSize.toLowerCase(), orientation: 'portrait' }
     };
 
