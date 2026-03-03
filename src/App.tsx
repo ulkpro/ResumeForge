@@ -37,8 +37,6 @@ export default function App() {
 
       {/* Sidebar Editor */}
       <Sidebar
-        layout={layout}
-        setLayout={setLayout}
         collapsedSections={collapsedSections}
         onToggleSection={toggleSection}
         experienceData={experienceData}
@@ -60,6 +58,8 @@ export default function App() {
         <PreviewToolbar
           onReset={handleReset}
           onExportPDF={() => handleExportPDF(layout)}
+          layout={layout}
+          setLayout={setLayout}
         />
 
         <div className="flex-1 overflow-y-auto w-full flex justify-center pb-12 pt-4">
