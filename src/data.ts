@@ -20,5 +20,7 @@ export const getResumeData = (): ResumeData[] => {
         data.push(parseMarkdown(fileName + typeLabel, rawContent, path));
     }
 
+    data.sort((a, b) => (a.order || 99) - (b.order || 99));
+
     return data;
 };

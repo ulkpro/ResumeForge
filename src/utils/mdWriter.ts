@@ -25,6 +25,7 @@ export async function saveResumeFileLocal(data: ResumeData) {
     if (data.gpa) md += `gpa: "${data.gpa}"\n`;
     if (data.category) md += `category: "${data.category}"\n`;
     if (data.role && data.role !== 'base') md += `role: "${data.role}"\n`;
+    if (data.order !== undefined) md += `order: "${data.order}"\n`;
     md += '---\n\n';
 
     // Reconstruct points

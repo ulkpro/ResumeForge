@@ -1,4 +1,4 @@
-import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2 } from 'lucide-react';
+import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, ArrowUp, ArrowDown } from 'lucide-react';
 import { SectionHeader } from '../common/SectionHeader';
 import { CheckboxItem } from '../common/CheckboxItem';
 import { AddPointForm } from '../common/AddPointForm';
@@ -17,6 +17,8 @@ interface SidebarProps {
     onAddPoint: (sectionId: string, text: string, tagsStr: string) => void;
     onEditPoint: (sectionId: string, pointId: string, text: string, tagsStr: string) => void;
     onDeletePoint: (sectionId: string, pointId: string) => void;
+    onMoveSection: (sectionId: string, direction: 'up' | 'down') => void;
+    onMovePoint: (sectionId: string, pointId: string, direction: 'up' | 'down') => void;
     targetRole: string;
     setTargetRole: (role: string) => void;
     allRoles: string[];
@@ -25,6 +27,7 @@ interface SidebarProps {
 export function Sidebar({
     collapsedSections, onToggleSection, experienceData, projectData, educationData, skillsData,
     selectedPoints, onPointToggle, onAddPoint, onEditPoint, onDeletePoint,
+    onMoveSection, onMovePoint,
     targetRole, setTargetRole, allRoles
 }: SidebarProps) {
 
@@ -83,11 +86,17 @@ export function Sidebar({
             <div>
                 <SectionHeader icon={icon} title={title} sectionKey={sectionKey} isCollapsed={!!collapsedSections[sectionKey]} onToggle={onToggleSection} />
                 {!collapsedSections[sectionKey] && data.map(item => (
-                    <div key={item.id} className="mb-6 ml-2 pl-2 border-l-2 border-slate-100">
-                        <h3 className="font-semibold text-slate-800 mb-1 flex items-center gap-2">
-                            {item.company || item.project_name || item.institution || item.category}
-                            {(item.designation || item.degree) && <span className="text-sky-600 font-normal">- {item.designation || item.degree}</span>}
-                        </h3>
+                    <div key={item.id} className="mb-6 ml-2 pl-2 border-l-2 border-slate-100 relative group/section">
+                        <div className="flex items-center justify-between mb-1">
+                            <h3 className="font-semibold text-slate-800 flex items-center gap-2">
+                                {item.company || item.project_name || item.institution || item.category}
+                                {(item.designation || item.degree) && <span className="text-sky-600 font-normal">- {item.designation || item.degree}</span>}
+                            </h3>
+                            <div className="opacity-0 group-hover/section:opacity-100 flex items-center gap-1 transition-opacity">
+                                <button onClick={() => onMoveSection(item.id, 'up')} className="p-1 text-slate-400 hover:text-sky-600 hover:bg-sky-50 rounded" title="Move section up"><ArrowUp size={14} /></button>
+                                <button onClick={() => onMoveSection(item.id, 'down')} className="p-1 text-slate-400 hover:text-sky-600 hover:bg-sky-50 rounded" title="Move section down"><ArrowDown size={14} /></button>
+                            </div>
+                        </div>
                         <div className="space-y-1">
                             {item.points.map(point => (
                                 <CheckboxItem
@@ -97,6 +106,7 @@ export function Sidebar({
                                     onToggle={onPointToggle}
                                     onEdit={(id, text, tags) => onEditPoint(item.id, id, text, tags)}
                                     onDelete={(id) => onDeletePoint(item.id, id)}
+                                    onMove={(id, dir) => onMovePoint(item.id, id, dir)}
                                 />
                             ))}
                         </div>

@@ -19,6 +19,8 @@ export default function App() {
     handleAddPoint,
     handleEditPoint,
     handleDeletePoint,
+    moveSection,
+    movePoint,
     experienceData,
     projectData,
     educationData,
@@ -48,6 +50,8 @@ export default function App() {
         onAddPoint={handleAddPoint}
         onEditPoint={handleEditPoint}
         onDeletePoint={handleDeletePoint}
+        onMoveSection={moveSection}
+        onMovePoint={movePoint}
         targetRole={targetRole}
         setTargetRole={setTargetRole}
         allRoles={allRoles}
