@@ -98,6 +98,17 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
                     onChange={e => setLayout(s => ({ ...s, gapTitleToLine: Number(e.target.value) }))}
                     className="w-full accent-sky-500" />
             </div>
+
+            <div>
+                <div className="flex justify-between mb-1">
+                    <span>Gap Between Header & Body</span>
+                    <span className="text-sky-600 font-bold">{layout.gapHeaderToSection ?? 24} px</span>
+                </div>
+                <input type="range" min="0" max="60" step="1"
+                    value={layout.gapHeaderToSection ?? 24}
+                    onChange={e => setLayout(s => ({ ...s, gapHeaderToSection: Number(e.target.value) }))}
+                    className="w-full accent-sky-500" />
+            </div>
         </div>
     );
 }

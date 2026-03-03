@@ -7,6 +7,7 @@ export interface LayoutSettings {
     gapSubsections: number;
     gapMajorSections: number;
     gapTitleToLine: number;
+    gapHeaderToSection: number;
 }
 
 export const defaultLayout: LayoutSettings = {
@@ -18,4 +19,5 @@ export const defaultLayout: LayoutSettings = {
     gapSubsections: 14,
     gapMajorSections: 16,
     gapTitleToLine: 4,
+    gapHeaderToSection: 24,
 };

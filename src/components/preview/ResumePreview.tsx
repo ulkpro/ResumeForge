@@ -31,7 +31,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 fontSize: '11pt'
             }}
         >
-            <div className="text-center mb-6">
+            <div className="text-center" style={{ marginBottom: (layout.gapHeaderToSection ?? 24) + 'px' }}>
                 <h1 className="text-[22pt] font-semibold tracking-tight mb-1">Uditha H.</h1>
                 <p className="text-[9pt] flex justify-center flex-wrap gap-1.5 items-center">
                     <span><a href="mailto:udithalayank-herathmudiyanselage@uiowa.edu" className="hover:underline text-black no-underline" style={{ color: '#000' }}>udithalayank-herathmudiyanselage@uiowa.edu</a></span>
