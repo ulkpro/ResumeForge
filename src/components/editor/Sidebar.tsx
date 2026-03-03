@@ -1,5 +1,4 @@
-import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, Settings2 } from 'lucide-react';
-import { LayoutControls } from './LayoutControls';
+import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2 } from 'lucide-react';
 import { SectionHeader } from '../common/SectionHeader';
 import { CheckboxItem } from '../common/CheckboxItem';
 import { AddPointForm } from '../common/AddPointForm';
@@ -7,8 +6,6 @@ import type { ResumeData } from '../../utils/parser';
 import type { LayoutSettings } from '../../types';
 
 interface SidebarProps {
-    layout: LayoutSettings;
-    setLayout: React.Dispatch<React.SetStateAction<LayoutSettings>>;
     collapsedSections: Record<string, boolean>;
     onToggleSection: (section: string) => void;
     experienceData: ResumeData[];
@@ -26,7 +23,6 @@ interface SidebarProps {
 }
 
 export function Sidebar({
-    layout, setLayout,
     collapsedSections, onToggleSection, experienceData, projectData, educationData, skillsData,
     selectedPoints, onPointToggle, onAddPoint, onEditPoint, onDeletePoint,
     targetRole, setTargetRole, allRoles
@@ -140,10 +136,6 @@ export function Sidebar({
                 </div>
             </div>
 
-            <div className="mb-6">
-                <SectionHeader icon={Settings2} title="Layout & Spacing" sectionKey="layoutControls" isCollapsed={!!collapsedSections['layoutControls']} onToggle={onToggleSection} />
-                {!collapsedSections['layoutControls'] && <LayoutControls layout={layout} setLayout={setLayout} />}
-            </div>
 
             <div className="space-y-6 pb-20">
                 {renderSection(experienceData, "Experience", "experience", BriefcaseBusiness)}
