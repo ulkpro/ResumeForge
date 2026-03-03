@@ -58,12 +58,15 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                 if (activePoints.length === 0) return null;
                                 return (
                                     <div key={exp.id}>
-                                        <div className="flex justify-between font-semibold text-[11pt] leading-snug mb-1">
-                                            <span>{exp.designation} <span className="font-normal">| {exp.company}</span></span>
-                                            <span className="text-[10pt]">
-                                                {exp.location && <span className="mr-2">{exp.location}</span>}
-                                                {exp.startDate} – {exp.endDate}
+                                        <div className="flex justify-between font-semibold text-[11pt] leading-snug">
+                                            <span>{exp.designation}</span>
+                                            <span className="text-[10pt] font-normal">
+                                                {exp.startDate} {exp.endDate ? `– ${exp.endDate}` : ''}
                                             </span>
+                                        </div>
+                                        <div className="flex justify-between text-[10.5pt] leading-snug mb-1">
+                                            <span className="font-medium italic">{exp.company}</span>
+                                            <span className="text-[10pt] font-normal">{exp.location}</span>
                                         </div>
                                         <ul className="list-disc pl-[18px] text-[10pt] flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
                                             {activePoints.map(p => <li key={p.id}>{p.text}</li>)}
