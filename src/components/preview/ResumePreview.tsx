@@ -68,13 +68,14 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                             <span className="font-medium italic">{exp.company}</span>
                                             <span className="text-[10pt] font-normal">{exp.location}</span>
                                         </div>
-                                        <ul className="list-disc pl-[18px] text-[10pt]">
+                                        <div className="flex flex-col text-[10pt] pl-[2px]">
                                             {activePoints.map((p, i) => (
-                                                <li key={p.id} style={{ marginBottom: i < activePoints.length - 1 ? layout.gapPoints + 'px' : 0 }}>
-                                                    {p.text}
-                                                </li>
+                                                <div key={p.id} className="flex items-start" style={{ marginBottom: i < activePoints.length - 1 ? layout.gapPoints + 'px' : 0 }}>
+                                                    <span className="mr-[8px] text-[14px] leading-none mt-[1.5px]">&bull;</span>
+                                                    <span className="flex-1">{p.text}</span>
+                                                </div>
                                             ))}
-                                        </ul>
+                                        </div>
                                     </div>
                                 );
                             })}
@@ -105,13 +106,14 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                                 )}
                                             </span>
                                         </div>
-                                        <ul className="list-disc pl-[18px] text-[10pt]">
+                                        <div className="flex flex-col text-[10pt] pl-[2px]">
                                             {activePoints.map((p, i) => (
-                                                <li key={p.id} style={{ marginBottom: i < activePoints.length - 1 ? layout.gapPoints + 'px' : 0 }}>
-                                                    {p.text}
-                                                </li>
+                                                <div key={p.id} className="flex items-start" style={{ marginBottom: i < activePoints.length - 1 ? layout.gapPoints + 'px' : 0 }}>
+                                                    <span className="mr-[8px] text-[14px] leading-none mt-[1.5px]">&bull;</span>
+                                                    <span className="flex-1">{p.text}</span>
+                                                </div>
                                             ))}
-                                        </ul>
+                                        </div>
                                     </div>
                                 );
                             })}
@@ -142,13 +144,14 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                         </div>
                                         {edu.gpa && <div className="text-[10pt] mb-1">GPA: {edu.gpa}</div>}
                                         {activePoints.length > 0 && (
-                                            <ul className="list-disc pl-[18px] text-[10pt]">
+                                            <div className="flex flex-col text-[10pt] pl-[2px]">
                                                 {activePoints.map((p, i) => (
-                                                    <li key={p.id} style={{ marginBottom: i < activePoints.length - 1 ? layout.gapPoints + 'px' : 0 }}>
-                                                        {p.text}
-                                                    </li>
+                                                    <div key={p.id} className="flex items-start" style={{ marginBottom: i < activePoints.length - 1 ? layout.gapPoints + 'px' : 0 }}>
+                                                        <span className="mr-[8px] text-[14px] leading-none mt-[1.5px]">&bull;</span>
+                                                        <span className="flex-1">{p.text}</span>
+                                                    </div>
                                                 ))}
-                                            </ul>
+                                            </div>
                                         )}
                                     </div>
                                 );
