@@ -68,8 +68,12 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                             <span className="font-medium italic">{exp.company}</span>
                                             <span className="text-[10pt] font-normal">{exp.location}</span>
                                         </div>
-                                        <ul className="list-disc pl-[18px] text-[10pt] flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
-                                            {activePoints.map(p => <li key={p.id}>{p.text}</li>)}
+                                        <ul className="list-disc pl-[18px] text-[10pt]">
+                                            {activePoints.map((p, i) => (
+                                                <li key={p.id} style={{ marginBottom: i < activePoints.length - 1 ? layout.gapPoints + 'px' : 0 }}>
+                                                    {p.text}
+                                                </li>
+                                            ))}
                                         </ul>
                                     </div>
                                 );
@@ -101,8 +105,12 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                                 )}
                                             </span>
                                         </div>
-                                        <ul className="list-disc pl-[18px] text-[10pt] flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
-                                            {activePoints.map(p => <li key={p.id}>{p.text}</li>)}
+                                        <ul className="list-disc pl-[18px] text-[10pt]">
+                                            {activePoints.map((p, i) => (
+                                                <li key={p.id} style={{ marginBottom: i < activePoints.length - 1 ? layout.gapPoints + 'px' : 0 }}>
+                                                    {p.text}
+                                                </li>
+                                            ))}
                                         </ul>
                                     </div>
                                 );
@@ -134,8 +142,12 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                         </div>
                                         {edu.gpa && <div className="text-[10pt] mb-1">GPA: {edu.gpa}</div>}
                                         {activePoints.length > 0 && (
-                                            <ul className="list-disc pl-[18px] text-[10pt] flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
-                                                {activePoints.map(p => <li key={p.id}>{p.text}</li>)}
+                                            <ul className="list-disc pl-[18px] text-[10pt]">
+                                                {activePoints.map((p, i) => (
+                                                    <li key={p.id} style={{ marginBottom: i < activePoints.length - 1 ? layout.gapPoints + 'px' : 0 }}>
+                                                        {p.text}
+                                                    </li>
+                                                ))}
                                             </ul>
                                         )}
                                     </div>
