@@ -1,5 +1,5 @@
 ---
-category: "Languages & Frameworks"
+category: "Languages & Core"
 ---
 
-- Java, Kotlin, Spring Boot, Hibernate, SQL [Java, Kotlin, Spring Boot, Hibernate, SQL]
+- Java, Kotlin, Spring Boot, Spring Security, Hibernate, GraphQL, C++, Unreal Engine
