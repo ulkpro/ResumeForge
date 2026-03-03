@@ -3,7 +3,7 @@ import { SectionHeader } from '../common/SectionHeader';
 import { CheckboxItem } from '../common/CheckboxItem';
 import { AddPointForm } from '../common/AddPointForm';
 import type { ResumeData } from '../../utils/parser';
-import type { LayoutSettings } from '../../types';
+// import type { LayoutSettings } from '../../types';
 
 interface SidebarProps {
     collapsedSections: Record<string, boolean>;
