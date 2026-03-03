@@ -6,17 +6,19 @@ import { handleExportPDF } from './utils/pdfExport';
 
 export default function App() {
   const {
-    data,
-    selectedTags,
+    filteredData,
+    targetRole,
+    setTargetRole,
+    allRoles,
     selectedPoints,
     layout,
     setLayout,
     collapsedSections,
-    allTags,
-    handleTagToggle,
     handlePointToggle,
     toggleSection,
     handleAddPoint,
+    handleEditPoint,
+    handleDeletePoint,
     experienceData,
     projectData,
     educationData,
@@ -37,10 +39,6 @@ export default function App() {
       <Sidebar
         layout={layout}
         setLayout={setLayout}
-        allTags={allTags}
-        selectedTags={selectedTags}
-        onTagToggle={handleTagToggle}
-        onClearTags={() => handleTagToggle('')} // We handle clear in TagFilters but passing a blank triggers reset internally or we just pass a clear func properly.
         collapsedSections={collapsedSections}
         onToggleSection={toggleSection}
         experienceData={experienceData}
@@ -50,6 +48,11 @@ export default function App() {
         selectedPoints={selectedPoints}
         onPointToggle={handlePointToggle}
         onAddPoint={handleAddPoint}
+        onEditPoint={handleEditPoint}
+        onDeletePoint={handleDeletePoint}
+        targetRole={targetRole}
+        setTargetRole={setTargetRole}
+        allRoles={allRoles}
       />
 
       {/* Main Preview Panel */}
@@ -61,7 +64,7 @@ export default function App() {
 
         <div className="flex-1 overflow-y-auto w-full flex justify-center pb-12 pt-4">
           <ResumePreview
-            data={data}
+            data={filteredData}
             selectedPoints={selectedPoints}
             layout={layout}
           />

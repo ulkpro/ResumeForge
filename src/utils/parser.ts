@@ -6,6 +6,7 @@ export interface ResumePoint {
 
 export interface ResumeData {
     id: string;
+    filePath: string;
     type: 'experience' | 'project' | 'education' | 'skills';
     company?: string;
     designation?: string;
@@ -18,10 +19,11 @@ export interface ResumeData {
     degree?: string;
     gpa?: string;
     category?: string;
+    role: string;
     points: ResumePoint[];
 }
 
-export function parseMarkdown(fileName: string, rawContent: string): ResumeData {
+export function parseMarkdown(fileName: string, rawContent: string, filePath: string = ''): ResumeData {
     const parts = rawContent.split('---');
     let frontmatterStr = '';
     let bodyStr = rawContent;
@@ -44,10 +46,21 @@ export function parseMarkdown(fileName: string, rawContent: string): ResumeData 
         }
     });
 
-    const points: ResumePoint[] = [];
-    const bulletLines = bodyStr.split('\n').filter(line => line.trim().startsWith('-'));
+    let fileRole = 'base';
+    if (filePath) {
+        // e.g. ../resume-points/java-backend/experience/abc.md
+        const pathParts = filePath.split('/');
+        const rpIndex = pathParts.indexOf('resume-points');
+        if (rpIndex !== -1 && pathParts.length > rpIndex + 1) {
+            fileRole = pathParts[rpIndex + 1];
+        }
+    }
+    const finalRole = (frontmatter['role'] || frontmatter['jobRole'] || frontmatter['job_role'] || fileRole).toLowerCase();
 
-    bulletLines.forEach((line, idx) => {
+    const points: ResumePoint[] = [];
+    const lines = bodyStr.split('\n').filter(line => line.trim().startsWith('-'));
+
+    lines.forEach((line, idx) => {
         const textPart = line.trim().substring(1).trim();
         // Extract tags from the end like [Java, Spring]
         const tagMatch = textPart.match(/\[(.*?)\]$/);
@@ -65,9 +78,14 @@ export function parseMarkdown(fileName: string, rawContent: string): ResumeData 
     if (fileName.includes('/experience/') || fileName.includes('(exp)')) type = 'experience';
     if (fileName.includes('/education/') || fileName.includes('(edu)')) type = 'education';
     if (fileName.includes('/skills/') || fileName.includes('(skl)')) type = 'skills';
+    if (filePath.includes('/experience/')) type = 'experience';
+    if (filePath.includes('/education/')) type = 'education';
+    if (filePath.includes('/skills/')) type = 'skills';
+    if (filePath.includes('/projects/')) type = 'project';
 
     return {
         id: fileName,
+        filePath,
         type,
         company: frontmatter['company'],
         designation: frontmatter['designation'],
@@ -80,6 +98,7 @@ export function parseMarkdown(fileName: string, rawContent: string): ResumeData 
         degree: frontmatter['degree'],
         gpa: frontmatter['gpa'],
         category: frontmatter['category'],
+        role: finalRole,
         points
     };
 }

@@ -1,6 +1,5 @@
 import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, Settings2 } from 'lucide-react';
 import { LayoutControls } from './LayoutControls';
-import { TagFilters } from './TagFilters';
 import { SectionHeader } from '../common/SectionHeader';
 import { CheckboxItem } from '../common/CheckboxItem';
 import { AddPointForm } from '../common/AddPointForm';
@@ -10,10 +9,6 @@ import type { LayoutSettings } from '../../types';
 interface SidebarProps {
     layout: LayoutSettings;
     setLayout: React.Dispatch<React.SetStateAction<LayoutSettings>>;
-    allTags: string[];
-    selectedTags: string[];
-    onTagToggle: (tag: string) => void;
-    onClearTags: () => void;
     collapsedSections: Record<string, boolean>;
     onToggleSection: (section: string) => void;
     experienceData: ResumeData[];
@@ -23,12 +18,18 @@ interface SidebarProps {
     selectedPoints: Record<string, boolean>;
     onPointToggle: (id: string) => void;
     onAddPoint: (sectionId: string, text: string, tagsStr: string) => void;
+    onEditPoint: (sectionId: string, pointId: string, text: string, tagsStr: string) => void;
+    onDeletePoint: (sectionId: string, pointId: string) => void;
+    targetRole: string;
+    setTargetRole: (role: string) => void;
+    allRoles: string[];
 }
 
 export function Sidebar({
-    layout, setLayout, allTags, selectedTags, onTagToggle, onClearTags,
+    layout, setLayout,
     collapsedSections, onToggleSection, experienceData, projectData, educationData, skillsData,
-    selectedPoints, onPointToggle, onAddPoint
+    selectedPoints, onPointToggle, onAddPoint, onEditPoint, onDeletePoint,
+    targetRole, setTargetRole, allRoles
 }: SidebarProps) {
 
     // Helper to render the Skills section with toggle pill buttons
@@ -41,14 +42,14 @@ export function Sidebar({
                     <div className="space-y-5 ml-2 pl-3 border-l-2 border-slate-100">
                         {data.map(item => {
                             const categoryTitle = item.category || 'Skills';
-                            const rawText = item.points[0]?.text || '';
+                            const rawText = item.points.map(p => p.text).join(', ');
                             const individualSkills = rawText.split(',').map(s => s.trim()).filter(s => s);
                             return (
                                 <div key={item.id}>
                                     <h3 className="font-semibold text-slate-700 mb-2 text-[13px] tracking-wide">{categoryTitle}</h3>
                                     <div className="flex flex-wrap gap-2">
-                                        {individualSkills.map((skill, idx) => {
-                                            const skillId = `${item.id}-skill-${idx}`;
+                                        {individualSkills.map((skill) => {
+                                            const skillId = `${item.id}-skill-${skill.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
                                             const isSelected = selectedPoints[skillId] !== false;
                                             return (
                                                 <button
@@ -92,7 +93,16 @@ export function Sidebar({
                             {(item.designation || item.degree) && <span className="text-sky-600 font-normal">- {item.designation || item.degree}</span>}
                         </h3>
                         <div className="space-y-1">
-                            {item.points.map(point => <CheckboxItem key={point.id} point={point} isSelected={!!selectedPoints[point.id]} onToggle={onPointToggle} />)}
+                            {item.points.map(point => (
+                                <CheckboxItem
+                                    key={point.id}
+                                    point={point}
+                                    isSelected={!!selectedPoints[point.id]}
+                                    onToggle={onPointToggle}
+                                    onEdit={(id, text, tags) => onEditPoint(item.id, id, text, tags)}
+                                    onDelete={(id) => onDeletePoint(item.id, id)}
+                                />
+                            ))}
                         </div>
                         <AddPointForm sectionId={item.id} onAdd={onAddPoint} />
                     </div>
@@ -111,11 +121,29 @@ export function Sidebar({
             </div>
 
             <div className="mb-6">
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Target Job Role</label>
+                <div className="relative">
+                    <select
+                        className="w-full bg-slate-50 border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block p-2.5 appearance-none shadow-sm cursor-pointer hover:bg-slate-100 transition-colors"
+                        value={targetRole || ''}
+                        onChange={(e) => setTargetRole(e.target.value)}
+                    >
+                        {allRoles.map(role => (
+                            <option key={role} value={role}>{role.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}</option>
+                        ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mb-6">
                 <SectionHeader icon={Settings2} title="Layout & Spacing" sectionKey="layoutControls" isCollapsed={!!collapsedSections['layoutControls']} onToggle={onToggleSection} />
                 {!collapsedSections['layoutControls'] && <LayoutControls layout={layout} setLayout={setLayout} />}
             </div>
-
-            <TagFilters allTags={allTags} selectedTags={selectedTags} onToggle={onTagToggle} onClear={() => onClearTags()} />
 
             <div className="space-y-6 pb-20">
                 {renderSection(experienceData, "Experience", "experience", BriefcaseBusiness)}
@@ -124,6 +152,6 @@ export function Sidebar({
                 {/* Render custom Skills section with enable/disable toggles */}
                 {renderSkillsSection(skillsData, "Skills", "skills", Code2)}
             </div>
-        </div>
+        </div >
     );
 }

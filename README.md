@@ -1,46 +1,21 @@
 # React Resume Builder
 
-A client-side resume builder designed for developers. Tailor your resumes for specific tech stacks without manual copy-pasting.
+A client-side resume builder designed for developers to tailor resumes for specific target tech stacks seamlessly.
 
-All data is stored locally in the repo as Markdown files, meaning **no backend server is required**. You just fork this repo, add your points, and select what you want to include in a clean, minimalist LaTeX-style preview, and export to PDF.
+This project was built entirely using **Antigravity**, a powerful agentic AI coding assistant! 🚀
 
 ## How it works
 
-1. **Write Points in Markdown**: Your resume experiences and projects go into `/resume-points/experience/` and `/resume-points/projects/` respectively.
-2. **Tag Tech Stacks**: Add tags at the end of each bullet point formatted like `[React, TypeScript, AWS]`.
-3. **Filter & Select**: Open the React UI, filter points by your tags, and select the ones most relevant to the job opening.
-4. **Export**: Click export, and it generates an A4 PDF, paginated appropriately. 
+1. **Job Role Structure**: Your resume is separated into distinct folders based on the target job role (e.g. `java-backend`, `devops`, `fullstack`).
+2. **Markdown Data Files**: Experience, Projects, Education, and Skills for each role are stored in their own local `.md` files.
+3. **Select Your Target Role**: Use the drop-down menu in the Sidebar UI to switch job contexts. The builder dynamically filters points and layouts exactly to your selection.
+4. **Export**: Click export, and it generates an A4 or Letter PDF, dynamically styling pages. 
 
-## Editing Your Data
+## Writing Changes Locally (Important ⚠️)
 
-To customize the resume:
+While the builder has a beautiful UI to let you edit, add, or toggle your resume points, **these changes write directly back to your local filesystem's `.md` files.** 
 
-1. Fork this repository.
-2. Navigate to `resume-points/` directory.
-3. Open or create a `.md` file in `experience/` or `projects/`. The format should be:
-
-**Experience File: `/resume-points/experience/company_name.md`**
-```markdown
----
-company: "Your Company"
-designation: "Software Engineer"
-startDate: "Jan 2022"
-endDate: "Present"
----
-
-- Built a microservices architecture. [Java, Spring]
-- Designed React frontend application. [React, UI]
-```
-
-**Project File: `/resume-points/projects/project_name.md`**
-```markdown
----
-project_name: "My Awesome Tool"
-url: "github.com/my-tool"
----
-
-- Automated deployment. [Docker, AWS]
-```
+Because web browsers (and static hosts like GitHub Pages/Vercel) cannot write to the physical files of a repository, you **must run this application in a Local Development Environment** if you want your edits to actually save back into the repository! If hosted online, the UI will work for previewing, but modifying text/points will not save permanently. 
 
 ## Running the Application Locally
 
@@ -55,6 +30,25 @@ url: "github.com/my-tool"
    ```
 
 3. Open your browser to `http://localhost:5173`. 
+
+## Editing Your Data
+
+You can either edit from the UI while running locally, or directly modify the `.md` files! 
+
+The format should look like:
+
+**Experience File: `/resume-points/java-backend/experience/company_name.md`**
+```markdown
+---
+company: "Your Company"
+designation: "Software Engineer"
+startDate: "Jan 2022"
+endDate: "Present"
+---
+
+- Built a microservices architecture.
+- Designed scalable backends.
+```
 
 ## Tech Stack
 - Frontend: React + TypeScript
