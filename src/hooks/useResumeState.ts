@@ -133,6 +133,81 @@ export function useResumeState() {
         });
     };
 
+    const moveSection = (sectionId: string, direction: 'up' | 'down') => {
+        setData(prev => {
+            const targetSection = prev.find(s => s.id === sectionId);
+            if (!targetSection) return prev;
+
+            const sameTypeRoleSections = prev.filter(s => s.type === targetSection.type && s.role === targetSection.role);
+            const sortedGroup = [...sameTypeRoleSections].sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+            const currentIndex = sortedGroup.findIndex(s => s.id === sectionId);
+
+            if (direction === 'up' && currentIndex > 0) {
+                const tmp = sortedGroup.map((s, idx) => ({ ...s, order: idx * 10 }));
+                tmp[currentIndex].order = (currentIndex - 1) * 10;
+                tmp[currentIndex - 1].order = currentIndex * 10;
+
+                saveResumeFileLocal(tmp[currentIndex]);
+                saveResumeFileLocal(tmp[currentIndex - 1]);
+
+                return prev.map(s => {
+                    const found = tmp.find(t => t.id === s.id);
+                    return found ? found : s;
+                }).sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+            } else if (direction === 'down' && currentIndex < sortedGroup.length - 1) {
+                const tmp = sortedGroup.map((s, idx) => ({ ...s, order: idx * 10 }));
+                tmp[currentIndex].order = (currentIndex + 1) * 10;
+                tmp[currentIndex + 1].order = currentIndex * 10;
+
+                saveResumeFileLocal(tmp[currentIndex]);
+                saveResumeFileLocal(tmp[currentIndex + 1]);
+
+                return prev.map(s => {
+                    const found = tmp.find(t => t.id === s.id);
+                    return found ? found : s;
+                }).sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+            }
+            return prev;
+        });
+    };
+
+    const movePoint = (sectionId: string, pointId: string, direction: 'up' | 'down') => {
+        setData(prev => {
+            let changed = false;
+            let updatedSection = null;
+            const newData = prev.map(sec => {
+                if (sec.id !== sectionId) return sec;
+
+                const points = [...sec.points];
+                const ptIndex = points.findIndex(p => p.id === pointId);
+
+                if (direction === 'up' && ptIndex > 0) {
+                    const tmp = points[ptIndex];
+                    points[ptIndex] = points[ptIndex - 1];
+                    points[ptIndex - 1] = tmp;
+                    changed = true;
+                } else if (direction === 'down' && ptIndex < points.length - 1) {
+                    const tmp = points[ptIndex];
+                    points[ptIndex] = points[ptIndex + 1];
+                    points[ptIndex + 1] = tmp;
+                    changed = true;
+                }
+
+                if (changed) {
+                    updatedSection = { ...sec, points };
+                    return updatedSection;
+                }
+                return sec;
+            });
+
+            if (changed && updatedSection) {
+                saveResumeFileLocal(updatedSection);
+                return newData;
+            }
+            return prev;
+        });
+    };
+
     const filteredData = useMemo(() => {
         return data.filter(section => {
             return section.role === targetRole;
@@ -158,6 +233,8 @@ export function useResumeState() {
         handleDeletePoint,
         toggleSection,
         handleAddPoint,
+        moveSection,
+        movePoint,
         filteredData,
         experienceData,
         projectData,

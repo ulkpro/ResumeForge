@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { ResumePoint } from '../../utils/parser';
-import { Pencil, Trash2, Check, X } from 'lucide-react';
+import { Pencil, Trash2, Check, X, ArrowUp, ArrowDown } from 'lucide-react';
 
 interface CheckboxItemProps {
     point: ResumePoint;
@@ -8,9 +8,10 @@ interface CheckboxItemProps {
     onToggle: (id: string) => void;
     onEdit?: (id: string, text: string, tagsStr: string) => void;
     onDelete?: (id: string) => void;
+    onMove?: (id: string, direction: 'up' | 'down') => void;
 }
 
-export function CheckboxItem({ point, isSelected, onToggle, onEdit, onDelete }: CheckboxItemProps) {
+export function CheckboxItem({ point, isSelected, onToggle, onEdit, onDelete, onMove }: CheckboxItemProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [editVal, setEditVal] = useState(point.text);
     const [tagsVal, setTagsVal] = useState(point.tags.join(', '));
@@ -97,6 +98,12 @@ export function CheckboxItem({ point, isSelected, onToggle, onEdit, onDelete }: 
                     >
                         <Trash2 size={14} />
                     </button>
+                )}
+                {onMove && (
+                    <div className="flex flex-col ml-1 border-l border-slate-200 pl-1">
+                        <button onClick={(e) => { e.preventDefault(); onMove(point.id, 'up'); }} className="p-0.5 text-slate-400 hover:text-sky-600 rounded" title="Move up"><ArrowUp size={12} /></button>
+                        <button onClick={(e) => { e.preventDefault(); onMove(point.id, 'down'); }} className="p-0.5 text-slate-400 hover:text-sky-600 rounded" title="Move down"><ArrowDown size={12} /></button>
+                    </div>
                 )}
             </div>
         </div>

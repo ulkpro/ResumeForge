@@ -20,6 +20,7 @@ export interface ResumeData {
     gpa?: string;
     category?: string;
     role: string;
+    order?: number;
     points: ResumePoint[];
 }
 
@@ -99,6 +100,7 @@ export function parseMarkdown(fileName: string, rawContent: string, filePath: st
         gpa: frontmatter['gpa'],
         category: frontmatter['category'],
         role: finalRole,
+        order: frontmatter['order'] ? parseInt(frontmatter['order'], 10) : 99,
         points
     };
 }
