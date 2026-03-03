@@ -1,9 +1,11 @@
 ---
-company: "Iowa Institute of Hydroscience and Research, University of Iowa"
+company: "Iowa Institute of Hydroscience and Research"
+designation: "Graduate Research Assistant"
 location: "Iowa City, IA"
-designation: "Graduate Research Assistant | NOAA Funded"
 startDate: "Jan 2023"
 endDate: "Present"
+role: "backend"
+order: "1"
 ---
 
 - Revamped a legacy aggregator into GraphQL APIs, composing PostGIS spatial queries with 6 downstream services; designed a flexible schema with resolvers with DataLoader batching/caching, improving frontend data efficiency by 50%. [GraphQL, API Design]

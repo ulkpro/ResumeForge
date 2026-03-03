@@ -1,9 +1,11 @@
 ---
 company: "Iowa Institute of Hydroscience and Research, University of Iowa"
-location: "Iowa City, IA"
 designation: "C++ Engineer | Graduate Research Assistant"
+location: "Iowa City, IA"
 startDate: "Jan 2023"
 endDate: "Present"
+role: "cpp"
+order: "0"
 ---
 
 - Developed a DigitalTwin utilizing Unreal Engine 5.3 & C++ gameplay framework; engineered asynchronous API integrations using FHttpModule to stream real-time sensor packet metrics natively into the UE application lifecycle. [C++, Unreal Engine 5.3]

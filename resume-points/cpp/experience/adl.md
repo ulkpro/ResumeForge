@@ -1,9 +1,11 @@
 ---
 company: "Axiata Digital Labs"
-location: "Colombo, Sri Lanka"
 designation: "Software Engineer"
+location: "Colombo, Sri Lanka"
 startDate: "Jan 2019"
 endDate: "Jan 2023"
+role: "cpp"
+order: "10"
 ---
 
 - Interfaced internal C/C++ legacy billing connectors utilizing JNI (Java Native Interface) within the Spring Boot ecosystem; eliminated expensive memory re-allocations resulting in a 40% reduction of data processing time during bulk CSV ingestion workflows. [C++, JNI, Migration]
