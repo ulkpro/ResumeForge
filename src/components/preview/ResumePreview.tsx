@@ -44,13 +44,13 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 </p>
             </div>
 
-            <div className="space-y-4">
+            <div className="flex flex-col" style={{ gap: (layout.gapMajorSections ?? 16) + 'px' }}>
                 {/* Experience Section */}
                 {data.filter(d => d.type === 'experience' && d.points.some(p => selectedPoints[p.id])).length > 0 && (
                     <div className="resume-section">
                         <h2
-                            className="text-[12pt] font-bold uppercase tracking-wider border-b-2  pb-1"
-                            style={{ marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
+                            className="text-[12pt] font-bold uppercase tracking-wider border-b-2"
+                            style={{ paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                         >Experience</h2>
                         <div className="flex flex-col" style={{ gap: layout.gapSubsections + 'px' }}>
                             {data.filter(d => d.type === 'experience').map(exp => {
@@ -82,8 +82,8 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 {data.filter(d => d.type === 'project' && d.points.some(p => selectedPoints[p.id])).length > 0 && (
                     <div className="resume-section">
                         <h2
-                            className="text-[12pt] font-bold uppercase tracking-wider border-b-2  pb-1"
-                            style={{ marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
+                            className="text-[12pt] font-bold uppercase tracking-wider border-b-2"
+                            style={{ paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                         >Projects</h2>
                         <div className="flex flex-col" style={{ gap: layout.gapSubsections + 'px' }}>
                             {data.filter(d => d.type === 'project').map(proj => {
@@ -115,8 +115,8 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 {data.filter(d => d.type === 'education' && (d.points.some(p => selectedPoints[p.id]) || d.points.length === 0)).length > 0 && (
                     <div className="resume-section">
                         <h2
-                            className="text-[12pt] font-bold uppercase tracking-wider border-b-2  pb-1"
-                            style={{ marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
+                            className="text-[12pt] font-bold uppercase tracking-wider border-b-2"
+                            style={{ paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                         >Education</h2>
 
                         <div className="flex flex-col" style={{ gap: layout.gapSubsections + 'px' }}>
@@ -149,8 +149,8 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 {data.filter(d => d.type === 'skills').length > 0 && (
                     <div className="resume-section">
                         <h2
-                            className="text-[12pt] font-bold uppercase tracking-wider border-b-2  pb-1"
-                            style={{ marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
+                            className="text-[12pt] font-bold uppercase tracking-wider border-b-2"
+                            style={{ paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                         >Technical Skills</h2>
 
                         <div className="flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>

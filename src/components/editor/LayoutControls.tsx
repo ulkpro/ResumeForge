@@ -76,6 +76,28 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
                     onChange={e => setLayout(s => ({ ...s, gapPoints: Number(e.target.value) }))}
                     className="w-full accent-sky-500" />
             </div>
+
+            <div>
+                <div className="flex justify-between mb-1">
+                    <span>Gap Between Major Sections</span>
+                    <span className="text-sky-600 font-bold">{layout.gapMajorSections} px</span>
+                </div>
+                <input type="range" min="0" max="60" step="1"
+                    value={layout.gapMajorSections ?? 16}
+                    onChange={e => setLayout(s => ({ ...s, gapMajorSections: Number(e.target.value) }))}
+                    className="w-full accent-sky-500" />
+            </div>
+
+            <div>
+                <div className="flex justify-between mb-1">
+                    <span>Gap Between Title & Line</span>
+                    <span className="text-sky-600 font-bold">{layout.gapTitleToLine} px</span>
+                </div>
+                <input type="range" min="0" max="20" step="1"
+                    value={layout.gapTitleToLine ?? 4}
+                    onChange={e => setLayout(s => ({ ...s, gapTitleToLine: Number(e.target.value) }))}
+                    className="w-full accent-sky-500" />
+            </div>
         </div>
     );
 }
