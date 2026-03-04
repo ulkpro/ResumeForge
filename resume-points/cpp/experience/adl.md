@@ -8,7 +8,7 @@ role: "cpp"
 order: "10"
 ---
 
-- Interfaced internal C/C++ legacy billing connectors utilizing JNI (Java Native Interface) within the Spring Boot ecosystem; eliminated expensive memory re-allocations resulting in a 40% reduction of data processing time during bulk CSV ingestion workflows. [C++, JNI, Migration]
+- Developed a large CSV file ingestion microservice with Ports & Adapters, using S3 multipart upload and an async validate & transform pipeline into PostgreSQL COPY + idempotent upserts; sustained >1K records/sec and reducing processing time by 40%. [Postgres, AWS]
+- Developed a Kafka event driven invoice lifecycle microservice in SpringBoot using Saga and transactional outbox; achieved zero duplicate invoice postings and reduced billing incident recovery time by 65% across 100K+ monthly invoices. [Kafka, Saga, Outbox]
 - Designed a custom C++ high-performance file parser leveraging memory-mapped I/O (mmap) for gigabyte-scale sequential transaction logs, drastically dropping the IO overhead compared to standard POSIX fread cycles. [C++, File I/O, POSIX]
-- Debugged deep memory leakages and buffer overflows present in legacy C/C++ telecom stacks via Valgrind/GDB tooling arrays; deployed patches containing modernized smart pointer architectures (std::unique_ptr and std::shared_ptr). [C++, Valgrind, Memory Management]
 - Developed highly-optimized SIMD vectorized loops in C++ utilizing AVX-512 intrinsics, accelerating repetitive billing rule matrix-multiplications inside batch execution endpoints. [C++, SIMD, Performance Optimization]

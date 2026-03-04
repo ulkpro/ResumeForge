@@ -1,5 +1,5 @@
 ---
-category: "Languages & Frameworks"
+category: "Cloud & DevOps"
 ---
 
-- JavaScript (ES6+), TypeScript, React, Next.js, Node.js, Express.js, Redux, TailwindCSS [TypeScript, React, Node.js]
+- AWS (EC2, S3, RDS), CI/CD, Git, Docker, Kubernetes [TypeScript, React, Node.js]
