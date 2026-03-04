@@ -31,16 +31,16 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 fontSize: '11pt'
             }}
         >
-            <div className="text-center" style={{ marginBottom: (layout.gapHeaderToSection ?? 24) + 'px' }}>
+            <div className="text-center mb-6">
                 <h1 className="text-[22pt] font-semibold tracking-tight mb-1">Uditha H.</h1>
-                <p className="text-[9pt] flex justify-center flex-wrap gap-1.5 items-center">
-                    <span><a href="mailto:udithalayank-herathmudiyanselage@uiowa.edu" className="hover:underline text-black no-underline" style={{ color: '#000' }}>udithalayank-herathmudiyanselage@uiowa.edu</a></span>
+                <p className="text-[10pt] flex justify-center flex-wrap gap-2 items-center">
+                    <span><a href="mailto:firstname.lastname@xyz.org" className="hover:underline text-black no-underline" style={{ color: '#000' }}>firstname.lastname@xyz.org</a></span>
                     <span>•</span>
-                    <span>(319) 383-3374</span>
+                    <span>(999) 999-9999</span>
                     <span>•</span>
-                    <span><a href="https://github.com/ulkpro" target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>github.com/ulkpro</a></span>
+                    <span><a href="https://github.com/username" target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>github.com/username</a></span>
                     <span>•</span>
-                    <span><a href="https://linkedin.com/in/udithakarunarathne" target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>linkedin.com/in/udithakarunarathne</a></span>
+                    <span><a href="https://linkedin.com/in/username" target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>linkedin.com/in/username</a></span>
                 </p>
             </div>
 
@@ -68,14 +68,9 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                             <span className="font-medium italic">{exp.company}</span>
                                             <span className="text-[10pt] font-normal">{exp.location}</span>
                                         </div>
-                                        <div className="flex flex-col text-[10pt] pl-[2px]">
-                                            {activePoints.map((p, i) => (
-                                                <div key={p.id} className="flex items-start" style={{ marginBottom: i < activePoints.length - 1 ? layout.gapPoints + 'px' : 0 }}>
-                                                    <span className="mr-[8px] text-[14px] leading-none mt-[1.5px]">&bull;</span>
-                                                    <span className="flex-1">{p.text}</span>
-                                                </div>
-                                            ))}
-                                        </div>
+                                        <ul className="list-disc pl-[18px] text-[10pt] flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
+                                            {activePoints.map(p => <li key={p.id}>{p.text}</li>)}
+                                        </ul>
                                     </div>
                                 );
                             })}
@@ -106,14 +101,9 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                                 )}
                                             </span>
                                         </div>
-                                        <div className="flex flex-col text-[10pt] pl-[2px]">
-                                            {activePoints.map((p, i) => (
-                                                <div key={p.id} className="flex items-start" style={{ marginBottom: i < activePoints.length - 1 ? layout.gapPoints + 'px' : 0 }}>
-                                                    <span className="mr-[8px] text-[14px] leading-none mt-[1.5px]">&bull;</span>
-                                                    <span className="flex-1">{p.text}</span>
-                                                </div>
-                                            ))}
-                                        </div>
+                                        <ul className="list-disc pl-[18px] text-[10pt] flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
+                                            {activePoints.map(p => <li key={p.id}>{p.text}</li>)}
+                                        </ul>
                                     </div>
                                 );
                             })}
@@ -144,14 +134,9 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                         </div>
                                         {edu.gpa && <div className="text-[10pt] mb-1">GPA: {edu.gpa}</div>}
                                         {activePoints.length > 0 && (
-                                            <div className="flex flex-col text-[10pt] pl-[2px]">
-                                                {activePoints.map((p, i) => (
-                                                    <div key={p.id} className="flex items-start" style={{ marginBottom: i < activePoints.length - 1 ? layout.gapPoints + 'px' : 0 }}>
-                                                        <span className="mr-[8px] text-[14px] leading-none mt-[1.5px]">&bull;</span>
-                                                        <span className="flex-1">{p.text}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
+                                            <ul className="list-disc pl-[18px] text-[10pt] flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
+                                                {activePoints.map(p => <li key={p.id}>{p.text}</li>)}
+                                            </ul>
                                         )}
                                     </div>
                                 );

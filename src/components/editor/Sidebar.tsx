@@ -1,9 +1,10 @@
-import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, ArrowUp, ArrowDown, X, Plus } from 'lucide-react';
+import React, { useState } from 'react';
+import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, ArrowUp, ArrowDown } from 'lucide-react';
 import { SectionHeader } from '../common/SectionHeader';
 import { CheckboxItem } from '../common/CheckboxItem';
 import { AddPointForm } from '../common/AddPointForm';
 import type { ResumeData } from '../../utils/parser';
-import { useState } from 'react';
+// import type { LayoutSettings } from '../../types';
 
 interface SidebarProps {
     collapsedSections: Record<string, boolean>;
@@ -31,6 +32,44 @@ export function Sidebar({
     targetRole, setTargetRole, allRoles
 }: SidebarProps) {
 
+    const [draggedSkill, setDraggedSkill] = useState<{ itemId: string, index: number } | null>(null);
+    const [editingSkill, setEditingSkill] = useState<{ itemId: string, index: number } | null>(null);
+    const [editValue, setEditValue] = useState("");
+
+    const handleSaveSkill = (item: ResumeData, individualSkills: string[], index: number, newValue: string) => {
+        const newSkills = [...individualSkills];
+        if (newValue.trim()) {
+            newSkills[index] = newValue.trim();
+        } else {
+            newSkills.splice(index, 1);
+        }
+        
+        const firstPoint = item.points[0];
+        if (!firstPoint) return;
+        
+        const newText = newSkills.filter(Boolean).join(', ');
+        onEditPoint(item.id, firstPoint.id, newText, firstPoint.tags?.join(', ') || '');
+        setEditingSkill(null);
+    };
+
+    const handleDropSkill = (e: React.DragEvent<HTMLElement>, item: ResumeData, individualSkills: string[], dropIndex: number) => {
+        e.preventDefault();
+        if (!draggedSkill) return;
+        if (draggedSkill.itemId !== item.id) return;
+        if (draggedSkill.index === dropIndex) return;
+
+        const newSkills = [...individualSkills];
+        const [moved] = newSkills.splice(draggedSkill.index, 1);
+        newSkills.splice(dropIndex, 0, moved);
+
+        const firstPoint = item.points[0];
+        if (!firstPoint) return;
+
+        const newText = newSkills.filter(Boolean).join(', ');
+        onEditPoint(item.id, firstPoint.id, newText, firstPoint.tags?.join(', ') || '');
+        setDraggedSkill(null);
+    };
+
     // Helper to render the Skills section with toggle pill buttons
     const renderSkillsSection = (data: ResumeData[], title: string, sectionKey: string, icon: any) => {
         if (data.length === 0) return null;
@@ -39,92 +78,83 @@ export function Sidebar({
                 <SectionHeader icon={icon} title={title} sectionKey={sectionKey} isCollapsed={!!collapsedSections[sectionKey]} onToggle={onToggleSection} />
                 {!collapsedSections[sectionKey] && (
                     <div className="space-y-5 ml-2 pl-3 border-l-2 border-slate-100">
-                        {data.map(item => (
-                            <SkillCategoryEditor
-                                key={item.id}
-                                item={item}
-                                selectedPoints={selectedPoints}
-                                onPointToggle={onPointToggle}
-                                onEditPoint={onEditPoint}
-                                onAddPoint={onAddPoint}
-                            />
-                        ))}
+                        {data.map(item => {
+                            const categoryTitle = item.category || 'Skills';
+                            const rawText = item.points.map(p => p.text).join(', ');
+                            const individualSkills = rawText.split(',').map(s => s.trim()).filter(s => s);
+                            return (
+                                <div key={item.id}>
+                                    <h3 className="font-semibold text-slate-700 mb-2 text-[13px] tracking-wide">{categoryTitle}</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {individualSkills.map((skill, index) => {
+                                            const skillId = `${item.id}-skill-${skill.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+                                            const isSelected = selectedPoints[skillId] !== false;
+                                            const isEditing = editingSkill?.itemId === item.id && editingSkill?.index === index;
+                                            const isDragged = draggedSkill?.itemId === item.id && draggedSkill?.index === index;
+
+                                            if (isEditing) {
+                                                return (
+                                                    <input
+                                                        key={skillId}
+                                                        autoFocus
+                                                        value={editValue}
+                                                        onChange={(e) => setEditValue(e.target.value)}
+                                                        onBlur={() => handleSaveSkill(item, individualSkills, index, editValue)}
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === 'Enter') handleSaveSkill(item, individualSkills, index, editValue);
+                                                            if (e.key === 'Escape') setEditingSkill(null);
+                                                        }}
+                                                        className="px-3 py-1 text-xs font-medium border border-sky-400 rounded-full focus:outline-none focus:ring-2 focus:ring-sky-200 w-24 bg-white shadow-inner"
+                                                    />
+                                                );
+                                            }
+
+                                            return (
+                                                <button
+                                                    key={skillId}
+                                                    type="button"
+                                                    onClick={() => onPointToggle(skillId)}
+                                                    onDoubleClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setEditingSkill({ itemId: item.id, index });
+                                                        setEditValue(skill);
+                                                    }}
+                                                    draggable
+                                                    onDragStart={(e) => {
+                                                        e.dataTransfer.effectAllowed = 'move';
+                                                        setDraggedSkill({ itemId: item.id, index });
+                                                    }}
+                                                    onDragOver={(e) => {
+                                                        e.preventDefault();
+                                                        e.dataTransfer.dropEffect = 'move';
+                                                    }}
+                                                    onDrop={(e) => handleDropSkill(e, item, individualSkills, index)}
+                                                    onDragEnd={() => setDraggedSkill(null)}
+                                                    title="Click to toggle, double-click to edit, drag to reorder"
+                                                    className={`
+                                                        px-3 py-1.5 rounded-full text-xs font-medium
+                                                        transition-all duration-200 cursor-pointer select-none
+                                                        border
+                                                        ${isDragged ? 'opacity-40 border-dashed border-sky-400' : ''}
+                                                        ${isSelected && !isDragged
+                                                            ? 'bg-sky-500 text-white border-sky-500 shadow-sm shadow-sky-200 hover:bg-sky-600'
+                                                            : !isDragged ? 'bg-slate-100 text-slate-400 border-slate-200 line-through hover:bg-slate-200 hover:text-slate-500' : ''
+                                                        }
+                                                    `}
+                                                >
+                                                    {skill}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 )}
             </div>
         );
     };
-
-    const SkillCategoryEditor = ({ item, selectedPoints, onPointToggle, onEditPoint, onAddPoint }: any) => {
-        const [newSkill, setNewSkill] = useState('');
-        const categoryTitle = item.category || 'Skills';
-        const rawText = item.points.map((p: any) => p.text).join(', ');
-        const individualSkills = rawText.split(',').map((s: string) => s.trim()).filter((s: string) => s);
-
-        const handleDeleteSkill = (e: React.MouseEvent, skillToRemove: string) => {
-            e.stopPropagation();
-            if (!window.confirm(`Delete the "${skillToRemove}" skill permanently?`)) return;
-            const newSkills = individualSkills.filter((s: string) => s !== skillToRemove);
-            const newText = newSkills.join(', ');
-            if (item.points.length > 0) {
-                onEditPoint(item.id, item.points[0].id, newText, item.points[0].tags ? item.points[0].tags.join(', ') : '');
-            }
-        };
-
-        const handleAddSkill = (e: React.FormEvent) => {
-            e.preventDefault();
-            if (!newSkill.trim()) return;
-            const newSkills = [...individualSkills, newSkill.trim()];
-            const newText = newSkills.join(', ');
-
-            if (item.points.length > 0) {
-                onEditPoint(item.id, item.points[0].id, newText, item.points[0].tags ? item.points[0].tags.join(', ') : '');
-            } else {
-                onAddPoint(item.id, newText, '');
-            }
-            setNewSkill('');
-        };
-
-        return (
-            <div>
-                <h3 className="font-semibold text-slate-700 mb-2 text-[13px] tracking-wide">{categoryTitle}</h3>
-                <div className="flex flex-wrap gap-2 mb-2">
-                    {individualSkills.map((skill: string) => {
-                        const skillId = `${item.id}-skill-${skill.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
-                        const isSelected = selectedPoints[skillId] !== false;
-                        return (
-                            <div key={skillId} className={`
-                                flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 select-none
-                                ${isSelected
-                                    ? 'bg-sky-500 text-white border-sky-500 shadow-sm shadow-sky-200 hover:bg-sky-600'
-                                    : 'bg-slate-100 text-slate-400 border-slate-200 line-through hover:bg-slate-200 hover:text-slate-500'
-                                }
-                            `}>
-                                <div className="cursor-pointer" onClick={() => onPointToggle(skillId)}>{skill}</div>
-                                <div
-                                    className="cursor-pointer opacity-60 hover:opacity-100 hover:text-red-200 ml-1 rounded-full p-0.5"
-                                    onClick={(e) => handleDeleteSkill(e, skill)}
-                                >
-                                    <X size={12} />
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-                <form onSubmit={handleAddSkill} className="flex gap-2">
-                    <input
-                        type="text"
-                        value={newSkill}
-                        onChange={(e) => setNewSkill(e.target.value)}
-                        placeholder="Add skill..."
-                        className="text-xs px-2 py-1 border border-slate-200 rounded focus:ring-sky-500 focus:border-sky-500 min-w-[120px]"
-                    />
-                    <button type="submit" className="bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded border border-slate-200" title="Add Skill"><Plus size={14} /></button>
-                </form>
-            </div>
-        );
-    };
-
 
 
     const renderSection = (data: ResumeData[], title: string, sectionKey: string, icon: any) => {
