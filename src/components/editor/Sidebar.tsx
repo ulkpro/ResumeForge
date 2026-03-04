@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, ArrowUp, ArrowDown } from 'lucide-react';
 import { SectionHeader } from '../common/SectionHeader';
 import { CheckboxItem } from '../common/CheckboxItem';
@@ -31,6 +32,44 @@ export function Sidebar({
     targetRole, setTargetRole, allRoles
 }: SidebarProps) {
 
+    const [draggedSkill, setDraggedSkill] = useState<{ itemId: string, index: number } | null>(null);
+    const [editingSkill, setEditingSkill] = useState<{ itemId: string, index: number } | null>(null);
+    const [editValue, setEditValue] = useState("");
+
+    const handleSaveSkill = (item: ResumeData, individualSkills: string[], index: number, newValue: string) => {
+        const newSkills = [...individualSkills];
+        if (newValue.trim()) {
+            newSkills[index] = newValue.trim();
+        } else {
+            newSkills.splice(index, 1);
+        }
+        
+        const firstPoint = item.points[0];
+        if (!firstPoint) return;
+        
+        const newText = newSkills.filter(Boolean).join(', ');
+        onEditPoint(item.id, firstPoint.id, newText, firstPoint.tags?.join(', ') || '');
+        setEditingSkill(null);
+    };
+
+    const handleDropSkill = (e: React.DragEvent<HTMLElement>, item: ResumeData, individualSkills: string[], dropIndex: number) => {
+        e.preventDefault();
+        if (!draggedSkill) return;
+        if (draggedSkill.itemId !== item.id) return;
+        if (draggedSkill.index === dropIndex) return;
+
+        const newSkills = [...individualSkills];
+        const [moved] = newSkills.splice(draggedSkill.index, 1);
+        newSkills.splice(dropIndex, 0, moved);
+
+        const firstPoint = item.points[0];
+        if (!firstPoint) return;
+
+        const newText = newSkills.filter(Boolean).join(', ');
+        onEditPoint(item.id, firstPoint.id, newText, firstPoint.tags?.join(', ') || '');
+        setDraggedSkill(null);
+    };
+
     // Helper to render the Skills section with toggle pill buttons
     const renderSkillsSection = (data: ResumeData[], title: string, sectionKey: string, icon: any) => {
         if (data.length === 0) return null;
@@ -47,21 +86,59 @@ export function Sidebar({
                                 <div key={item.id}>
                                     <h3 className="font-semibold text-slate-700 mb-2 text-[13px] tracking-wide">{categoryTitle}</h3>
                                     <div className="flex flex-wrap gap-2">
-                                        {individualSkills.map((skill) => {
+                                        {individualSkills.map((skill, index) => {
                                             const skillId = `${item.id}-skill-${skill.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
                                             const isSelected = selectedPoints[skillId] !== false;
+                                            const isEditing = editingSkill?.itemId === item.id && editingSkill?.index === index;
+                                            const isDragged = draggedSkill?.itemId === item.id && draggedSkill?.index === index;
+
+                                            if (isEditing) {
+                                                return (
+                                                    <input
+                                                        key={skillId}
+                                                        autoFocus
+                                                        value={editValue}
+                                                        onChange={(e) => setEditValue(e.target.value)}
+                                                        onBlur={() => handleSaveSkill(item, individualSkills, index, editValue)}
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === 'Enter') handleSaveSkill(item, individualSkills, index, editValue);
+                                                            if (e.key === 'Escape') setEditingSkill(null);
+                                                        }}
+                                                        className="px-3 py-1 text-xs font-medium border border-sky-400 rounded-full focus:outline-none focus:ring-2 focus:ring-sky-200 w-24 bg-white shadow-inner"
+                                                    />
+                                                );
+                                            }
+
                                             return (
                                                 <button
                                                     key={skillId}
                                                     type="button"
                                                     onClick={() => onPointToggle(skillId)}
+                                                    onDoubleClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setEditingSkill({ itemId: item.id, index });
+                                                        setEditValue(skill);
+                                                    }}
+                                                    draggable
+                                                    onDragStart={(e) => {
+                                                        e.dataTransfer.effectAllowed = 'move';
+                                                        setDraggedSkill({ itemId: item.id, index });
+                                                    }}
+                                                    onDragOver={(e) => {
+                                                        e.preventDefault();
+                                                        e.dataTransfer.dropEffect = 'move';
+                                                    }}
+                                                    onDrop={(e) => handleDropSkill(e, item, individualSkills, index)}
+                                                    onDragEnd={() => setDraggedSkill(null)}
+                                                    title="Click to toggle, double-click to edit, drag to reorder"
                                                     className={`
                                                         px-3 py-1.5 rounded-full text-xs font-medium
                                                         transition-all duration-200 cursor-pointer select-none
                                                         border
-                                                        ${isSelected
+                                                        ${isDragged ? 'opacity-40 border-dashed border-sky-400' : ''}
+                                                        ${isSelected && !isDragged
                                                             ? 'bg-sky-500 text-white border-sky-500 shadow-sm shadow-sky-200 hover:bg-sky-600'
-                                                            : 'bg-slate-100 text-slate-400 border-slate-200 line-through hover:bg-slate-200 hover:text-slate-500'
+                                                            : !isDragged ? 'bg-slate-100 text-slate-400 border-slate-200 line-through hover:bg-slate-200 hover:text-slate-500' : ''
                                                         }
                                                     `}
                                                 >

@@ -1,5 +1,7 @@
 ---
 category: "Languages & Frameworks"
+role: "backend"
+order: "99"
 ---
 
-- Java, Kotlin, Spring Boot, Hibernate, SQL [Java, Kotlin, Spring Boot, Hibernate, SQL]
+- Node.js, JavaScript (ES6+), TypeScript, Next.js, React, Express.js, Redux, TailwindCSS [TypeScript, React, Node.js]
