@@ -34,13 +34,13 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
             <div className="text-center" style={{ marginBottom: (layout.gapHeaderToFirstSection ?? 24) + 'px' }}>
                 <h1 className="text-[22pt] font-semibold tracking-tight mb-1">Uditha H.</h1>
                 <p className="text-[10pt] flex justify-center flex-wrap gap-2 items-center">
-                    <span><a href="mailto:firstname.lastname@xyz.org" className="hover:underline text-black no-underline" style={{ color: '#000' }}>firstname.lastname@xyz.org</a></span>
+                    <span><a href="mailto:udithalayank-herathmudiyanselage@uiowa.edu" className="hover:underline text-black no-underline" style={{ color: '#000' }}>udithalayank-herathmudiyanselage@uiowa.edu</a></span>
                     <span>•</span>
-                    <span>(999) 999-9999</span>
+                    <span>(319) 383-3374</span>
                     <span>•</span>
-                    <span><a href="https://github.com/username" target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>github.com/username</a></span>
+                    <span><a href="https://github.com/ulkpro" target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>github.com/ulkpro</a></span>
                     <span>•</span>
-                    <span><a href="https://linkedin.com/in/username" target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>linkedin.com/in/username</a></span>
+                    <span><a href="https://linkedin.com/in/ulkpro" target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>linkedin.com/in/udithakarunarathne</a></span>
                 </p>
             </div>
 
