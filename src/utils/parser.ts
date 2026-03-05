@@ -58,6 +58,8 @@ export function parseMarkdown(fileName: string, rawContent: string, filePath: st
     }
     const finalRole = (frontmatter['role'] || frontmatter['jobRole'] || frontmatter['job_role'] || fileRole).toLowerCase();
 
+    const uniqueId = `${finalRole}-${fileName}`;
+
     const points: ResumePoint[] = [];
     const lines = bodyStr.split('\n').filter(line => line.trim().startsWith('-'));
 
@@ -69,7 +71,7 @@ export function parseMarkdown(fileName: string, rawContent: string, filePath: st
         const text = tagMatch ? textPart.substring(0, tagMatch.index).trim() : textPart;
 
         points.push({
-            id: `${fileName}-p${idx}`,
+            id: `${uniqueId}-p${idx}`,
             text,
             tags
         });
@@ -85,7 +87,7 @@ export function parseMarkdown(fileName: string, rawContent: string, filePath: st
     if (filePath.includes('/projects/')) type = 'project';
 
     return {
-        id: fileName,
+        id: uniqueId,
         filePath,
         type,
         company: frontmatter['company'],
