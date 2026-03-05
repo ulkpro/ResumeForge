@@ -4,4 +4,4 @@ role: "fullstack"
 order: "99"
 ---
 
-- Node.js, GraphQL, Java, Spring Boot, PostgreSQL, MongoDB, Redis, Kafka, WebSockets, TypeScript, Express.js
+- Node.js, GraphQL, Java, PostgreSQL, Spring Boot, MongoDB, Redis, Kafka, WebSockets, TypeScript, Express.js
