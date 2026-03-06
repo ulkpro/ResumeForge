@@ -24,6 +24,23 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
 
             <div>
                 <div className="flex justify-between mb-1">
+                    <span>Font Family</span>
+                </div>
+                <select
+                    value={layout.fontFamily || "'LMRoman10', 'Latin Modern Roman', serif"}
+                    onChange={e => setLayout(s => ({ ...s, fontFamily: e.target.value }))}
+                    className="w-full p-2 mb-4 border border-slate-300 text-slate-700 rounded focus:border-sky-500 focus:ring-1 focus:ring-sky-500 bg-white"
+                >
+                    <option value="'LMRoman10', 'Latin Modern Roman', serif">LaTeX (Computer Modern)</option>
+                    <option value="'Inter', 'Helvetica', 'Arial', sans-serif">Inter (Sans Serif)</option>
+                    <option value="Arial, Helvetica, sans-serif">Arial</option>
+                    <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                    <option value="'Roboto', sans-serif">Roboto</option>
+                </select>
+            </div>
+
+            <div>
+                <div className="flex justify-between mb-1">
                     <span>Margins (Top & Bottom)</span>
                     <span className="text-sky-600 font-bold">{layout.paddingTopBottom} mm</span>
                 </div>

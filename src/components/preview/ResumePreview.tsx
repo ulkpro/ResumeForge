@@ -28,11 +28,12 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 paddingRight: layout.paddingLeftRight + 'mm',
                 paddingTop: layout.paddingTopBottom + 'mm',
                 paddingBottom: layout.paddingTopBottom + 'mm',
-                fontSize: '11pt'
+                fontSize: '11pt',
+                fontFamily: layout.fontFamily || "'LMRoman10', 'Latin Modern Roman', serif"
             }}
         >
             <div className="text-center" style={{ marginBottom: (layout.gapHeaderToFirstSection ?? 24) + 'px' }}>
-                <h1 className="text-[22pt] font-semibold tracking-tight mb-1">Uditha H.</h1>
+                <h1 className="text-[22pt] font-bold tracking-tight mb-1">Uditha H.</h1>
                 <p className="text-[10pt] flex justify-center flex-wrap gap-2 items-center">
                     <span><a href="mailto:firstname.lastname@xyz.org" className="hover:underline text-black no-underline" style={{ color: '#000' }}>firstname.lastname@xyz.org</a></span>
                     <span>•</span>
@@ -58,7 +59,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                 if (activePoints.length === 0) return null;
                                 return (
                                     <div key={exp.id}>
-                                        <div className="flex justify-between font-semibold text-[11pt] leading-snug">
+                                        <div className="flex justify-between font-bold text-[11pt] leading-snug">
                                             <span>{exp.designation}</span>
                                             <span className="text-[10pt] font-normal">
                                                 {exp.startDate} {exp.endDate ? `– ${exp.endDate}` : ''}
@@ -96,7 +97,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                 if (activePoints.length === 0) return null;
                                 return (
                                     <div key={proj.id}>
-                                        <div className="flex justify-between font-semibold text-[11pt] leading-snug mb-1">
+                                        <div className="flex justify-between font-bold text-[11pt] leading-snug mb-1">
                                             <span className="flex items-center gap-1.5">
                                                 {proj.project_name}
                                                 {proj.url && (
@@ -135,7 +136,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                 if (activePoints.length === 0 && edu.points.length > 0) return null;
                                 return (
                                     <div key={edu.id}>
-                                        <div className="flex justify-between font-semibold text-[11pt] mb-0.5">
+                                        <div className="flex justify-between font-bold text-[11pt] mb-0.5">
                                             <span>{edu.institution}, <span className="font-normal italic">{edu.degree}</span></span>
                                             <span className="text-[10pt]">
                                                 {edu.location && <span className="mr-2">{edu.location}</span>}
@@ -180,7 +181,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                 if (activeSkills.length === 0) return null;
                                 return (
                                     <div key={skill.id} className="text-[10pt] leading-snug">
-                                        <span className="font-semibold">{categoryTitle}: </span>
+                                        <span className="font-bold">{categoryTitle}: </span>
                                         <span>{activeSkills.join(', ')}</span>
                                     </div>
                                 );

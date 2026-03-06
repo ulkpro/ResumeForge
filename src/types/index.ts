@@ -8,6 +8,7 @@ export interface LayoutSettings {
     gapMajorSections: number;
     gapTitleToLine: number;
     gapHeaderToFirstSection: number;
+    fontFamily?: string;
 }
 
 export const defaultLayout: LayoutSettings = {
@@ -20,4 +21,5 @@ export const defaultLayout: LayoutSettings = {
     gapMajorSections: 16,
     gapTitleToLine: 4,
     gapHeaderToFirstSection: 24,
+    fontFamily: "'LMRoman10', 'Latin Modern Roman', serif",
 };
