@@ -1,5 +1,7 @@
 ---
 project_name: "Cloud-Native CI/CD & Infrastructure Platform on AWS EKS"
+role: "backend"
+order: "0"
 ---
 
 - Developed an end-to-end CI/CD pipeline to containerize and deploy a Spring Boot service to AWS EKS (K8s v1.28) using Docker → ECR (scan-on-push), Terraform-based IaC, and Helm-driven releases across dev/staging/prod with autoscaling and environment isolation. [AWS EKS, Terraform, Helm, Docker]

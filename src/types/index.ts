@@ -8,6 +8,14 @@ export interface LayoutSettings {
     gapMajorSections: number;
     gapTitleToLine: number;
     gapHeaderToFirstSection: number;
+    fontFamily?: string;
+    fontSizeName: number;
+    fontSizeContact: number;
+    fontSizeSectionTitle: number;
+    fontSizeOrgName: number;
+    fontSizeLocDate: number;
+    fontSizeRoleDesc: number;
+    fontSizeBullet: number;
 }
 
 export const defaultLayout: LayoutSettings = {
@@ -20,4 +28,12 @@ export const defaultLayout: LayoutSettings = {
     gapMajorSections: 16,
     gapTitleToLine: 4,
     gapHeaderToFirstSection: 24,
+    fontFamily: "'LMRoman10', 'Latin Modern Roman', serif",
+    fontSizeName: 25,
+    fontSizeContact: 10,
+    fontSizeSectionTitle: 12,
+    fontSizeOrgName: 11,
+    fontSizeLocDate: 11,
+    fontSizeRoleDesc: 10,
+    fontSizeBullet: 10,
 };

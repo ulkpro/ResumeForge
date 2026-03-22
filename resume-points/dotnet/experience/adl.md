@@ -5,7 +5,7 @@ location: "Colombo, Sri Lanka"
 startDate: "Jan 2019"
 endDate: "Jan 2023"
 role: "dotnet"
-order: "99"
+order: "0"
 ---
 
 - Developed a large CSV file ingestion service with Ports & Adapters, using Azure Blob Storage multipart upload and async validate & transform pipeline into Microsoft SQL Server bulk copy + idempotent upserts. Sustained >1K records/sec reducing processing time by 40%. [.NET Core, Azure Blob, SQL Server]

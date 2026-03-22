@@ -8,6 +8,7 @@ role: "rust"
 order: "99"
 ---
 
+- Built GraphQL APIs integrating 6 downstream services and Postgres queries, improving frontend data efficiency by 50% [GraphQL]
 - Revamped a legacy service with GraphQL APIs, composing PostGIS spatial queries with 6 downstream services; designed a flexible schema with resolvers with DataLoader batching/caching, improving frontend data efficiency by 50%. [GraphQL, Node.js, PostGIS]
 - Developed high-throughput WebSocket real-time streaming services for a flood-monitoring dashboard using tokio-tungstenite; engineered lock-free channels and async stream processing to broadcast million-point metrics with virtually zero memory overhead. [Rust, Tokio, WebSockets]
 - Implemented core mathematical algorithms for flood-map rendering by wrapping the C++ Poly2Tri library with Rust FFI bindings, compiling computationally expensive 2D Delaunay triangulations safely utilizing Rust's strict memory borrowing rules. [Rust, FFI, Memory Safety]

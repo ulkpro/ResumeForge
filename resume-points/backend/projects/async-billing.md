@@ -1,7 +1,7 @@
 ---
 project_name: "Async Dashboard Service"
 role: "backend"
-order: "99"
+order: "10"
 ---
 
 - Developed an async, read-heavy dashboard microservice using Guava ListenableFuture based request orchestration. [Java, Guava, Redis]

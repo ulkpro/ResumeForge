@@ -22,6 +22,7 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
                 </div>
             </div>
 
+
             <div>
                 <div className="flex justify-between mb-1">
                     <span>Margins (Top & Bottom)</span>
