@@ -171,6 +171,25 @@ export function useResumeState() {
         });
     };
 
+    const moveSectionCategory = (categoryKey: string, direction: 'up' | 'down') => {
+        setLayout(prev => {
+            const order = prev.sectionOrder || ['experience', 'projects', 'education', 'skills'];
+            const index = order.indexOf(categoryKey);
+            if (index === -1) return prev;
+            
+            const newOrder = [...order];
+            if (direction === 'up' && index > 0) {
+                newOrder[index] = newOrder[index - 1];
+                newOrder[index - 1] = categoryKey;
+            } else if (direction === 'down' && index < newOrder.length - 1) {
+                newOrder[index] = newOrder[index + 1];
+                newOrder[index + 1] = categoryKey;
+            }
+            
+            return { ...prev, sectionOrder: newOrder };
+        });
+    };
+
     const movePoint = (sectionId: string, pointId: string, direction: 'up' | 'down') => {
         setData(prev => {
             let changed = false;
@@ -234,6 +253,7 @@ export function useResumeState() {
         toggleSection,
         handleAddPoint,
         moveSection,
+        moveSectionCategory,
         movePoint,
         filteredData,
         experienceData,
