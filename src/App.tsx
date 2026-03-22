@@ -25,7 +25,9 @@ export default function App() {
     experienceData,
     projectData,
     educationData,
-    skillsData
+    skillsData,
+    publicationsData,
+    toggleSectionVisibility
   } = useResumeState();
 
   const handleReset = () => {
@@ -46,6 +48,9 @@ export default function App() {
         projectData={projectData}
         educationData={educationData}
         skillsData={skillsData}
+        publicationsData={publicationsData}
+        hiddenSections={layout.hiddenSections}
+        onToggleVisibility={toggleSectionVisibility}
         selectedPoints={selectedPoints}
         onPointToggle={handlePointToggle}
         onAddPoint={handleAddPoint}

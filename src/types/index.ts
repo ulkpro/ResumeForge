@@ -16,6 +16,7 @@ export interface LayoutSettings {
     fontSizeLocDate: number;
     fontSizeRoleDesc: number;
     fontSizeBullet: number;
+    hiddenSections?: string[];
     sectionOrder?: string[];
 }
 
@@ -37,5 +38,6 @@ export const defaultLayout: LayoutSettings = {
     fontSizeLocDate: 11,
     fontSizeRoleDesc: 10,
     fontSizeBullet: 10,
-    sectionOrder: ['experience', 'projects', 'education', 'skills'],
+    hiddenSections: [],
+    sectionOrder: ['experience', 'projects', 'education', 'skills', 'publications'],
 };
