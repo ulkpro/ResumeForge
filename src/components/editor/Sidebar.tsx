@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, ArrowUp, ArrowDown } from 'lucide-react';
+import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, BookOpen, ArrowUp, ArrowDown } from 'lucide-react';
 import { SectionHeader } from '../common/SectionHeader';
 import { CheckboxItem } from '../common/CheckboxItem';
 import { AddPointForm } from '../common/AddPointForm';
@@ -13,6 +13,9 @@ interface SidebarProps {
     projectData: ResumeData[];
     educationData: ResumeData[];
     skillsData: ResumeData[];
+    publicationsData: ResumeData[];
+    hiddenSections?: string[];
+    onToggleVisibility: (key: string) => void;
     selectedPoints: Record<string, boolean>;
     onPointToggle: (id: string) => void;
     onAddPoint: (sectionId: string, text: string, tagsStr: string) => void;
@@ -28,10 +31,11 @@ interface SidebarProps {
 }
 
 export function Sidebar({
-    collapsedSections, onToggleSection, experienceData, projectData, educationData, skillsData,
+    collapsedSections, onToggleSection, experienceData, projectData, educationData, skillsData, publicationsData,
+    hiddenSections, onToggleVisibility,
     selectedPoints, onPointToggle, onAddPoint, onEditPoint, onDeletePoint,
     onMoveSection, onMoveSectionCategory, onMovePoint,
-    targetRole, setTargetRole, allRoles, sectionOrder = ['experience', 'projects', 'education', 'skills']
+    targetRole, setTargetRole, allRoles, sectionOrder = ['experience', 'projects', 'education', 'skills', 'publications']
 }: SidebarProps) {
 
     const [draggedSkill, setDraggedSkill] = useState<{ itemId: string, index: number } | null>(null);
@@ -77,7 +81,7 @@ export function Sidebar({
         if (data.length === 0) return null;
         return (
             <div key={sectionKey}>
-                <SectionHeader icon={icon} title={title} sectionKey={sectionKey} isCollapsed={!!collapsedSections[sectionKey]} onToggle={onToggleSection} onMoveUp={onMoveUp} onMoveDown={onMoveDown} />
+                <SectionHeader icon={icon} title={title} sectionKey={sectionKey} isCollapsed={!!collapsedSections[sectionKey]} isVisible={!hiddenSections?.includes(sectionKey)} onToggle={onToggleSection} onToggleVisibility={onToggleVisibility} onMoveUp={onMoveUp} onMoveDown={onMoveDown} />
                 {!collapsedSections[sectionKey] && (
                     <div className="space-y-5 ml-2 pl-3 border-l-2 border-slate-100">
                         {data.map(item => {
@@ -163,7 +167,7 @@ export function Sidebar({
         if (data.length === 0) return null;
         return (
             <div key={sectionKey}>
-                <SectionHeader icon={icon} title={title} sectionKey={sectionKey} isCollapsed={!!collapsedSections[sectionKey]} onToggle={onToggleSection} onMoveUp={onMoveUp} onMoveDown={onMoveDown} />
+                <SectionHeader icon={icon} title={title} sectionKey={sectionKey} isCollapsed={!!collapsedSections[sectionKey]} isVisible={!hiddenSections?.includes(sectionKey)} onToggle={onToggleSection} onToggleVisibility={onToggleVisibility} onMoveUp={onMoveUp} onMoveDown={onMoveDown} />
                 {!collapsedSections[sectionKey] && data.map(item => (
                     <div 
                         key={item.id} 
@@ -251,6 +255,7 @@ export function Sidebar({
                     if (sectionKey === 'projects') return renderSection(projectData, "Projects", "projects", FolderGit2, onMoveUp, onMoveDown);
                     if (sectionKey === 'education') return renderSection(educationData, "Education", "education", GraduationCap, onMoveUp, onMoveDown);
                     if (sectionKey === 'skills') return renderSkillsSection(skillsData, "Skills", "skills", Code2, onMoveUp, onMoveDown);
+                    if (sectionKey === 'publications') return renderSection(publicationsData, "Publications", "publications", BookOpen, onMoveUp, onMoveDown);
                     
                     return null;
                 })}

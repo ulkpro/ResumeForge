@@ -7,13 +7,15 @@ export interface ResumePoint {
 export interface ResumeData {
     id: string;
     filePath: string;
-    type: 'experience' | 'project' | 'education' | 'skills';
+    type: 'experience' | 'project' | 'education' | 'skills' | 'publications';
     company?: string;
     designation?: string;
     location?: string;
     startDate?: string;
     endDate?: string;
     project_name?: string;
+    publisher?: string;
+    publicationDate?: string;
     url?: string;
     institution?: string;
     degree?: string;
@@ -79,10 +81,12 @@ export function parseMarkdown(fileName: string, rawContent: string, filePath: st
     if (fileName.includes('/experience/') || fileName.includes('(exp)')) type = 'experience';
     if (fileName.includes('/education/') || fileName.includes('(edu)')) type = 'education';
     if (fileName.includes('/skills/') || fileName.includes('(skl)')) type = 'skills';
+    if (fileName.includes('/publications/') || fileName.includes('(pub)')) type = 'publications';
     if (filePath.includes('/experience/')) type = 'experience';
     if (filePath.includes('/education/')) type = 'education';
     if (filePath.includes('/skills/')) type = 'skills';
     if (filePath.includes('/projects/')) type = 'project';
+    if (filePath.includes('/publications/')) type = 'publications';
 
     return {
         id: fileName,
@@ -94,6 +98,8 @@ export function parseMarkdown(fileName: string, rawContent: string, filePath: st
         startDate: frontmatter['startDate'],
         endDate: frontmatter['endDate'],
         project_name: frontmatter['project_name'],
+        publisher: frontmatter['publisher'],
+        publicationDate: frontmatter['publicationDate'],
         url: frontmatter['url'],
         institution: frontmatter['institution'],
         degree: frontmatter['degree'],

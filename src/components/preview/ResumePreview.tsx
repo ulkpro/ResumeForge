@@ -46,7 +46,9 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
             </div>
 
             <div className="flex flex-col" style={{ gap: (layout.gapMajorSections ?? 16) + 'px' }}>
-                {(layout.sectionOrder || ['experience', 'projects', 'education', 'skills']).map(sectionKey => {
+                {(layout.sectionOrder || ['experience', 'projects', 'education', 'skills', 'publications']).map(sectionKey => {
+                    if (layout.hiddenSections?.includes(sectionKey)) return null;
+
                     if (sectionKey === 'education') {
                         return data.filter(d => d.type === 'education' && (d.points.some(p => selectedPoints[p.id]) || d.points.length === 0)).length > 0 ? (
                             <div key="education-section" className="resume-section">
@@ -191,6 +193,49 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                             <div key={skill.id} className="leading-snug" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt' }}>
                                                 <span className="font-bold">{categoryTitle}: </span>
                                                 <span>{activeSkills.join(', ')}</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        ) : null;
+                    }
+
+                    if (sectionKey === 'publications') {
+                        return data.filter(d => d.type === 'publications' && d.points.some(p => selectedPoints[p.id])).length > 0 ? (
+                            <div key="publications-section" className="resume-section">
+                                <h2
+                                    className="font-bold uppercase tracking-wider border-b-2"
+                                    style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
+                                >Publications</h2>
+                                <div className="flex flex-col" style={{ gap: layout.gapSubsections + 'px' }}>
+                                    {data.filter(d => d.type === 'publications').map(pub => {
+                                        const activePoints = pub.points.filter(p => selectedPoints[p.id]);
+                                        if (activePoints.length === 0) return null;
+                                        return (
+                                            <div key={pub.id}>
+                                                <div className="flex justify-between font-bold leading-snug mb-1" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt' }}>
+                                                    <span className="flex items-center gap-1.5 break-words">
+                                                        {pub.project_name || pub.company}
+                                                        {pub.publisher && <span className="font-normal italic hidden sm:inline"> - {pub.publisher}</span>}
+                                                        {pub.url && (
+                                                            <span className="font-normal pt-0.5" style={{ fontSize: '9pt', color: '#0369a1' }}>
+                                                                | <a href={pub.url.startsWith('http') ? pub.url : `https://${pub.url}`} target="_blank" rel="noopener noreferrer" className="hover:underline no-underline" style={{ color: '#0369a1' }}>{pub.url}</a>
+                                                            </span>
+                                                        )}
+                                                    </span>
+                                                    <span className="font-normal whitespace-nowrap ml-2" style={{ fontSize: (layout.fontSizeLocDate || 11) + 'pt' }}>
+                                                        {pub.publicationDate || pub.startDate || pub.endDate}
+                                                    </span>
+                                                </div>
+                                                <div className="flex flex-col" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', gap: layout.gapPoints + 'px' }}>
+                                                    {activePoints.map(p => (
+                                                        <div key={p.id} className="flex gap-2 pl-1">
+                                                            <span className="select-none inline-block flex-shrink-0">•</span>
+                                                            <span>{p.text}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             </div>
                                         );
                                     })}

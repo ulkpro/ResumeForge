@@ -173,7 +173,7 @@ export function useResumeState() {
 
     const moveSectionCategory = (categoryKey: string, direction: 'up' | 'down') => {
         setLayout(prev => {
-            const order = prev.sectionOrder || ['experience', 'projects', 'education', 'skills'];
+            const order = prev.sectionOrder || ['experience', 'projects', 'education', 'skills', 'publications'];
             const index = order.indexOf(categoryKey);
             if (index === -1) return prev;
             
@@ -187,6 +187,17 @@ export function useResumeState() {
             }
             
             return { ...prev, sectionOrder: newOrder };
+        });
+    };
+
+    const toggleSectionVisibility = (sectionKey: string) => {
+        setLayout(prev => {
+            const hidden = prev.hiddenSections || [];
+            if (hidden.includes(sectionKey)) {
+                return { ...prev, hiddenSections: hidden.filter(k => k !== sectionKey) };
+            } else {
+                return { ...prev, hiddenSections: [...hidden, sectionKey] };
+            }
         });
     };
 
@@ -237,6 +248,7 @@ export function useResumeState() {
     const projectData = filteredData.filter(d => d.type === 'project');
     const educationData = filteredData.filter(d => d.type === 'education');
     const skillsData = filteredData.filter(d => d.type === 'skills');
+    const publicationsData = filteredData.filter(d => d.type === 'publications');
 
     return {
         data,
@@ -259,6 +271,8 @@ export function useResumeState() {
         experienceData,
         projectData,
         educationData,
-        skillsData
+        skillsData,
+        publicationsData,
+        toggleSectionVisibility
     };
 }
