@@ -1,9 +1,11 @@
 ---
 company: "Iowa Institute of Hydroscience and Research, University of Iowa"
-location: "Iowa City, IA"
 designation: "Graduate Research Assistant | NOAA Funded"
+location: "Iowa City, IA"
 startDate: "Jan 2023"
 endDate: "Present"
+role: "new-grad"
+order: "99"
 ---
 
 - Built GraphQL APIs integrating 6 downstream services and Postgres queries, improving frontend data efficiency by 50%. [GraphQL, API Design]
