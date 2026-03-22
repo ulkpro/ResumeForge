@@ -19,17 +19,19 @@ interface SidebarProps {
     onEditPoint: (sectionId: string, pointId: string, text: string, tagsStr: string) => void;
     onDeletePoint: (sectionId: string, pointId: string) => void;
     onMoveSection: (sectionId: string, direction: 'up' | 'down') => void;
+    onMoveSectionCategory: (categoryKey: string, direction: 'up' | 'down') => void;
     onMovePoint: (sectionId: string, pointId: string, direction: 'up' | 'down') => void;
     targetRole: string;
     setTargetRole: (role: string) => void;
     allRoles: string[];
+    sectionOrder?: string[];
 }
 
 export function Sidebar({
     collapsedSections, onToggleSection, experienceData, projectData, educationData, skillsData,
     selectedPoints, onPointToggle, onAddPoint, onEditPoint, onDeletePoint,
-    onMoveSection, onMovePoint,
-    targetRole, setTargetRole, allRoles
+    onMoveSection, onMoveSectionCategory, onMovePoint,
+    targetRole, setTargetRole, allRoles, sectionOrder = ['experience', 'projects', 'education', 'skills']
 }: SidebarProps) {
 
     const [draggedSkill, setDraggedSkill] = useState<{ itemId: string, index: number } | null>(null);
@@ -71,11 +73,11 @@ export function Sidebar({
     };
 
     // Helper to render the Skills section with toggle pill buttons
-    const renderSkillsSection = (data: ResumeData[], title: string, sectionKey: string, icon: any) => {
+    const renderSkillsSection = (data: ResumeData[], title: string, sectionKey: string, icon: any, onMoveUp?: () => void, onMoveDown?: () => void) => {
         if (data.length === 0) return null;
         return (
-            <div>
-                <SectionHeader icon={icon} title={title} sectionKey={sectionKey} isCollapsed={!!collapsedSections[sectionKey]} onToggle={onToggleSection} />
+            <div key={sectionKey}>
+                <SectionHeader icon={icon} title={title} sectionKey={sectionKey} isCollapsed={!!collapsedSections[sectionKey]} onToggle={onToggleSection} onMoveUp={onMoveUp} onMoveDown={onMoveDown} />
                 {!collapsedSections[sectionKey] && (
                     <div className="space-y-5 ml-2 pl-3 border-l-2 border-slate-100">
                         {data.map(item => {
@@ -157,13 +159,27 @@ export function Sidebar({
     };
 
 
-    const renderSection = (data: ResumeData[], title: string, sectionKey: string, icon: any) => {
+    const renderSection = (data: ResumeData[], title: string, sectionKey: string, icon: any, onMoveUp?: () => void, onMoveDown?: () => void) => {
         if (data.length === 0) return null;
         return (
-            <div>
-                <SectionHeader icon={icon} title={title} sectionKey={sectionKey} isCollapsed={!!collapsedSections[sectionKey]} onToggle={onToggleSection} />
+            <div key={sectionKey}>
+                <SectionHeader icon={icon} title={title} sectionKey={sectionKey} isCollapsed={!!collapsedSections[sectionKey]} onToggle={onToggleSection} onMoveUp={onMoveUp} onMoveDown={onMoveDown} />
                 {!collapsedSections[sectionKey] && data.map(item => (
-                    <div key={item.id} className="mb-6 ml-2 pl-2 border-l-2 border-slate-100 relative group/section">
+                    <div 
+                        key={item.id} 
+                        className="mb-6 ml-2 pl-2 border-l-2 border-slate-100 relative group/section focus:outline-none focus:border-sky-400 focus:bg-sky-50/50 rounded-r-lg transition-colors"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                            if (e.target !== e.currentTarget) return;
+                            if (e.key === 'ArrowUp') {
+                                e.preventDefault();
+                                onMoveSection(item.id, 'up');
+                            } else if (e.key === 'ArrowDown') {
+                                e.preventDefault();
+                                onMoveSection(item.id, 'down');
+                            }
+                        }}
+                    >
                         <div className="flex items-center justify-between mb-1">
                             <h3 className="font-semibold text-slate-800 flex items-center gap-2">
                                 {item.company || item.project_name || item.institution || item.category}
@@ -225,11 +241,19 @@ export function Sidebar({
 
 
             <div className="space-y-6 pb-20">
-                {renderSection(experienceData, "Experience", "experience", BriefcaseBusiness)}
-                {renderSection(projectData, "Projects", "projects", FolderGit2)}
-                {renderSection(educationData, "Education", "education", GraduationCap)}
-                {/* Render custom Skills section with enable/disable toggles */}
-                {renderSkillsSection(skillsData, "Skills", "skills", Code2)}
+                {sectionOrder.map((sectionKey, index) => {
+                    const canMoveUp = index > 0;
+                    const canMoveDown = index < sectionOrder.length - 1;
+                    const onMoveUp = canMoveUp ? () => onMoveSectionCategory(sectionKey, 'up') : undefined;
+                    const onMoveDown = canMoveDown ? () => onMoveSectionCategory(sectionKey, 'down') : undefined;
+
+                    if (sectionKey === 'experience') return renderSection(experienceData, "Experience", "experience", BriefcaseBusiness, onMoveUp, onMoveDown);
+                    if (sectionKey === 'projects') return renderSection(projectData, "Projects", "projects", FolderGit2, onMoveUp, onMoveDown);
+                    if (sectionKey === 'education') return renderSection(educationData, "Education", "education", GraduationCap, onMoveUp, onMoveDown);
+                    if (sectionKey === 'skills') return renderSkillsSection(skillsData, "Skills", "skills", Code2, onMoveUp, onMoveDown);
+                    
+                    return null;
+                })}
             </div>
         </div >
     );

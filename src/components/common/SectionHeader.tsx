@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import { ChevronDown, ChevronRight, ArrowUp, ArrowDown } from 'lucide-react';
 import React from 'react';
 
 interface SectionHeaderProps {
@@ -7,9 +7,11 @@ interface SectionHeaderProps {
     sectionKey: string;
     isCollapsed: boolean;
     onToggle: (key: string) => void;
+    onMoveUp?: () => void;
+    onMoveDown?: () => void;
 }
 
-export function SectionHeader({ icon: Icon, title, sectionKey, isCollapsed, onToggle }: SectionHeaderProps) {
+export function SectionHeader({ icon: Icon, title, sectionKey, isCollapsed, onToggle, onMoveUp, onMoveDown }: SectionHeaderProps) {
     return (
         <div
             className="flex items-center justify-between mb-4 border-b border-sky-100 pb-2 cursor-pointer hover:bg-sky-50/50 p-2 rounded transition-colors group"
@@ -21,8 +23,14 @@ export function SectionHeader({ icon: Icon, title, sectionKey, isCollapsed, onTo
                 </div>
                 <h2 className="text-xl font-bold text-sky-900 select-none">{title}</h2>
             </div>
-            <div className="text-sky-400 group-hover:text-sky-600">
-                {isCollapsed ? <ChevronRight size={20} /> : <ChevronDown size={20} />}
+            <div className="flex items-center gap-1">
+                <div className="text-sky-400 group-hover:text-sky-600 mr-2 flex items-center">
+                    {onMoveUp && <button onClick={(e) => { e.stopPropagation(); onMoveUp(); }} className="p-1 hover:bg-sky-200 rounded" title="Move category up"><ArrowUp size={16} /></button>}
+                    {onMoveDown && <button onClick={(e) => { e.stopPropagation(); onMoveDown(); }} className="p-1 hover:bg-sky-200 rounded" title="Move category down"><ArrowDown size={16} /></button>}
+                </div>
+                <div className="text-sky-400 group-hover:text-sky-600">
+                    {isCollapsed ? <ChevronRight size={20} /> : <ChevronDown size={20} />}
+                </div>
             </div>
         </div>
     );

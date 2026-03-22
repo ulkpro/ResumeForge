@@ -16,6 +16,7 @@ export interface LayoutSettings {
     fontSizeLocDate: number;
     fontSizeRoleDesc: number;
     fontSizeBullet: number;
+    sectionOrder?: string[];
 }
 
 export const defaultLayout: LayoutSettings = {
@@ -36,4 +37,5 @@ export const defaultLayout: LayoutSettings = {
     fontSizeLocDate: 11,
     fontSizeRoleDesc: 10,
     fontSizeBullet: 10,
+    sectionOrder: ['experience', 'projects', 'education', 'skills'],
 };

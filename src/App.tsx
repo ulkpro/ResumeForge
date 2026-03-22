@@ -20,6 +20,7 @@ export default function App() {
     handleEditPoint,
     handleDeletePoint,
     moveSection,
+    moveSectionCategory,
     movePoint,
     experienceData,
     projectData,
@@ -51,10 +52,12 @@ export default function App() {
         onEditPoint={handleEditPoint}
         onDeletePoint={handleDeletePoint}
         onMoveSection={moveSection}
+        onMoveSectionCategory={moveSectionCategory}
         onMovePoint={movePoint}
         targetRole={targetRole}
         setTargetRole={setTargetRole}
         allRoles={allRoles}
+        sectionOrder={layout.sectionOrder}
       />
 
       {/* Main Preview Panel */}
