@@ -29,7 +29,15 @@ export function useResumeState() {
         const saved = localStorage.getItem('resume-layout-settings');
         if (saved) {
             try {
-                return { ...defaultLayout, ...JSON.parse(saved) };
+                const parsed = JSON.parse(saved);
+                if (parsed.sectionOrder) {
+                    defaultLayout.sectionOrder?.forEach(sec => {
+                        if (!parsed.sectionOrder.includes(sec)) {
+                            parsed.sectionOrder.push(sec);
+                        }
+                    });
+                }
+                return { ...defaultLayout, ...parsed };
             } catch (e) { }
         }
         return defaultLayout;

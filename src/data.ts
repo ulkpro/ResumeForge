@@ -16,6 +16,7 @@ export const getResumeData = (): ResumeData[] => {
         else if (path.includes('/projects/')) typeLabel = ' (proj)';
         else if (path.includes('/education/')) typeLabel = ' (edu)';
         else if (path.includes('/skills/')) typeLabel = ' (skl)';
+        else if (path.includes('/publications/')) typeLabel = ' (pub)';
 
         data.push(parseMarkdown(fileName + typeLabel, rawContent, path));
     }

@@ -214,19 +214,21 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                         if (activePoints.length === 0) return null;
                                         return (
                                             <div key={pub.id}>
-                                                <div className="flex justify-between font-bold leading-snug mb-1" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt' }}>
-                                                    <span className="flex items-center gap-1.5 break-words">
-                                                        {pub.project_name || pub.company}
-                                                        {pub.publisher && <span className="font-normal italic hidden sm:inline"> - {pub.publisher}</span>}
-                                                        {pub.url && (
-                                                            <span className="font-normal pt-0.5" style={{ fontSize: '9pt', color: '#0369a1' }}>
-                                                                | <a href={pub.url.startsWith('http') ? pub.url : `https://${pub.url}`} target="_blank" rel="noopener noreferrer" className="hover:underline no-underline" style={{ color: '#0369a1' }}>{pub.url}</a>
-                                                            </span>
-                                                        )}
-                                                    </span>
-                                                    <span className="font-normal whitespace-nowrap ml-2" style={{ fontSize: (layout.fontSizeLocDate || 11) + 'pt' }}>
+                                                <div className="flex justify-between font-bold leading-snug" style={{ fontSize: (layout.fontSizeOrgName || 11) + 'pt' }}>
+                                                    <span>{pub.project_name || pub.company}</span>
+                                                    <span className="font-normal" style={{ fontSize: (layout.fontSizeLocDate || 11) + 'pt' }}>
                                                         {pub.publicationDate || pub.startDate || pub.endDate}
                                                     </span>
+                                                </div>
+                                                <div className="flex justify-between leading-snug" style={{ fontSize: (layout.fontSizeRoleDesc || 10) + 'pt' }}>
+                                                    <span className="italic">{pub.publisher}</span>
+                                                    {pub.url && (
+                                                        <span className="font-normal" style={{ fontSize: (layout.fontSizeLocDate || 11) + 'pt' }}>
+                                                            <a href={pub.url.startsWith('http') ? pub.url : `https://${pub.url}`} target="_blank" rel="noopener noreferrer" className="hover:underline no-underline" style={{ color: '#0369a1' }}>
+                                                                {pub.url.replace(/^https?:\/\//, '')}
+                                                            </a>
+                                                        </span>
+                                                    )}
                                                 </div>
                                                 <div className="flex flex-col" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', gap: layout.gapPoints + 'px' }}>
                                                     {activePoints.map(p => (
