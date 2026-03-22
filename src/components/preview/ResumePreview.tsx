@@ -61,20 +61,24 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                         if (activePoints.length === 0 && edu.points.length > 0) return null;
                                         return (
                                             <div key={edu.id}>
-                                                <div className="flex justify-between font-bold mb-0.5" style={{ fontSize: (layout.fontSizeOrgName || 11) + 'pt' }}>
-                                                    <span>{edu.institution}, <span className="font-normal italic" style={{ fontSize: (layout.fontSizeRoleDesc || 10) + 'pt' }}>{edu.degree}</span></span>
+                                                <div className="flex justify-between font-bold leading-snug" style={{ fontSize: (layout.fontSizeOrgName || 11) + 'pt' }}>
+                                                    <span>{edu.institution}</span>
+                                                    <span className="font-normal" style={{ fontSize: (layout.fontSizeLocDate || 11) + 'pt' }}>{edu.location}</span>
+                                                </div>
+                                                <div className="flex justify-between leading-snug" style={{ fontSize: (layout.fontSizeRoleDesc || 10) + 'pt' }}>
+                                                    <span>
+                                                        <span className="italic">{edu.degree}</span>
+                                                        {edu.gpa && <span>, GPA: {edu.gpa}</span>}
+                                                    </span>
                                                     <span className="font-normal" style={{ fontSize: (layout.fontSizeLocDate || 11) + 'pt' }}>
-                                                        {edu.location && <span className="mr-2">{edu.location}</span>}
                                                         {edu.startDate ? `${edu.startDate} – ${edu.endDate}` : edu.endDate}
                                                     </span>
                                                 </div>
-                                                {edu.gpa && <div className="mb-1" style={{ fontSize: (layout.fontSizeRoleDesc || 10) + 'pt' }}>GPA: {edu.gpa}</div>}
                                                 {activePoints.length > 0 && (
                                                     <div className="flex flex-col" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', gap: layout.gapPoints + 'px' }}>
                                                         {activePoints.map(p => (
-                                                            <div key={p.id} className="flex gap-2 pl-1">
-                                                                <span className="select-none inline-block flex-shrink-0">•</span>
-                                                                <span>{p.text}</span>
+                                                            <div key={p.id} className="leading-snug">
+                                                                {p.text}
                                                             </div>
                                                         ))}
                                                     </div>
