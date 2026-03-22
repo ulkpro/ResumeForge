@@ -106,15 +106,15 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                         if (activePoints.length === 0) return null;
                                         return (
                                             <div key={exp.id}>
-                                                <div className="flex justify-between font-bold leading-snug" style={{ fontSize: (layout.fontSizeRoleDesc || 10) + 'pt' }}>
-                                                    <span>{exp.designation}</span>
+                                                <div className="flex justify-between font-bold leading-snug" style={{ fontSize: (layout.fontSizeOrgName || 11) + 'pt' }}>
+                                                    <span>{exp.company}</span>
+                                                    <span className="font-normal" style={{ fontSize: (layout.fontSizeLocDate || 11) + 'pt' }}>{exp.location}</span>
+                                                </div>
+                                                <div className="flex justify-between leading-snug mb-1" style={{ fontSize: (layout.fontSizeRoleDesc || 10) + 'pt' }}>
+                                                    <span className="italic">{exp.designation}</span>
                                                     <span className="font-normal" style={{ fontSize: (layout.fontSizeLocDate || 11) + 'pt' }}>
                                                         {exp.startDate} {exp.endDate ? `– ${exp.endDate}` : ''}
                                                     </span>
-                                                </div>
-                                                <div className="flex justify-between leading-snug mb-1" style={{ fontSize: (layout.fontSizeOrgName || 11) + 'pt' }}>
-                                                    <span className="font-medium italic">{exp.company}</span>
-                                                    <span className="font-normal" style={{ fontSize: (layout.fontSizeLocDate || 11) + 'pt' }}>{exp.location}</span>
                                                 </div>
                                                 <div className="flex flex-col" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', gap: layout.gapPoints + 'px' }}>
                                                     {activePoints.map(p => (
