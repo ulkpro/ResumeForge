@@ -6,5 +6,3 @@ degree: "B.Sc. in Computer Science"
 coursework: "Algorithms"
 order: "10"
 ---
-
-
