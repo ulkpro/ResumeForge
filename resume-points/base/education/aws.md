@@ -1,5 +1,8 @@
 ---
+endDate: "Sept 2025"
 institution: "AWS"
 degree: "Solution Architect-Associate"
-endDate: "Sept 2025"
+coursework: "Algorithms"
+order: "99"
 ---
+
