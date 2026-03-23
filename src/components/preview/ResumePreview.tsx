@@ -1,5 +1,6 @@
 import type { LayoutSettings } from '../../types';
 import type { ResumeData } from '../../utils/parser';
+import { personalDetails } from '../../config';
 
 interface ResumePreviewProps {
     data: ResumeData[];
@@ -33,15 +34,23 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
             }}
         >
             <div className="text-center" style={{ marginBottom: (layout.gapHeaderToFirstSection ?? 24) + 'px' }}>
-                <h1 className="font-bold tracking-tight mb-1" style={{ fontSize: (layout.fontSizeName || 25) + 'pt' }}>Uditha H.</h1>
+                <h1 className="font-bold tracking-tight mb-1" style={{ fontSize: (layout.fontSizeName || 25) + 'pt' }}>{personalDetails.name}</h1>
                 <p className="flex justify-center flex-wrap gap-2 items-center" style={{ fontSize: (layout.fontSizeContact || 10) + 'pt' }}>
-                    <span><a href="mailto:firstname.lastname@xyz.org" className="hover:underline text-black no-underline" style={{ color: '#000' }}>firstname.lastname@xyz.org</a></span>
-                    <span>•</span>
-                    <span>(999) 999-9999</span>
-                    <span>•</span>
-                    <span><a href="https://github.com/username" target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>github.com/username</a></span>
-                    <span>•</span>
-                    <span><a href="https://linkedin.com/in/username" target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>linkedin.com/in/username</a></span>
+                    {(() => {
+                        const items = [];
+                        if (personalDetails.email) items.push(<a href={`mailto:${personalDetails.email}`} className="hover:underline text-black no-underline" style={{ color: '#000' }}>{personalDetails.email}</a>);
+                        if (personalDetails.phone) items.push(<span>{personalDetails.phone}</span>);
+                        if (personalDetails.github) items.push(<a href={`https://${personalDetails.github}`} target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>{personalDetails.github}</a>);
+                        if (personalDetails.linkedin) items.push(<a href={`https://${personalDetails.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>{personalDetails.linkedin}</a>);
+                        if (personalDetails.website) items.push(<a href={`https://${personalDetails.website}`} target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>{personalDetails.website}</a>);
+                        
+                        return items.map((item, i) => (
+                            <span key={i} className="flex gap-2 items-center">
+                                {item}
+                                {i < items.length - 1 && <span>•</span>}
+                            </span>
+                        ));
+                    })()}
                 </p>
             </div>
 

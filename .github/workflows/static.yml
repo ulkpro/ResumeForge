@@ -32,6 +32,13 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          VITE_RESUME_NAME: ${{ secrets.VITE_RESUME_NAME }}
+          VITE_RESUME_EMAIL: ${{ secrets.VITE_RESUME_EMAIL }}
+          VITE_RESUME_PHONE: ${{ secrets.VITE_RESUME_PHONE }}
+          VITE_RESUME_GITHUB: ${{ secrets.VITE_RESUME_GITHUB }}
+          VITE_RESUME_LINKEDIN: ${{ secrets.VITE_RESUME_LINKEDIN }}
+          VITE_RESUME_WEBSITE: ${{ secrets.VITE_RESUME_WEBSITE }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
