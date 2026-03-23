@@ -1,6 +1,10 @@
 ---
-institution: "University of Sri Jayawardenepura"
 location: "Sri Lanka"
-degree: "B.Sc. in Computer Science"
 endDate: "May 2018"
+institution: "University of Sri Jayawardenepura, Sri Lanka"
+degree: "B.Sc. in Computer Science"
+coursework: "Algorithms"
+order: "10"
 ---
+
+

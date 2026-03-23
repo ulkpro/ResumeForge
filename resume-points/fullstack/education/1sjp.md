@@ -1,7 +1,10 @@
 ---
-endDate: "Jan 2019"
+location: "Sri Lanka"
+endDate: "May 2018"
 institution: "University of Sri Jayawardenepura, Sri Lanka"
 degree: "B.Sc. in Computer Science"
-role: "fullstack"
-order: "20"
+coursework: "Algorithms"
+order: "10"
 ---
+
+
