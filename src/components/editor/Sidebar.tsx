@@ -20,6 +20,7 @@ interface SidebarProps {
     onPointToggle: (id: string) => void;
     onAddPoint: (sectionId: string, text: string, tagsStr: string) => void;
     onEditPoint: (sectionId: string, pointId: string, text: string, tagsStr: string) => void;
+    onUpdateCoursework: (sectionId: string, courseworkText: string) => void;
     onDeletePoint: (sectionId: string, pointId: string) => void;
     onMoveSection: (sectionId: string, direction: 'up' | 'down') => void;
     onMoveSectionCategory: (categoryKey: string, direction: 'up' | 'down') => void;
@@ -33,7 +34,7 @@ interface SidebarProps {
 export function Sidebar({
     collapsedSections, onToggleSection, experienceData, projectData, educationData, skillsData, publicationsData,
     hiddenSections, onToggleVisibility,
-    selectedPoints, onPointToggle, onAddPoint, onEditPoint, onDeletePoint,
+    selectedPoints, onPointToggle, onAddPoint, onEditPoint, onUpdateCoursework, onDeletePoint,
     onMoveSection, onMoveSectionCategory, onMovePoint,
     targetRole, setTargetRole, allRoles, sectionOrder = ['experience', 'projects', 'education', 'skills', 'publications']
 }: SidebarProps) {
@@ -74,6 +75,39 @@ export function Sidebar({
         const newText = newSkills.filter(Boolean).join(', ');
         onEditPoint(item.id, firstPoint.id, newText, firstPoint.tags?.join(', ') || '');
         setDraggedSkill(null);
+    };
+
+    const CourseworkEditor = ({ item }: { item: ResumeData }) => {
+        const [val, setVal] = useState(item.coursework || "");
+        const cid = `${item.id}-coursework`;
+        const isSelected = selectedPoints[cid] !== false;
+        
+        return (
+            <div className="mt-3 flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-md">
+                <input
+                    type="checkbox"
+                    checked={isSelected}
+                    onChange={() => onPointToggle(cid)}
+                    className="w-4 h-4 text-sky-500 rounded border-slate-300 focus:ring-sky-500 cursor-pointer"
+                />
+                <span className="text-xs font-semibold text-slate-600 select-none">Coursework:</span>
+                <input
+                    type="text"
+                    value={val}
+                    onChange={(e) => setVal(e.target.value)}
+                    onBlur={() => {
+                        if (val !== (item.coursework || "")) {
+                            onUpdateCoursework(item.id, val);
+                        }
+                    }}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') e.currentTarget.blur();
+                    }}
+                    placeholder="E.g. Algorithms, Data Structures..."
+                    className="flex-1 text-sm bg-transparent border-b border-transparent focus:border-sky-400 outline-none px-1 text-slate-700 transition-colors"
+                />
+            </div>
+        );
     };
 
     // Helper to render the Skills section with toggle pill buttons
@@ -208,6 +242,7 @@ export function Sidebar({
                             ))}
                         </div>
                         <AddPointForm sectionId={item.id} onAdd={onAddPoint} />
+                        {sectionKey === 'education' && <CourseworkEditor item={item} />}
                     </div>
                 ))}
             </div>

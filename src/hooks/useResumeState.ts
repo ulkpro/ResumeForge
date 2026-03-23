@@ -141,6 +141,18 @@ export function useResumeState() {
         });
     };
 
+    const handleUpdateCoursework = (sectionId: string, courseworkText: string) => {
+        setData(prev => {
+            const newData = prev.map(sec => {
+                if (sec.id !== sectionId) return sec;
+                return { ...sec, coursework: courseworkText };
+            });
+            const updatedSection = newData.find(s => s.id === sectionId);
+            if (updatedSection) saveResumeFileLocal(updatedSection);
+            return newData;
+        });
+    };
+
     const moveSection = (sectionId: string, direction: 'up' | 'down') => {
         setData(prev => {
             const targetSection = prev.find(s => s.id === sectionId);
@@ -270,6 +282,7 @@ export function useResumeState() {
         handlePointToggle,
         handleEditPoint,
         handleDeletePoint,
+        handleUpdateCoursework,
         toggleSection,
         handleAddPoint,
         moveSection,
