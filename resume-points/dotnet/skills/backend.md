@@ -4,4 +4,4 @@ role: "dotnet"
 order: "99"
 ---
 
-- .NET, C#, ASP.NET Core, Microsoft SQL Server, Entity Framework Core, WCF, REST APIs, SOAP, Redis, SignalR
+- .NET 5/6, .NET Core, C#, ASP.NET MVC/Web API, Entity Framework Core, SQL Server, Azure App Services, Redis, SignalR, WCF, GraphQL (HotChocolate)
