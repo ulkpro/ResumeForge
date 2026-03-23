@@ -25,3 +25,10 @@ export const getResumeData = (): ResumeData[] => {
 
     return data;
 };
+
+if (import.meta.hot) {
+    import.meta.hot.accept(() => {
+        // We explicitly accept hot updates for markdown files to prevent Vite from reloading the entire page.
+        // The React app manages its own state for the resume data, so we don't want external HMR to wipe it out while editing.
+    });
+}
