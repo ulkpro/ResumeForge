@@ -77,7 +77,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                                     </span>
                                                 </div>
                                                 {edu.coursework && selectedPoints[`${edu.id}-coursework`] !== false && (
-                                                    <div className="leading-snug mt-0.5" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt' }}>
+                                                    <div className="leading-snug" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', marginTop: (layout.gapCoursework ?? 2) + 'px' }}>
                                                         <span className="font-semibold select-none">Relevant Coursework: </span>
                                                         <span>{edu.coursework}</span>
                                                     </div>

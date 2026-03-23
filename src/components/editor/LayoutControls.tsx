@@ -103,11 +103,22 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
             <div>
                 <div className="flex justify-between mb-1">
                     <span>Gap Between Title & Line</span>
-                    <span className="text-sky-600 font-bold">{layout.gapTitleToLine} px</span>
+                    <span className="text-sky-600 font-bold">{layout.gapTitleToLine ?? 4} px</span>
                 </div>
                 <input type="range" min="0" max="20" step="1"
                     value={layout.gapTitleToLine ?? 4}
                     onChange={e => setLayout(s => ({ ...s, gapTitleToLine: Number(e.target.value) }))}
+                    className="w-full accent-sky-500" />
+            </div>
+
+            <div>
+                <div className="flex justify-between mb-1">
+                    <span>Gap Above Coursework</span>
+                    <span className="text-sky-600 font-bold">{layout.gapCoursework ?? 2} px</span>
+                </div>
+                <input type="range" min="-10" max="20" step="1"
+                    value={layout.gapCoursework ?? 2}
+                    onChange={e => setLayout(s => ({ ...s, gapCoursework: Number(e.target.value) }))}
                     className="w-full accent-sky-500" />
             </div>
         </div>
