@@ -12,3 +12,5 @@ order: "10"
 - Built a full serverless AWS backend with Lambda (Node.js 18), API Gateway, and Aurora, supporting 10 APIs across 3 environments. [AWS Lambda, API Gateway, Node.js]
 - Migrated legacy DB to PostgreSQL and tuned spatial queries with PostGIS spatial indexes, improving geospatial endpoint latency by 40% and dashboard load time by 40%. [PostgreSQL, PostGIS]
 - Hosted APIs on AWS Fargate and configured CI/CD pipelines via AWS CodePipeline for rapid, automated release cycles. [AWS Fargate, CodePipeline]
+
+- Developed a real-time dashboard with Next.js and React, leveraging GraphQL and WebSockets; implemented SSR/ISR strategies and granular state management to improve first-contentful paint and reduce network calls by 45%. [Next.js, React, Fullstack]

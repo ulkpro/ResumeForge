@@ -12,3 +12,5 @@ order: "10"
 - Built a full serverless AWS backend with Lambda (Python 3.10), API Gateway, and Aurora Serverless, supporting 10 APIs across 3 environments. [AWS Lambda, API Gateway, Python]
 - Migrated legacy DB to PostgreSQL and tuned spatial queries with PostGIS spatial indexes, improving geospatial endpoint latency by 40% and dashboard load time by 40%. [PostgreSQL, PostGIS]
 - Hosted ML inference background tasks using Celery and Redis workers, configuring GitHub Actions pipelines for automated testing and deployment. [Celery, Redis, CI/CD]
+
+- Developed a real-time dashboard with Next.js and React, leveraging GraphQL and WebSockets; implemented SSR/ISR strategies and granular state management to improve first-contentful paint and reduce network calls by 45%. [Next.js, React, Fullstack]
