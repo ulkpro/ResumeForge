@@ -76,6 +76,12 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                                         {edu.startDate ? `${edu.startDate} – ${edu.endDate}` : edu.endDate}
                                                     </span>
                                                 </div>
+                                                {edu.coursework && selectedPoints[`${edu.id}-coursework`] !== false && (
+                                                    <div className="leading-snug mt-0.5" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt' }}>
+                                                        <span className="font-semibold select-none">Relevant Coursework: </span>
+                                                        <span>{edu.coursework}</span>
+                                                    </div>
+                                                )}
                                                 {activePoints.length > 0 && (
                                                     <div className="flex flex-col" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', gap: layout.gapPoints + 'px' }}>
                                                         {activePoints.map(p => (

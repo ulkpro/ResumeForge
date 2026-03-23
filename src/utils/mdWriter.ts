@@ -24,6 +24,7 @@ export async function saveResumeFileLocal(data: ResumeData) {
     if (data.degree) md += `degree: "${data.degree}"\n`;
     if (data.gpa) md += `gpa: "${data.gpa}"\n`;
     if (data.category) md += `category: "${data.category}"\n`;
+    if (data.coursework) md += `coursework: "${data.coursework}"\n`;
     if (data.role && data.role !== 'base') md += `role: "${data.role}"\n`;
     if (data.order !== undefined) md += `order: "${data.order}"\n`;
     md += '---\n\n';

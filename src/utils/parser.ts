@@ -21,6 +21,7 @@ export interface ResumeData {
     degree?: string;
     gpa?: string;
     category?: string;
+    coursework?: string;
     role: string;
     order?: number;
     points: ResumePoint[];
@@ -105,6 +106,7 @@ export function parseMarkdown(fileName: string, rawContent: string, filePath: st
         degree: frontmatter['degree'],
         gpa: frontmatter['gpa'],
         category: frontmatter['category'],
+        coursework: frontmatter['coursework'] || frontmatter['relevantCoursework'] || frontmatter['relevant_coursework'],
         role: finalRole,
         order: frontmatter['order'] ? parseInt(frontmatter['order'], 10) : 99,
         points

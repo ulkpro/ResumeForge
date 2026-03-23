@@ -19,6 +19,7 @@ export default function App() {
     handleAddPoint,
     handleEditPoint,
     handleDeletePoint,
+    handleUpdateCoursework,
     moveSection,
     moveSectionCategory,
     movePoint,
@@ -56,6 +57,7 @@ export default function App() {
         onAddPoint={handleAddPoint}
         onEditPoint={handleEditPoint}
         onDeletePoint={handleDeletePoint}
+        onUpdateCoursework={handleUpdateCoursework}
         onMoveSection={moveSection}
         onMoveSectionCategory={moveSectionCategory}
         onMovePoint={movePoint}
