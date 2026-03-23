@@ -249,6 +249,44 @@ export function Sidebar({
         );
     };
 
+    const groupedRoles = React.useMemo(() => {
+        const groups: Record<string, string[]> = {
+            'Backend': [],
+            'Frontend': [],
+            'Fullstack': [],
+            'DevOps & Cloud': [],
+            'Data Engineering & ML': [],
+            'Other': []
+        };
+
+        allRoles.forEach(role => {
+            const lowerRole = role.toLowerCase();
+            if (lowerRole.includes('fullstack') || lowerRole.includes('full-stack') || lowerRole.includes('node') || lowerRole.includes('express')) {
+                groups['Fullstack'].push(role);
+            } else if (lowerRole.includes('backend') || lowerRole.includes('rails') || lowerRole.includes('csharp') || lowerRole.includes('java') || lowerRole.includes('go') || lowerRole.includes('cpp') || lowerRole.includes('rust') || lowerRole.includes('python')) {
+                 // Check if it's already caught by fullstack (e.g., fullstack-python), but fullstack is checked first above.
+                 groups['Backend'].push(role);
+            } else if (lowerRole.includes('frontend') || lowerRole.includes('react') || lowerRole.includes('angular') || lowerRole.includes('vue') || lowerRole.includes('ui')) {
+                groups['Frontend'].push(role);
+            } else if (lowerRole.includes('devops') || lowerRole.includes('cloud') || lowerRole.includes('aws') || lowerRole.includes('azure') || lowerRole.includes('gcp')) {
+                groups['DevOps & Cloud'].push(role);
+            } else if (lowerRole.includes('data') || lowerRole.includes('ml') || lowerRole.includes('ai') || lowerRole.includes('machine')) {
+                groups['Data Engineering & ML'].push(role);
+            } else {
+                groups['Other'].push(role);
+            }
+        });
+
+        const finalGroups: Record<string, string[]> = {};
+        Object.entries(groups).forEach(([key, roles]) => {
+            if (roles.length > 0) {
+                finalGroups[key] = roles;
+            }
+        });
+
+        return finalGroups;
+    }, [allRoles]);
+
     return (
         <div className="w-5/12 p-8 flex flex-col border-r border-sky-200 bg-white shadow-[4px_0_24px_-12px_rgba(0,0,0,0.1)] overflow-y-auto z-10 custom-scrollbar">
             <div className="flex items-center gap-3 mb-8">
@@ -266,8 +304,14 @@ export function Sidebar({
                         value={targetRole || ''}
                         onChange={(e) => setTargetRole(e.target.value)}
                     >
-                        {allRoles.map(role => (
-                            <option key={role} value={role}>{role.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}</option>
+                        {Object.entries(groupedRoles).map(([category, roles]) => (
+                            <optgroup key={category} label={category}>
+                                {roles.map(role => (
+                                    <option key={role} value={role}>
+                                        {role.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                                    </option>
+                                ))}
+                            </optgroup>
                         ))}
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
