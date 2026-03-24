@@ -186,6 +186,32 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                         ) : null;
                     }
 
+                    if (sectionKey === 'certifications') {
+                        const certsData = data.filter(d => d.type === 'certifications');
+                        if (certsData.length === 0) return null;
+
+                        return (
+                            <div key="certifications-section" className="resume-section">
+                                <h2
+                                    className="font-bold uppercase tracking-wider border-b-2"
+                                    style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
+                                >Certifications</h2>
+                                <div className="flex flex-col" style={{ gap: layout.gapSubsections + 'px' }}>
+                                    {certsData.map(cert => (
+                                        <div key={cert.id} className="flex justify-between font-bold leading-snug" style={{ fontSize: (layout.fontSizeOrgName || 11) + 'pt' }}>
+                                            <span className="flex items-center gap-1.5">
+                                                {cert.project_name || cert.certification || cert.company}
+                                            </span>
+                                            <span className="font-normal" style={{ fontSize: (layout.fontSizeLocDate || 11) + 'pt' }}>
+                                                {cert.publicationDate || cert.startDate || cert.endDate}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    }
+
                     if (sectionKey === 'skills') {
                         return data.filter(d => d.type === 'skills').length > 0 ? (
                             <div key="skills-section" className="resume-section">

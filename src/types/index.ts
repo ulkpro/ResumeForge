@@ -41,5 +41,5 @@ export const defaultLayout: LayoutSettings = {
     fontSizeRoleDesc: 10,
     fontSizeBullet: 10,
     hiddenSections: [],
-    sectionOrder: ['experience', 'projects', 'education', 'skills', 'publications'],
+    sectionOrder: ['experience', 'projects', 'education', 'certifications', 'skills', 'publications'],
 };

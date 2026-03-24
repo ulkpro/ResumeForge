@@ -36,6 +36,8 @@ export function useResumeState() {
                             parsed.sectionOrder.push(sec);
                         }
                     });
+                } else {
+                    parsed.sectionOrder = defaultLayout.sectionOrder;
                 }
                 return { ...defaultLayout, ...parsed };
             } catch (e) { }
@@ -193,7 +195,7 @@ export function useResumeState() {
 
     const moveSectionCategory = (categoryKey: string, direction: 'up' | 'down') => {
         setLayout(prev => {
-            const order = prev.sectionOrder || ['experience', 'projects', 'education', 'skills', 'publications'];
+            const order = prev.sectionOrder || defaultLayout.sectionOrder || ['experience', 'projects', 'education', 'certifications', 'skills', 'publications'];
             const index = order.indexOf(categoryKey);
             if (index === -1) return prev;
             
@@ -267,6 +269,7 @@ export function useResumeState() {
     const experienceData = filteredData.filter(d => d.type === 'experience');
     const projectData = filteredData.filter(d => d.type === 'project');
     const educationData = filteredData.filter(d => d.type === 'education');
+    const certificationsData = filteredData.filter(d => d.type === 'certifications');
     const skillsData = filteredData.filter(d => d.type === 'skills');
     const publicationsData = filteredData.filter(d => d.type === 'publications');
 
@@ -292,6 +295,7 @@ export function useResumeState() {
         experienceData,
         projectData,
         educationData,
+        certificationsData,
         skillsData,
         publicationsData,
         toggleSectionVisibility
