@@ -7,7 +7,7 @@ export interface ResumePoint {
 export interface ResumeData {
     id: string;
     filePath: string;
-    type: 'experience' | 'project' | 'education' | 'skills' | 'publications';
+    type: 'experience' | 'project' | 'education' | 'skills' | 'publications' | 'certifications';
     company?: string;
     designation?: string;
     location?: string;
@@ -22,6 +22,8 @@ export interface ResumeData {
     gpa?: string;
     category?: string;
     coursework?: string;
+    certification?: string;
+    issuer?: string;
     role: string;
     order?: number;
     points: ResumePoint[];
@@ -83,11 +85,13 @@ export function parseMarkdown(fileName: string, rawContent: string, filePath: st
     if (fileName.includes('/education/') || fileName.includes('(edu)')) type = 'education';
     if (fileName.includes('/skills/') || fileName.includes('(skl)')) type = 'skills';
     if (fileName.includes('/publications/') || fileName.includes('(pub)')) type = 'publications';
+    if (fileName.includes('/certifications/') || fileName.includes('(cert)')) type = 'certifications';
     if (filePath.includes('/experience/')) type = 'experience';
     if (filePath.includes('/education/')) type = 'education';
     if (filePath.includes('/skills/')) type = 'skills';
     if (filePath.includes('/projects/')) type = 'project';
     if (filePath.includes('/publications/')) type = 'publications';
+    if (filePath.includes('/certifications/')) type = 'certifications';
 
     return {
         id: fileName,
@@ -107,6 +111,8 @@ export function parseMarkdown(fileName: string, rawContent: string, filePath: st
         gpa: frontmatter['gpa'],
         category: frontmatter['category'],
         coursework: frontmatter['coursework'] || frontmatter['relevantCoursework'] || frontmatter['relevant_coursework'],
+        certification: frontmatter['certification'],
+        issuer: frontmatter['issuer'],
         role: finalRole,
         order: frontmatter['order'] ? parseInt(frontmatter['order'], 10) : 99,
         points

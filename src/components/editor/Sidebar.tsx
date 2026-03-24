@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, BookOpen, ArrowUp, ArrowDown } from 'lucide-react';
+import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, BookOpen, Award, ArrowUp, ArrowDown } from 'lucide-react';
 import { SectionHeader } from '../common/SectionHeader';
 import { CheckboxItem } from '../common/CheckboxItem';
 import { AddPointForm } from '../common/AddPointForm';
@@ -12,6 +12,7 @@ interface SidebarProps {
     experienceData: ResumeData[];
     projectData: ResumeData[];
     educationData: ResumeData[];
+    certificationsData: ResumeData[];
     skillsData: ResumeData[];
     publicationsData: ResumeData[];
     hiddenSections?: string[];
@@ -32,7 +33,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({
-    collapsedSections, onToggleSection, experienceData, projectData, educationData, skillsData, publicationsData,
+    collapsedSections, onToggleSection, experienceData, projectData, educationData, certificationsData, skillsData, publicationsData,
     hiddenSections, onToggleVisibility,
     selectedPoints, onPointToggle, onAddPoint, onEditPoint, onUpdateCoursework, onDeletePoint,
     onMoveSection, onMoveSectionCategory, onMovePoint,
@@ -220,28 +221,32 @@ export function Sidebar({
                     >
                         <div className="flex items-center justify-between mb-1">
                             <h3 className="font-semibold text-slate-800 flex items-center gap-2">
-                                {item.company || item.project_name || item.institution || item.category}
-                                {(item.designation || item.degree) && <span className="text-sky-600 font-normal">- {item.designation || item.degree}</span>}
+                                {item.company || item.project_name || item.institution || item.category || item.certification}
+                                {(item.designation || item.degree || item.issuer) && <span className="text-sky-600 font-normal">- {item.designation || item.degree || item.issuer}</span>}
                             </h3>
                             <div className="opacity-0 group-hover/section:opacity-100 flex items-center gap-1 transition-opacity">
                                 <button onClick={() => onMoveSection(item.id, 'up')} className="p-1 text-slate-400 hover:text-sky-600 hover:bg-sky-50 rounded" title="Move section up"><ArrowUp size={14} /></button>
                                 <button onClick={() => onMoveSection(item.id, 'down')} className="p-1 text-slate-400 hover:text-sky-600 hover:bg-sky-50 rounded" title="Move section down"><ArrowDown size={14} /></button>
                             </div>
                         </div>
-                        <div className="space-y-1">
-                            {item.points.map(point => (
-                                <CheckboxItem
-                                    key={point.id}
-                                    point={point}
-                                    isSelected={!!selectedPoints[point.id]}
-                                    onToggle={onPointToggle}
-                                    onEdit={(id, text, tags) => onEditPoint(item.id, id, text, tags)}
-                                    onDelete={(id) => onDeletePoint(item.id, id)}
-                                    onMove={(id, dir) => onMovePoint(item.id, id, dir)}
-                                />
-                            ))}
-                        </div>
-                        <AddPointForm sectionId={item.id} onAdd={onAddPoint} />
+                        {sectionKey !== 'certifications' && (
+                            <>
+                                <div className="space-y-1">
+                                    {item.points.map(point => (
+                                        <CheckboxItem
+                                            key={point.id}
+                                            point={point}
+                                            isSelected={!!selectedPoints[point.id]}
+                                            onToggle={onPointToggle}
+                                            onEdit={(id, text, tags) => onEditPoint(item.id, id, text, tags)}
+                                            onDelete={(id) => onDeletePoint(item.id, id)}
+                                            onMove={(id, dir) => onMovePoint(item.id, id, dir)}
+                                        />
+                                    ))}
+                                </div>
+                                <AddPointForm sectionId={item.id} onAdd={onAddPoint} />
+                            </>
+                        )}
                         {sectionKey === 'education' && <CourseworkEditor item={item} />}
                     </div>
                 ))}
@@ -333,6 +338,7 @@ export function Sidebar({
                     if (sectionKey === 'experience') return renderSection(experienceData, "Experience", "experience", BriefcaseBusiness, onMoveUp, onMoveDown);
                     if (sectionKey === 'projects') return renderSection(projectData, "Projects", "projects", FolderGit2, onMoveUp, onMoveDown);
                     if (sectionKey === 'education') return renderSection(educationData, "Education", "education", GraduationCap, onMoveUp, onMoveDown);
+                    if (sectionKey === 'certifications') return renderSection(certificationsData, "Certifications", "certifications", Award, onMoveUp, onMoveDown);
                     if (sectionKey === 'skills') return renderSkillsSection(skillsData, "Skills", "skills", Code2, onMoveUp, onMoveDown);
                     if (sectionKey === 'publications') return renderSection(publicationsData, "Publications", "publications", BookOpen, onMoveUp, onMoveDown);
                     

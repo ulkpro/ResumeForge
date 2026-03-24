@@ -26,6 +26,7 @@ export default function App() {
     experienceData,
     projectData,
     educationData,
+    certificationsData,
     skillsData,
     publicationsData,
     toggleSectionVisibility
@@ -48,6 +49,7 @@ export default function App() {
         experienceData={experienceData}
         projectData={projectData}
         educationData={educationData}
+        certificationsData={certificationsData}
         skillsData={skillsData}
         publicationsData={publicationsData}
         hiddenSections={layout.hiddenSections}
