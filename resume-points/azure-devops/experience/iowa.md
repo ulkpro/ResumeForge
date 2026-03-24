@@ -1,6 +1,6 @@
 ---
 company: "Iowa Institute of Hydroscience and Research"
-designation: "Cloud Systems Engineer | NOAA Funded"
+designation: "Researcher | NOAA Funded"
 location: "Iowa City, IA"
 startDate: "Jan 2023"
 endDate: "Present"

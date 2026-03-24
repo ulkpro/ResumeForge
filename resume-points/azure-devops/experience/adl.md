@@ -1,6 +1,6 @@
 ---
 company: "Axiata Digital Labs"
-designation: "Cloud DevOps Engineer"
+designation: "Technical Consultant"
 location: "Colombo, Sri Lanka"
 startDate: "Jan 2019"
 endDate: "Jan 2023"
