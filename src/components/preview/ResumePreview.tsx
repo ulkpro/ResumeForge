@@ -25,14 +25,25 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 color: '#000000',
                 width: getPageDimensions().width,
                 minHeight: getPageDimensions().minHeight,
-                paddingLeft: layout.paddingLeftRight + 'mm',
-                paddingRight: layout.paddingLeftRight + 'mm',
-                paddingTop: layout.paddingTopBottom + 'mm',
-                paddingBottom: layout.paddingTopBottom + 'mm',
+                paddingLeft: Math.max(0, layout.paddingLeftRight) + 'mm',
+                paddingRight: Math.max(0, layout.paddingLeftRight) + 'mm',
+                paddingTop: Math.max(0, layout.paddingTopBottom) + 'mm',
+                paddingBottom: Math.max(0, layout.paddingTopBottom) + 'mm',
                 fontSize: '11pt',
                 fontFamily: layout.fontFamily || "'LMRoman10', 'Latin Modern Roman', serif"
             }}
         >
+            <style>{`
+                .gap-major > *:not(:first-child) { margin-top: ${Math.min(0, layout.gapMajorSections ?? 16)}px; }
+                .gap-subs > *:not(:first-child) { margin-top: ${Math.min(0, layout.gapSubsections ?? 14)}px; }
+                .gap-points > *:not(:first-child) { margin-top: ${Math.min(0, layout.gapPoints ?? 4)}px; }
+            `}</style>
+            <div style={{
+                marginLeft: Math.min(0, layout.paddingLeftRight) + 'mm',
+                marginRight: Math.min(0, layout.paddingLeftRight) + 'mm',
+                marginTop: Math.min(0, layout.paddingTopBottom) + 'mm',
+                marginBottom: Math.min(0, layout.paddingTopBottom) + 'mm',
+            }}>
             <div className="text-center" style={{ marginBottom: (layout.gapHeaderToFirstSection ?? 24) + 'px' }}>
                 <h1 className="font-bold tracking-tight mb-1" style={{ fontSize: (layout.fontSizeName || 25) + 'pt' }}>{personalDetails.name}</h1>
                 <p className="flex justify-center flex-wrap gap-2 items-center" style={{ fontSize: (layout.fontSizeContact || 10) + 'pt' }}>
@@ -54,7 +65,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 </p>
             </div>
 
-            <div className="flex flex-col" style={{ gap: (layout.gapMajorSections ?? 16) + 'px' }}>
+            <div className="flex flex-col gap-major" style={{ gap: Math.max(0, layout.gapMajorSections ?? 16) + 'px' }}>
                 {(layout.sectionOrder || ['experience', 'projects', 'education', 'skills', 'publications']).map(sectionKey => {
                     if (layout.hiddenSections?.includes(sectionKey)) return null;
 
@@ -66,7 +77,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                     style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                                 >Education</h2>
 
-                                <div className="flex flex-col" style={{ gap: layout.gapSubsections + 'px' }}>
+                                <div className="flex flex-col gap-subs" style={{ gap: Math.max(0, layout.gapSubsections) + 'px' }}>
                                     {data.filter(d => d.type === 'education').map(edu => {
                                         const activePoints = edu.points.filter(p => selectedPoints[p.id]);
                                         if (activePoints.length === 0 && edu.points.length > 0) return null;
@@ -92,7 +103,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                                     </div>
                                                 )}
                                                 {activePoints.length > 0 && (
-                                                    <div className="flex flex-col" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', gap: layout.gapPoints + 'px' }}>
+                                                    <div className="flex flex-col gap-points" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', gap: Math.max(0, layout.gapPoints) + 'px' }}>
                                                         {activePoints.map(p => (
                                                             <div key={p.id} className="leading-snug">
                                                                 {p.text}
@@ -115,7 +126,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                     className="font-bold uppercase tracking-wider border-b-2"
                                     style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                                 >Experience</h2>
-                                <div className="flex flex-col" style={{ gap: layout.gapSubsections + 'px' }}>
+                                <div className="flex flex-col gap-subs" style={{ gap: Math.max(0, layout.gapSubsections) + 'px' }}>
                                     {data.filter(d => d.type === 'experience').map(exp => {
                                         const activePoints = exp.points.filter(p => selectedPoints[p.id]);
                                         if (activePoints.length === 0) return null;
@@ -131,7 +142,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                                         {exp.startDate} {exp.endDate ? `– ${exp.endDate}` : ''}
                                                     </span>
                                                 </div>
-                                                <div className="flex flex-col" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', gap: layout.gapPoints + 'px' }}>
+                                                <div className="flex flex-col gap-points" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', gap: Math.max(0, layout.gapPoints) + 'px' }}>
                                                     {activePoints.map(p => (
                                                         <div key={p.id} className="flex gap-2 pl-1">
                                                             <span className="select-none inline-block flex-shrink-0">•</span>
@@ -154,7 +165,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                     className="font-bold uppercase tracking-wider border-b-2"
                                     style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                                 >Projects</h2>
-                                <div className="flex flex-col" style={{ gap: layout.gapSubsections + 'px' }}>
+                                <div className="flex flex-col gap-subs" style={{ gap: Math.max(0, layout.gapSubsections) + 'px' }}>
                                     {data.filter(d => d.type === 'project').map(proj => {
                                         const activePoints = proj.points.filter(p => selectedPoints[p.id]);
                                         if (activePoints.length === 0) return null;
@@ -170,7 +181,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                                         )}
                                                     </span>
                                                 </div>
-                                                <div className="flex flex-col" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', gap: layout.gapPoints + 'px' }}>
+                                                <div className="flex flex-col gap-points" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', gap: Math.max(0, layout.gapPoints) + 'px' }}>
                                                     {activePoints.map(p => (
                                                         <div key={p.id} className="flex gap-2 pl-1">
                                                             <span className="select-none inline-block flex-shrink-0">•</span>
@@ -196,7 +207,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                     className="font-bold uppercase tracking-wider border-b-2"
                                     style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                                 >Certifications</h2>
-                                <div className="flex flex-col" style={{ gap: layout.gapSubsections + 'px' }}>
+                                <div className="flex flex-col gap-subs" style={{ gap: Math.max(0, layout.gapSubsections) + 'px' }}>
                                     {certsData.map(cert => (
                                         <div key={cert.id} className="flex justify-between font-bold leading-snug" style={{ fontSize: (layout.fontSizeOrgName || 11) + 'pt' }}>
                                             <span className="flex items-center gap-1.5">
@@ -220,7 +231,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                     style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                                 >Technical Skills</h2>
 
-                                <div className="flex flex-col" style={{ gap: layout.gapPoints + 'px' }}>
+                                <div className="flex flex-col gap-points" style={{ gap: Math.max(0, layout.gapPoints) + 'px' }}>
                                     {data.filter(d => d.type === 'skills').map(skill => {
                                         const categoryTitle = skill.category || 'Skills';
                                         const rawText = skill.points.map(p => p.text).join(', ');
@@ -249,7 +260,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                     className="font-bold uppercase tracking-wider border-b-2"
                                     style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                                 >Publications</h2>
-                                <div className="flex flex-col" style={{ gap: layout.gapSubsections + 'px' }}>
+                                <div className="flex flex-col gap-subs" style={{ gap: Math.max(0, layout.gapSubsections) + 'px' }}>
                                     {data.filter(d => d.type === 'publications').map(pub => {
                                         const activePoints = pub.points.filter(p => selectedPoints[p.id]);
                                         if (activePoints.length === 0) return null;
@@ -271,7 +282,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                                                         </span>
                                                     )}
                                                 </div>
-                                                <div className="flex flex-col" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', gap: layout.gapPoints + 'px' }}>
+                                                <div className="flex flex-col gap-points" style={{ fontSize: (layout.fontSizeBullet || 10) + 'pt', gap: Math.max(0, layout.gapPoints) + 'px' }}>
                                                     {activePoints.map(p => (
                                                         <div key={p.id} className="flex gap-2 pl-1">
                                                             <span className="select-none inline-block flex-shrink-0">•</span>
@@ -289,6 +300,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
 
                     return null;
                 })}
+            </div>
             </div>
         </div>
     );
