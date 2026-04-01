@@ -3,6 +3,8 @@ project_name: "GIFIS: A Generalized Immersive Flood Information System Specifica
 url: "https://eartharxiv.org/repository/view/11277/"
 role: "java-backend"
 order: "3"
+publisher: "EarthArXiv"
+publicationDate: "Dec 2025"
 ---
 
 - Designed a vendor-agnostic, JSON Schema-based framework to standardize the exchange of hydrologic data for AR/VR applications.
