@@ -28,7 +28,7 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
                     <span>Margins (Top & Bottom)</span>
                     <span className="text-sky-600 font-bold">{layout.paddingTopBottom} mm</span>
                 </div>
-                <input type="range" min="0" max="30" step="1"
+                <input type="range" min="-15" max="25" step="1"
                     value={layout.paddingTopBottom}
                     onChange={e => setLayout(s => ({ ...s, paddingTopBottom: Number(e.target.value) }))}
                     className="w-full accent-sky-500" />
@@ -39,7 +39,7 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
                     <span>Margins (Left & Right)</span>
                     <span className="text-sky-600 font-bold">{layout.paddingLeftRight} mm</span>
                 </div>
-                <input type="range" min="0" max="30" step="1"
+                <input type="range" min="-15" max="25" step="1"
                     value={layout.paddingLeftRight}
                     onChange={e => setLayout(s => ({ ...s, paddingLeftRight: Number(e.target.value) }))}
                     className="w-full accent-sky-500" />
@@ -50,7 +50,7 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
                     <span>Gap Between Title & First Sub</span>
                     <span className="text-sky-600 font-bold">{layout.gapSectionToSub} px</span>
                 </div>
-                <input type="range" min="0" max="40" step="1"
+                <input type="range" min="-10" max="25" step="1"
                     value={layout.gapSectionToSub}
                     onChange={e => setLayout(s => ({ ...s, gapSectionToSub: Number(e.target.value) }))}
                     className="w-full accent-sky-500" />
@@ -61,7 +61,7 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
                     <span>Gap Between Subsections</span>
                     <span className="text-sky-600 font-bold">{layout.gapSubsections} px</span>
                 </div>
-                <input type="range" min="0" max="40" step="1"
+                <input type="range" min="-10" max="25" step="1"
                     value={layout.gapSubsections}
                     onChange={e => setLayout(s => ({ ...s, gapSubsections: Number(e.target.value) }))}
                     className="w-full accent-sky-500" />
@@ -72,7 +72,7 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
                     <span>Gap Between Bullet Points</span>
                     <span className="text-sky-600 font-bold">{layout.gapPoints} px</span>
                 </div>
-                <input type="range" min="0" max="20" step="1"
+                <input type="range" min="-10" max="15" step="1"
                     value={layout.gapPoints}
                     onChange={e => setLayout(s => ({ ...s, gapPoints: Number(e.target.value) }))}
                     className="w-full accent-sky-500" />
@@ -83,7 +83,7 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
                     <span>Gap Between Major Sections</span>
                     <span className="text-sky-600 font-bold">{layout.gapMajorSections} px</span>
                 </div>
-                <input type="range" min="0" max="60" step="1"
+                <input type="range" min="-15" max="35" step="1"
                     value={layout.gapMajorSections ?? 16}
                     onChange={e => setLayout(s => ({ ...s, gapMajorSections: Number(e.target.value) }))}
                     className="w-full accent-sky-500" />
@@ -94,7 +94,7 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
                     <span>Gap Between Header & First Section</span>
                     <span className="text-sky-600 font-bold">{layout.gapHeaderToFirstSection ?? 24} px</span>
                 </div>
-                <input type="range" min="0" max="60" step="1"
+                <input type="range" min="-15" max="40" step="1"
                     value={layout.gapHeaderToFirstSection ?? 24}
                     onChange={e => setLayout(s => ({ ...s, gapHeaderToFirstSection: Number(e.target.value) }))}
                     className="w-full accent-sky-500" />
@@ -105,7 +105,7 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
                     <span>Gap Between Title & Line</span>
                     <span className="text-sky-600 font-bold">{layout.gapTitleToLine ?? 4} px</span>
                 </div>
-                <input type="range" min="0" max="20" step="1"
+                <input type="range" min="-10" max="15" step="1"
                     value={layout.gapTitleToLine ?? 4}
                     onChange={e => setLayout(s => ({ ...s, gapTitleToLine: Number(e.target.value) }))}
                     className="w-full accent-sky-500" />
@@ -116,7 +116,7 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
                     <span>Gap Above Coursework</span>
                     <span className="text-sky-600 font-bold">{layout.gapCoursework ?? 2} px</span>
                 </div>
-                <input type="range" min="-10" max="20" step="1"
+                <input type="range" min="-20" max="15" step="1"
                     value={layout.gapCoursework ?? 2}
                     onChange={e => setLayout(s => ({ ...s, gapCoursework: Number(e.target.value) }))}
                     className="w-full accent-sky-500" />
