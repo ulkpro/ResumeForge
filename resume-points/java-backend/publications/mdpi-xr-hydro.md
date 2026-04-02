@@ -1,7 +1,7 @@
 ---
 project_name: "An Immersive Hydroinformatics Framework"
 publisher: "Applied Sciences (MDPI)"
-publicationDate: "2025"
+publicationDate: "May 2025"
 url: "https://www.mdpi.com/2076-3417/15/10/5278"
 order: 1
 ---
