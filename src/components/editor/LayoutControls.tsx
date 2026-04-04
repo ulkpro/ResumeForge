@@ -102,6 +102,28 @@ export function LayoutControls({ layout, setLayout }: LayoutControlsProps) {
 
             <div>
                 <div className="flex justify-between mb-1">
+                    <span>Gap Name to Auth/Location</span>
+                    <span className="text-sky-600 font-bold">{layout.gapNameAuth ?? 4} px</span>
+                </div>
+                <input type="range" min="-20" max="40" step="1"
+                    value={layout.gapNameAuth ?? 4}
+                    onChange={e => setLayout(s => ({ ...s, gapNameAuth: Number(e.target.value) }))}
+                    className="w-full accent-sky-500" />
+            </div>
+
+            <div>
+                <div className="flex justify-between mb-1">
+                    <span>Gap Auth/Location to Contact</span>
+                    <span className="text-sky-600 font-bold">{layout.gapAuthContact ?? 4} px</span>
+                </div>
+                <input type="range" min="-20" max="40" step="1"
+                    value={layout.gapAuthContact ?? 4}
+                    onChange={e => setLayout(s => ({ ...s, gapAuthContact: Number(e.target.value) }))}
+                    className="w-full accent-sky-500" />
+            </div>
+
+            <div>
+                <div className="flex justify-between mb-1">
                     <span>Gap Between Title & Line</span>
                     <span className="text-sky-600 font-bold">{layout.gapTitleToLine ?? 4} px</span>
                 </div>
