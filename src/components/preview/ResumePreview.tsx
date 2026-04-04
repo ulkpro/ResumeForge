@@ -45,7 +45,16 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 marginBottom: Math.min(0, layout.paddingTopBottom) + 'mm',
             }}>
             <div className="text-center" style={{ marginBottom: (layout.gapHeaderToFirstSection ?? 24) + 'px' }}>
-                <h1 className="font-bold tracking-tight mb-1" style={{ fontSize: (layout.fontSizeName || 25) + 'pt' }}>{personalDetails.name}</h1>
+                <h1 className="font-bold tracking-tight" style={{ fontSize: (layout.fontSizeName || 25) + 'pt', marginBottom: (layout.gapNameAuth ?? 4) + 'px' }}>{personalDetails.name}</h1>
+                
+                {(personalDetails.workAuthorization || personalDetails.location) && (
+                    <div className="flex justify-center items-center" style={{ fontSize: (layout.fontSizeContact || 10) + 'pt', marginBottom: (layout.gapAuthContact ?? 4) + 'px' }}>
+                        {personalDetails.workAuthorization && <span>Work Authorization: {personalDetails.workAuthorization}</span>}
+                        {personalDetails.workAuthorization && personalDetails.location && <span className="mx-2">|</span>}
+                        {personalDetails.location && <span>Location: {personalDetails.location}</span>}
+                    </div>
+                )}
+
                 <p className="flex justify-center flex-wrap gap-2 items-center" style={{ fontSize: (layout.fontSizeContact || 10) + 'pt' }}>
                     {(() => {
                         const items = [];
