@@ -5,5 +5,5 @@ role: "fullstack-express-react"
 order: "1"
 ---
 
-- Introduced a novel Extended Reality (XR) framework to transition from traditional 2D hydrological data mapping to 3D.
+- Introduced an Extended Reality (XR) framework to transition from 2D hydrological data to immersive 3D environments.
 - Developed real-time simulation capabilities for interactive scenario analysis to support climate resilience planning and disaster response.
