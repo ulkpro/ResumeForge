@@ -82,7 +82,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                         return data.filter(d => d.type === 'education' && (d.points.some(p => selectedPoints[p.id]) || d.points.length === 0)).length > 0 ? (
                             <div key="education-section" className="resume-section">
                                 <h2
-                                    className="font-bold uppercase tracking-wider border-b-2"
+                                    className="font-bold uppercase tracking-wider border-b-[1px]"
                                     style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                                 >Education</h2>
 
@@ -132,7 +132,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                         return data.filter(d => d.type === 'experience' && d.points.some(p => selectedPoints[p.id])).length > 0 ? (
                             <div key="experience-section" className="resume-section">
                                 <h2
-                                    className="font-bold uppercase tracking-wider border-b-2"
+                                    className="font-bold uppercase tracking-wider border-b-[1px]"
                                     style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                                 >Experience</h2>
                                 <div className="flex flex-col gap-subs" style={{ gap: Math.max(0, layout.gapSubsections) + 'px' }}>
@@ -171,7 +171,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                         return data.filter(d => d.type === 'project' && d.points.some(p => selectedPoints[p.id])).length > 0 ? (
                             <div key="projects-section" className="resume-section">
                                 <h2
-                                    className="font-bold uppercase tracking-wider border-b-2"
+                                    className="font-bold uppercase tracking-wider border-b-[1px]"
                                     style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                                 >Projects</h2>
                                 <div className="flex flex-col gap-subs" style={{ gap: Math.max(0, layout.gapSubsections) + 'px' }}>
@@ -213,7 +213,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                         return (
                             <div key="certifications-section" className="resume-section">
                                 <h2
-                                    className="font-bold uppercase tracking-wider border-b-2"
+                                    className="font-bold uppercase tracking-wider border-b-[1px]"
                                     style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                                 >Certifications</h2>
                                 <div className="flex flex-col gap-subs" style={{ gap: Math.max(0, layout.gapSubsections) + 'px' }}>
@@ -236,7 +236,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                         return data.filter(d => d.type === 'skills').length > 0 ? (
                             <div key="skills-section" className="resume-section">
                                 <h2
-                                    className="font-bold uppercase tracking-wider border-b-2"
+                                    className="font-bold uppercase tracking-wider border-b-[1px]"
                                     style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                                 >Technical Skills</h2>
 
@@ -266,7 +266,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                         return data.filter(d => d.type === 'publications' && d.points.some(p => selectedPoints[p.id])).length > 0 ? (
                             <div key="publications-section" className="resume-section">
                                 <h2
-                                    className="font-bold uppercase tracking-wider border-b-2"
+                                    className="font-bold uppercase tracking-wider border-b-[1px]"
                                     style={{ fontSize: (layout.fontSizeSectionTitle || 12) + 'pt', paddingBottom: (layout.gapTitleToLine ?? 4) + 'px', marginBottom: layout.gapSectionToSub + 'px', borderBottomColor: '#000000' }}
                                 >Publications</h2>
                                 <div className="flex flex-col gap-subs" style={{ gap: Math.max(0, layout.gapSubsections) + 'px' }}>
