@@ -82,3 +82,38 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   @apply bg-slate-300;
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  /* Reset positioned ancestors to allow absolute positioning to escape to the page edge */
+  body, #root, #root > div, #root > div > div {
+    position: static !important;
+    transform: none !important;
+  }
+  
+  #resume-preview-container, 
+  #resume-preview-container * {
+    visibility: visible;
+  }
+  
+  #resume-preview-container {
+    position: absolute !important;
+    left: 0;
+    top: 0;
+    margin: 0 !important;
+    /* Do not override padding, as ResumePreview uses inline styles for margin */
+    box-shadow: none !important;
+    /* Ensure it sizes correctly relative to the page */
+    max-width: none !important;
+  }
+
+  /* Force background colors to print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
