@@ -1,6 +1,5 @@
 ---
 project_name: "Open Source Chat Web App"
-url: "live-chat.vercel.app"
 ---
 
 - Programmed real-time bi-directional chat using SignalR and Angular RxJS observables, serving 50+ concurrent users with guaranteed message delivery. [SignalR, Angular, WebSockets]

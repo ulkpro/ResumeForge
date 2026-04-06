@@ -15,4 +15,4 @@ order: "1"
 - Configured Angular CLI to lazy-load routes and implement code splitting, decreasing the main bundle size drastically to 150kb. [Angular Optimization]
 - Migrated legacy DB to SQL Server and tuned spatial queries with spatial indexes, improving geospatial endpoint latency by 40% and dashboard load time by 40%. [SQL Server, DB Migration]
 - Hosted APIs on Azure App Services and IIS, configuring CI/CD pipelines via Azure DevOps for rapid release cycles. [IIS, Azure DevOps, Hosting]
-- Collaborated in a PR based workflow using Git and peer code reviews, achieving 90%+ code coverage through automated unit and integration tests to ensure the reliability of APIs. [Git, .NET Testing]
+- Collaborated in a PR workflow using Git and peer code reviews, achieving 90%+ code coverage. [Git, .NET Testing]

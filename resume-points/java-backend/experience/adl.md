@@ -8,17 +8,17 @@ role: "java-backend"
 order: "99"
 ---
 
-- Secured internal and external APIs with Spring Security (JWT/OAuth2 resource server, role- and scope-based authorization, method-level guards), standardizing authentication/authorization across billing microservices. [Spring Security, OAuth2, JWT]
+- Secured APIs with Spring Security; JWT/OAuth2 resource server, role/scope based authorization, method-level guards. [Spring Security, OAuth2, JWT]
 - Engineered automated Airflow ETL pipelines to bridge core Java microservices and data lakes, solving legacy data extraction bottlenecks and processing 500GB+ of daily raw data.
 - Designed a highly scalable Python and Pinecone Vector DB semantic search layer on top of legacy backends, boosting user search query accuracy by 25% across 2M+ records.
 - Developed an event-sourced distributed billing system using Kafka and CQRS for 1Mn+ monthly invoices. [Java, Spring Boot, Kafka, Saga]
 - Developed and owned a payment ingestion microservice to process 1GB+ usage feeds via presigned, checksum-verified S3 multipart uploads (SSE-KMS) and an async pipeline that bulk-loads data using PostgreSQL COPY with idempotent upserts, sustaining >1K records/sec and delivering 40% faster end-to-end billing-cycle processing. [AWS S3, PostgreSQL, Async Pipeline]
-- Developed a high-throughput payment ingestion pipeline via S3 multipart and PostgreSQL COPY, sustaining 1,000+ records/sec reducing end-to-end billing processing time by 40%. [Redis, Distributed Locks]
+- Developed a large csv file ingestion pipeline via S3 multipart and PostgreSQL COPY, sustaining 1,000+ records/s. [Redis, Distributed Locks]
 - Engineered an idempotent pricing execution engine using Redis deduplication and Redisson distributed locks, processing 100K daily computations at <200ms p99 latency and preventing $500K in annual revenue leakage. [Caffeine, Redis, MongoDB, Resilience4j]
 - Engineered a real-time CDC (Change Data Capture) streaming pipeline via Kafka cutting incident recovery time by 65%. [Kafka, DynamoDB, Redis, SQS]
 - Solid understanding of TCP/IP networking in AWS VPC environments, with hands-on experience troubleshooting DNS (Route 53) , DHCP-based IP addressing, and service connectivity behind ALB/NLB for distributed Java microservices. [AWS VPC, Route 53, Networking]
 - Led high-level and low-level design reviews, drove architecture decisions, and mentored engineers through implementation and production hardening. [Architecture, Mentorship]
-- Transitioned primary inventory management APIs from Java 8 to Java 11, implementing modern language features to cut codebase size by 15%. [Java 11, Refactoring]
+- Transitioned primary inventory management APIs from Java 8 to Java 11 reducing codebase size by 15%. [Java 11, Refactoring]
 - Integrated external payment gateways (Stripe, PayPal) using RESTful APIs, securing endpoints with OAuth 2.0 and JWT. [REST, OAuth 2.0, Security]
 - Developed automated batch processing cron jobs using Spring Batch to aggregate and analyze multi-regional sales data. [Spring Batch, Data Aggregation]
 - Architected and developed scalable payment processing microservices using Java 17 and Spring Boot, handling over 500,000 transactions daily with sub-second latency. [Java, Spring Boot, Microservices]
