@@ -1,0 +1,30 @@
+resume-points/java-backend\certifications\aws.md -> resume-points/fullstack-java-react\certifications\aws.md
+resume-points/java-backend\education\iowa.md -> resume-points/fullstack-java-react\education\iowa.md
+resume-points/java-backend\education\sjp.md -> resume-points/fullstack-java-react\education\sjp.md
+resume-points/java-backend\experience\0iowa.md -> resume-points/fullstack-java-react\experience\0iowa.md
+resume-points/java-backend\experience\adl.md -> resume-points/fullstack-java-react\experience\adl.md
+resume-points/java-backend\projects\async-billing.md -> resume-points/fullstack-java-react\projects\async-billing.md
+resume-points/java-backend\projects\Event-Driven Order Platform.md -> resume-points/fullstack-java-react\projects\Event-Driven Order Platform.md
+resume-points/java-backend\projects\order-dashboard.md -> resume-points/fullstack-java-react\projects\order-dashboard.md
+resume-points/java-backend\projects\Platform Engineering.md -> resume-points/fullstack-java-react\projects\Platform Engineering.md
+resume-points/java-backend\projects\pricing-executor.md -> resume-points/fullstack-java-react\projects\pricing-executor.md
+resume-points/java-backend\publications\gifis-eartharxiv.md -> resume-points/fullstack-java-react\publications\gifis-eartharxiv.md
+resume-points/java-backend\publications\mdpi-xr-hydro.md -> resume-points/fullstack-java-react\publications\mdpi-xr-hydro.md
+resume-points/java-backend\publications\vrfis-eartharxiv.md -> resume-points/fullstack-java-react\publications\vrfis-eartharxiv.md
+resume-points/java-backend\skills\1languages.md -> resume-points/fullstack-java-react\skills\1languages.md
+resume-points/java-backend\skills\2data.md -> resume-points/fullstack-java-react\skills\2data.md
+resume-points/java-backend\skills\4cloud.md -> resume-points/fullstack-java-react\skills\4cloud.md
+resume-points/react-frontend\education\iowa.md -> resume-points/fullstack-java-react\education\iowa.md
+resume-points/react-frontend\education\sjp.md -> resume-points/fullstack-java-react\education\sjp.md
+resume-points/react-frontend\experience\adl.md -> resume-points/fullstack-java-react\experience\adl.md
+resume-points/react-frontend\experience\enterprise.md -> resume-points/fullstack-java-react\experience\enterprise.md
+resume-points/react-frontend\experience\iowa.md -> resume-points/fullstack-java-react\experience\iowa.md
+resume-points/react-frontend\projects\chat.md -> resume-points/fullstack-java-react\projects\chat.md
+resume-points/react-frontend\projects\flood-info.md -> resume-points/fullstack-java-react\projects\flood-info.md
+resume-points/react-frontend\projects\rag-ui.md -> resume-points/fullstack-java-react\projects\rag-ui.md
+resume-points/react-frontend\publications\gifis-eartharxiv.md -> resume-points/fullstack-java-react\publications\gifis-eartharxiv.md
+resume-points/react-frontend\publications\mdpi-xr-hydro.md -> resume-points/fullstack-java-react\publications\mdpi-xr-hydro.md
+resume-points/react-frontend\publications\vrfis-eartharxiv.md -> resume-points/fullstack-java-react\publications\vrfis-eartharxiv.md
+resume-points/react-frontend\skills\frontend.md -> resume-points/fullstack-java-react\skills\frontend.md
+resume-points/react-frontend\skills\languages.md -> resume-points/fullstack-java-react\skills\languages.md
+resume-points/react-frontend\skills\tools.md -> resume-points/fullstack-java-react\skills\tools.md
