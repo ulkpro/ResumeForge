@@ -8,12 +8,13 @@ role: "java-backend"
 order: "99"
 ---
 
+- Implemented Java Streams-based filtering, grouping, and validation logic for high-volume telco data workflows, reducing transformation code complexity by 30%.
 - Developed an event-sourced distributed billing system using Kafka and CQRS for 1Mn+ monthly invoices. [Java, Spring Boot, Kafka, Saga]
 - Secured APIs with Spring Security; JWT/OAuth2 resource server, role/scope based authorization, method-level guards. [Spring Security, OAuth2, JWT]
 - Engineered automated Airflow ETL pipelines to bridge core Java microservices and data lakes, solving legacy data extraction bottlenecks and processing 500GB+ of daily raw data.
 - Designed a highly scalable Python and Pinecone Vector DB semantic search layer on top of legacy backends, boosting user search query accuracy by 25% across 2M+ records.
 - Developed and owned a payment ingestion microservice to process 1GB+ usage feeds via presigned, checksum-verified S3 multipart uploads (SSE-KMS) and an async pipeline that bulk-loads data using PostgreSQL COPY with idempotent upserts, sustaining >1K records/sec and delivering 40% faster end-to-end billing-cycle processing. [AWS S3, PostgreSQL, Async Pipeline]
-- Developed a large csv file ingestion pipeline with S3 multipart and PostgreSQL, sustaining 1,000+ records/s. [Redis, Distributed Locks]
+- Developed a high-throughput CSV ingestion pipeline using AWS SDK for Java to manage S3 multipart uploads and PostgreSQL batch inserts, sustaining 1,000+ records/s. [Redis, Distributed Locks]
 - Engineered an idempotent pricing execution engine using Redis deduplication and Redisson distributed locks, processing 100K daily computations at <200ms p99 latency and preventing $500K in annual revenue leakage. [Caffeine, Redis, MongoDB, Resilience4j]
 - Developed a real-time CDC (Change Data Capture) streaming pipeline via Kafka cutting incident recovery time by 65%. [Kafka, DynamoDB, Redis, SQS]
 - Solid understanding of TCP/IP networking in AWS VPC environments, with hands-on experience troubleshooting DNS (Route 53) , DHCP-based IP addressing, and service connectivity behind ALB/NLB for distributed Java microservices. [AWS VPC, Route 53, Networking]
@@ -28,3 +29,4 @@ order: "99"
 - Developed Spark batch processing jobs, bridging transactional services and downstream ML feature generation pipelines reducing raw signal transformation times from 4 hours to 45 minutes.
 - Standardized environment-specific config through externalized properties, Spring profiles, and secure secret injection.
 - Strengthened API security with Spring Security, JWT/OAuth2, and fine-grained authorization controls.
+- Developed RESTful Spring Boot microservice APIs with controller, service, repository, and DTO layers.
