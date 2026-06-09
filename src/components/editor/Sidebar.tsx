@@ -51,10 +51,10 @@ export function Sidebar({
         } else {
             newSkills.splice(index, 1);
         }
-        
+
         const firstPoint = item.points[0];
         if (!firstPoint) return;
-        
+
         const newText = newSkills.filter(Boolean).join(', ');
         onEditPoint(item.id, firstPoint.id, newText, firstPoint.tags?.join(', ') || '');
         setEditingSkill(null);
@@ -82,7 +82,7 @@ export function Sidebar({
         const [val, setVal] = useState(item.coursework || "");
         const cid = `${item.id}-coursework`;
         const isSelected = selectedPoints[cid] !== false;
-        
+
         return (
             <div className="mt-3 flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-md">
                 <input
@@ -204,8 +204,8 @@ export function Sidebar({
             <div key={sectionKey}>
                 <SectionHeader icon={icon} title={title} sectionKey={sectionKey} isCollapsed={!!collapsedSections[sectionKey]} isVisible={!hiddenSections?.includes(sectionKey)} onToggle={onToggleSection} onToggleVisibility={onToggleVisibility} onMoveUp={onMoveUp} onMoveDown={onMoveDown} />
                 {!collapsedSections[sectionKey] && data.map(item => (
-                    <div 
-                        key={item.id} 
+                    <div
+                        key={item.id}
                         className="mb-6 ml-2 pl-2 border-l-2 border-slate-100 relative group/section focus:outline-none focus:border-sky-400 focus:bg-sky-50/50 rounded-r-lg transition-colors"
                         tabIndex={0}
                         onKeyDown={(e) => {
@@ -232,7 +232,13 @@ export function Sidebar({
                         {sectionKey !== 'certifications' && (
                             <>
                                 <div className="space-y-1">
-                                    {item.points.map(point => (
+                                    {[...item.points].sort((a, b) => {
+                                        const aSel = !!selectedPoints[a.id];
+                                        const bSel = !!selectedPoints[b.id];
+                                        if (aSel && !bSel) return -1;
+                                        if (!aSel && bSel) return 1;
+                                        return 0;
+                                    }).map(point => (
                                         <CheckboxItem
                                             key={point.id}
                                             point={point}
@@ -269,8 +275,8 @@ export function Sidebar({
             if (lowerRole.includes('fullstack') || lowerRole.includes('full-stack') || lowerRole.includes('node') || lowerRole.includes('express')) {
                 groups['Fullstack'].push(role);
             } else if (lowerRole.includes('backend') || lowerRole.includes('rails') || lowerRole.includes('csharp') || lowerRole.includes('java') || lowerRole.includes('go') || lowerRole.includes('cpp') || lowerRole.includes('rust') || lowerRole.includes('python')) {
-                 // Check if it's already caught by fullstack (e.g., fullstack-python), but fullstack is checked first above.
-                 groups['Backend'].push(role);
+                // Check if it's already caught by fullstack (e.g., fullstack-python), but fullstack is checked first above.
+                groups['Backend'].push(role);
             } else if (lowerRole.includes('frontend') || lowerRole.includes('react') || lowerRole.includes('angular') || lowerRole.includes('vue') || lowerRole.includes('ui')) {
                 groups['Frontend'].push(role);
             } else if (lowerRole.includes('devops') || lowerRole.includes('cloud') || lowerRole.includes('aws') || lowerRole.includes('azure') || lowerRole.includes('gcp')) {
@@ -341,7 +347,7 @@ export function Sidebar({
                     if (sectionKey === 'certifications') return renderSection(certificationsData, "Certifications", "certifications", Award, onMoveUp, onMoveDown);
                     if (sectionKey === 'skills') return renderSkillsSection(skillsData, "Skills", "skills", Code2, onMoveUp, onMoveDown);
                     if (sectionKey === 'publications') return renderSection(publicationsData, "Publications", "publications", BookOpen, onMoveUp, onMoveDown);
-                    
+
                     return null;
                 })}
             </div>
