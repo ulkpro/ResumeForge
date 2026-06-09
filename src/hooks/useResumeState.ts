@@ -232,17 +232,30 @@ export function useResumeState() {
 
                 const points = [...sec.points];
                 const ptIndex = points.findIndex(p => p.id === pointId);
+                const isSel = !!selectedPoints[pointId];
 
-                if (direction === 'up' && ptIndex > 0) {
-                    const tmp = points[ptIndex];
-                    points[ptIndex] = points[ptIndex - 1];
-                    points[ptIndex - 1] = tmp;
-                    changed = true;
-                } else if (direction === 'down' && ptIndex < points.length - 1) {
-                    const tmp = points[ptIndex];
-                    points[ptIndex] = points[ptIndex + 1];
-                    points[ptIndex + 1] = tmp;
-                    changed = true;
+                if (direction === 'up') {
+                    let swapIdx = ptIndex - 1;
+                    while (swapIdx >= 0 && !!selectedPoints[points[swapIdx].id] !== isSel) {
+                        swapIdx--;
+                    }
+                    if (swapIdx >= 0) {
+                        const tmp = points[ptIndex];
+                        points[ptIndex] = points[swapIdx];
+                        points[swapIdx] = tmp;
+                        changed = true;
+                    }
+                } else if (direction === 'down') {
+                    let swapIdx = ptIndex + 1;
+                    while (swapIdx < points.length && !!selectedPoints[points[swapIdx].id] !== isSel) {
+                        swapIdx++;
+                    }
+                    if (swapIdx < points.length) {
+                        const tmp = points[ptIndex];
+                        points[ptIndex] = points[swapIdx];
+                        points[swapIdx] = tmp;
+                        changed = true;
+                    }
                 }
 
                 if (changed) {
