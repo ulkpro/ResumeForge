@@ -20,6 +20,7 @@ order: "99"
 - Solid understanding of TCP/IP networking in AWS VPC environments, with hands-on experience troubleshooting DNS (Route 53) , DHCP-based IP addressing, and service connectivity behind ALB/NLB for distributed Java microservices. [AWS VPC, Route 53, Networking]
 - Led high-level and low-level design reviews, drove architecture decisions, and mentored engineers through implementation and production hardening. [Architecture, Mentorship]
 - Modernized inventory management APIs using newer Java features and JDK APIs, reducing codebase size by 15%. [Java 11, Refactoring]
+- Developed RESTful Spring Boot microservice APIs with controller, service, repository, and DTO layers.
 - Integrated external payment gateways (Stripe, PayPal) using RESTful APIs, securing endpoints with OAuth 2.0 and JWT. [REST, OAuth 2.0, Security]
 - Developed automated batch processing cron jobs using Spring Batch. [Spring Batch, Data Aggregation]
 - Architected and developed scalable payment processing microservices using Java 17 and Spring Boot, handling over 500,000 transactions daily with sub-second latency. [Java, Spring Boot, Microservices]
@@ -27,6 +28,5 @@ order: "99"
 - Optimized database queries using Spring Data JPA and Hibernate, resulting in a 40% reduction in query execution time. [JPA, Hibernate, SQL]
 - Implemented comprehensive JUnit and Mockito test suites, achieving 85% code coverage and significantly reducing regression issues across deployment cycles. [JUnit, Mockito, Testing]
 - Developed Spark batch processing jobs, bridging transactional services and downstream ML feature generation pipelines reducing raw signal transformation times from 4 hours to 45 minutes.
-- Standardized environment-specific config through externalized properties, Spring profiles, and secure secret injection.
 - Strengthened API security with Spring Security, JWT/OAuth2, and fine-grained authorization controls.
-- Developed RESTful Spring Boot microservice APIs with controller, service, repository, and DTO layers.
+- Standardized environment-specific config through externalized properties, Spring profiles, and secure secret injection.
