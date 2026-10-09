@@ -7,6 +7,9 @@ import { handleExportPDF } from './utils/pdfExport';
 export default function App() {
   const {
     filteredData,
+    targetGroup,
+    setTargetGroup,
+    allGroups,
     targetRole,
     setTargetRole,
     allRoles,
@@ -63,6 +66,9 @@ export default function App() {
         onMoveSection={moveSection}
         onMoveSectionCategory={moveSectionCategory}
         onMovePoint={movePoint}
+        targetGroup={targetGroup}
+        setTargetGroup={setTargetGroup}
+        allGroups={allGroups}
         targetRole={targetRole}
         setTargetRole={setTargetRole}
         allRoles={allRoles}

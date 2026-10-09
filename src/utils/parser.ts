@@ -25,6 +25,7 @@ export interface ResumeData {
     certification?: string;
     issuer?: string;
     role: string;
+    group: string;
     order?: number;
     points: ResumePoint[];
 }
@@ -53,15 +54,20 @@ export function parseMarkdown(fileName: string, rawContent: string, filePath: st
     });
 
     let fileRole = 'base';
+    let fileGroup = 'dev';
     if (filePath) {
-        // e.g. ../resume-points/java-backend/experience/abc.md
+        // e.g. ../resume-points/dev/java-backend/experience/abc.md
         const pathParts = filePath.split('/');
         const rpIndex = pathParts.indexOf('resume-points');
-        if (rpIndex !== -1 && pathParts.length > rpIndex + 1) {
+        if (rpIndex !== -1 && pathParts.length > rpIndex + 2) {
+            fileGroup = pathParts[rpIndex + 1];
+            fileRole = pathParts[rpIndex + 2];
+        } else if (rpIndex !== -1 && pathParts.length > rpIndex + 1) {
             fileRole = pathParts[rpIndex + 1];
         }
     }
     const finalRole = (frontmatter['role'] || frontmatter['jobRole'] || frontmatter['job_role'] || fileRole).toLowerCase();
+    const finalGroup = (frontmatter['group'] || frontmatter['mainGroup'] || fileGroup).toLowerCase();
 
     const points: ResumePoint[] = [];
     const lines = bodyStr.split('\n').filter(line => line.trim().startsWith('-'));
@@ -114,6 +120,7 @@ export function parseMarkdown(fileName: string, rawContent: string, filePath: st
         certification: frontmatter['certification'],
         issuer: frontmatter['issuer'],
         role: finalRole,
+        group: finalGroup,
         order: frontmatter['order'] ? parseInt(frontmatter['order'], 10) : 99,
         points
     };

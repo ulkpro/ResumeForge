@@ -29,6 +29,9 @@ interface SidebarProps {
     targetRole: string;
     setTargetRole: (role: string) => void;
     allRoles: string[];
+    targetGroup: string;
+    setTargetGroup: (group: string) => void;
+    allGroups: string[];
     sectionOrder?: string[];
 }
 
@@ -37,6 +40,7 @@ export function Sidebar({
     hiddenSections, onToggleVisibility,
     selectedPoints, onPointToggle, onAddPoint, onEditPoint, onUpdateCoursework, onDeletePoint,
     onMoveSection, onMoveSectionCategory, onMovePoint,
+    targetGroup, setTargetGroup, allGroups,
     targetRole, setTargetRole, allRoles, sectionOrder = ['experience', 'projects', 'education', 'skills', 'publications']
 }: SidebarProps) {
 
@@ -307,28 +311,52 @@ export function Sidebar({
                 <h1 className="text-2xl font-black tracking-tight text-sky-950">Resume Builder</h1>
             </div>
 
-            <div className="mb-6">
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Target Job Role</label>
-                <div className="relative">
-                    <select
-                        className="w-full bg-slate-50 border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block p-2.5 appearance-none shadow-sm cursor-pointer hover:bg-slate-100 transition-colors"
-                        value={targetRole || ''}
-                        onChange={(e) => setTargetRole(e.target.value)}
-                    >
-                        {Object.entries(groupedRoles).map(([category, roles]) => (
-                            <optgroup key={category} label={category}>
-                                {roles.map(role => (
-                                    <option key={role} value={role}>
-                                        {role.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
-                                    </option>
-                                ))}
-                            </optgroup>
-                        ))}
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
-                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                        </svg>
+            <div className="mb-6 flex gap-4">
+                <div className="flex-1">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Main Group</label>
+                    <div className="relative">
+                        <select
+                            className="w-full bg-slate-50 border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block p-2.5 appearance-none shadow-sm cursor-pointer hover:bg-slate-100 transition-colors capitalize"
+                            value={targetGroup || ''}
+                            onChange={(e) => setTargetGroup(e.target.value)}
+                        >
+                            {allGroups.map(group => (
+                                <option key={group} value={group}>
+                                    {group}
+                                </option>
+                            ))}
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="flex-1">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Target Job Role</label>
+                    <div className="relative">
+                        <select
+                            className="w-full bg-slate-50 border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block p-2.5 appearance-none shadow-sm cursor-pointer hover:bg-slate-100 transition-colors capitalize"
+                            value={targetRole || ''}
+                            onChange={(e) => setTargetRole(e.target.value)}
+                        >
+                            {Object.entries(groupedRoles).map(([category, roles]) => (
+                                <optgroup key={category} label={category}>
+                                    {roles.map(role => (
+                                        <option key={role} value={role}>
+                                            {role.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                                        </option>
+                                    ))}
+                                </optgroup>
+                            ))}
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
