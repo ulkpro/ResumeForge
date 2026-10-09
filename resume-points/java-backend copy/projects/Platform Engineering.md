@@ -1,6 +1,6 @@
 ---
 project_name: "Cloud-Native Platform Engineering on AWS EKS"
-role: "java-backend"
+role: "java-backend copy"
 order: "99"
 ---
 

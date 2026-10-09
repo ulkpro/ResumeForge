@@ -1,8 +1,8 @@
 ---
 project_name: "GIFIS: A Generalized Immersive Flood Information System Specification"
 url: "https://doi.org/10.1016/j.envsoft.2026.107080"
-publisher: "Environmental modelling & software "
-role: "java-backend"
+publisher: "Journal: Environmental modelling & software "
+role: "java-backend copy"
 order: "3"
 ---
 
