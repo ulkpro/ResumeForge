@@ -57,15 +57,43 @@ export function useResumeState() {
         localStorage.setItem('resume-layout-settings', JSON.stringify(layout));
     }, [layout]);
 
+    const allGroups = useMemo(() => {
+        const groups = new Set<string>();
+        data.forEach(item => {
+            if (item.group) {
+                groups.add(item.group);
+            }
+        });
+        return Array.from(groups).sort();
+    }, [data]);
+
+    const [targetGroup, setTargetGroup] = useState<string>(() => {
+        return localStorage.getItem('resume-target-group') || '';
+    });
+
+    useEffect(() => {
+        if (targetGroup) {
+            localStorage.setItem('resume-target-group', targetGroup);
+        }
+    }, [targetGroup]);
+
+    useEffect(() => {
+        if (!targetGroup && allGroups.length > 0) {
+            setTargetGroup(allGroups[0]);
+        } else if (targetGroup && !allGroups.includes(targetGroup) && allGroups.length > 0) {
+            setTargetGroup(allGroups[0]);
+        }
+    }, [allGroups, targetGroup]);
+
     const allRoles = useMemo(() => {
         const roles = new Set<string>();
         data.forEach(item => {
-            if (item.role) {
+            if (item.role && item.group === targetGroup) {
                 roles.add(item.role);
             }
         });
         return Array.from(roles).sort();
-    }, [data]);
+    }, [data, targetGroup]);
 
     const [targetRole, setTargetRole] = useState<string>(() => {
         return localStorage.getItem('resume-target-role') || '';
@@ -275,9 +303,9 @@ export function useResumeState() {
 
     const filteredData = useMemo(() => {
         return data.filter(section => {
-            return section.role === targetRole;
+            return section.role === targetRole && section.group === targetGroup;
         });
-    }, [data, targetRole]);
+    }, [data, targetRole, targetGroup]);
 
     const experienceData = filteredData.filter(d => d.type === 'experience');
     const projectData = filteredData.filter(d => d.type === 'project');
@@ -288,6 +316,9 @@ export function useResumeState() {
 
     return {
         data,
+        targetGroup,
+        setTargetGroup,
+        allGroups,
         targetRole,
         setTargetRole,
         allRoles,
