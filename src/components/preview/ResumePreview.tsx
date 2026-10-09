@@ -47,17 +47,17 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
             <div className="text-center" style={{ marginBottom: (layout.gapHeaderToFirstSection ?? 24) + 'px' }}>
                 <h1 className="font-bold tracking-tight" style={{ fontSize: (layout.fontSizeName || 25) + 'pt', marginBottom: (layout.gapNameAuth ?? 4) + 'px' }}>{personalDetails.name}</h1>
                 
-                {(personalDetails.workAuthorization || personalDetails.location) && (
-                    <div className="flex justify-center items-center" style={{ fontSize: (layout.fontSizeContact || 10) + 'pt', marginBottom: (layout.gapAuthContact ?? 4) + 'px' }}>
-                        {personalDetails.workAuthorization && <span>Work Authorization: {personalDetails.workAuthorization}</span>}
-                        {personalDetails.workAuthorization && personalDetails.location && <span className="mx-2">|</span>}
-                        {personalDetails.location && <span>Location: {personalDetails.location}</span>}
-                    </div>
-                )}
-
-                <p className="flex justify-center flex-wrap gap-2 items-center" style={{ fontSize: (layout.fontSizeContact || 10) + 'pt' }}>
+                <p className="flex justify-center flex-wrap gap-2 items-center" style={{ fontSize: (layout.fontSizeContact || 10) + 'pt', marginBottom: (layout.gapAuthContact ?? 4) + 'px' }}>
                     {(() => {
                         const items = [];
+
+                        let authLoc = [];
+                        if (personalDetails.workAuthorization) authLoc.push(personalDetails.workAuthorization);
+                        if (personalDetails.location) authLoc.push(personalDetails.location);
+                        if (authLoc.length > 0) {
+                            items.push(<span>{authLoc.join(' | ')}</span>);
+                        }
+
                         if (personalDetails.email) items.push(<a href={`mailto:${personalDetails.email}`} className="hover:underline text-black no-underline" style={{ color: '#000' }}>{personalDetails.email}</a>);
                         if (personalDetails.phone) items.push(<span>{personalDetails.phone}</span>);
                         if (personalDetails.github) items.push(<a href={`https://${personalDetails.github}`} target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>{personalDetails.github}</a>);
@@ -67,7 +67,7 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                         return items.map((item, i) => (
                             <span key={i} className="flex gap-2 items-center">
                                 {item}
-                                {i < items.length - 1 && <span>•</span>}
+                                {i < items.length - 1 && <span>|</span>}
                             </span>
                         ));
                     })()}
