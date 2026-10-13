@@ -6,19 +6,32 @@ interface CheckboxItemProps {
     point: ResumePoint;
     isSelected: boolean;
     onToggle: (id: string) => void;
-    onEdit?: (id: string, text: string, tagsStr: string) => void;
+    onEdit?: (id: string, text: string, tagsStr: string, group?: string) => void;
     onDelete?: (id: string) => void;
     onMove?: (id: string, direction: 'up' | 'down') => void;
+    availableGroups?: string[];
 }
 
-export function CheckboxItem({ point, isSelected, onToggle, onEdit, onDelete, onMove }: CheckboxItemProps) {
+export function CheckboxItem({
+    point,
+    isSelected,
+    onToggle,
+    onEdit,
+    onDelete,
+    onMove,
+    availableGroups = ['General', 'AWS', 'Completablefuture', 'Kafka', 'Spring Boot', 'Database & Cache', 'Other']
+}: CheckboxItemProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [editVal, setEditVal] = useState(point.text);
     const [tagsVal, setTagsVal] = useState(point.tags.join(', '));
+    const [groupVal, setGroupVal] = useState(point.group || 'General');
+    const [isCustomGroup, setIsCustomGroup] = useState(false);
+    const [customGroupText, setCustomGroupText] = useState('');
 
     const handleSave = () => {
         if (onEdit) {
-            onEdit(point.id, editVal, tagsVal);
+            const finalGroup = isCustomGroup ? customGroupText.trim() : groupVal;
+            onEdit(point.id, editVal, tagsVal, finalGroup || 'Other');
         }
         setIsEditing(false);
     };
@@ -33,6 +46,53 @@ export function CheckboxItem({ point, isSelected, onToggle, onEdit, onDelete, on
                     placeholder="Point text..."
                     onChange={e => setEditVal(e.target.value)}
                 />
+
+                <div className="flex items-center gap-2">
+                    <span className="text-xs font-semibold text-slate-700 whitespace-nowrap">Sub-Group:</span>
+                    {!isCustomGroup ? (
+                        <div className="flex gap-1.5 flex-1">
+                            <select
+                                value={groupVal}
+                                onChange={e => {
+                                    if (e.target.value === '__NEW__') {
+                                        setIsCustomGroup(true);
+                                    } else {
+                                        setGroupVal(e.target.value);
+                                    }
+                                }}
+                                className="text-xs p-1.5 border border-slate-300 rounded-md bg-white focus:ring-2 focus:ring-sky-400 font-medium text-slate-700 flex-1"
+                            >
+                                {availableGroups.filter(g => g !== 'Other').map(g => (
+                                    <option key={g} value={g}>{g}</option>
+                                ))}
+                                {!availableGroups.includes(groupVal) && groupVal && groupVal !== 'Other' && (
+                                    <option value={groupVal}>{groupVal}</option>
+                                )}
+                                <option value="Other">Other (ungrouped)</option>
+                                <option value="__NEW__">+ Add Custom Group...</option>
+                            </select>
+                        </div>
+                    ) : (
+                        <div className="flex gap-1.5 flex-1">
+                            <input
+                                type="text"
+                                placeholder="Type new group name..."
+                                value={customGroupText}
+                                onChange={e => setCustomGroupText(e.target.value)}
+                                className="text-xs p-1.5 border border-slate-300 rounded-md bg-white flex-1 focus:ring-2 focus:ring-sky-400 font-medium text-slate-700"
+                                autoFocus
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setIsCustomGroup(false)}
+                                className="px-2 py-1 text-xs text-slate-500 hover:text-slate-700 bg-slate-200 rounded"
+                            >
+                                Pick Existing
+                            </button>
+                        </div>
+                    )}
+                </div>
+
                 <input
                     type="text"
                     className="w-full text-xs p-2 border border-slate-200 rounded-md focus:ring-2 focus:ring-sky-500 focus:border-sky-500 bg-white"
@@ -71,9 +131,14 @@ export function CheckboxItem({ point, isSelected, onToggle, onEdit, onDelete, on
                 </div>
                 <div className="text-sm flex-1 mr-12">
                     <span className="text-slate-700 leading-snug">{point.text}</span>
-                    <div className="flex flex-wrap gap-1.5 mt-2">
+                    <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                        {point.group && point.group !== 'Other' && (
+                            <span className="text-[10px] font-bold px-2 py-0.5 bg-amber-50 text-amber-800 border border-amber-200/80 rounded-full select-none shadow-2xs">
+                                {point.group}
+                            </span>
+                        )}
                         {point.tags.map((t: string, i: number) => (
-                            <span key={i} className="text-[10px] font-medium px-2 py-0.5 bg-sky-100 text-sky-700 rounded-full select-none shadow-sm">
+                            <span key={i} className="text-[10px] font-medium px-2 py-0.5 bg-sky-100 text-sky-700 rounded-full select-none shadow-2xs">
                                 {t}
                             </span>
                         ))}
@@ -86,7 +151,7 @@ export function CheckboxItem({ point, isSelected, onToggle, onEdit, onDelete, on
                 <button
                     onClick={() => setIsEditing(true)}
                     className="p-1.5 text-slate-400 hover:text-sky-600 hover:bg-sky-100 rounded-md transition-colors"
-                    title="Edit point"
+                    title="Edit point and group"
                 >
                     <Pencil size={14} />
                 </button>
@@ -101,8 +166,8 @@ export function CheckboxItem({ point, isSelected, onToggle, onEdit, onDelete, on
                 )}
                 {onMove && (
                     <div className="flex flex-col ml-1 border-l border-slate-200 pl-1">
-                        <button onClick={(e) => { e.preventDefault(); onMove(point.id, 'up'); }} className="p-0.5 text-slate-400 hover:text-sky-600 rounded" title="Move up"><ArrowUp size={12} /></button>
-                        <button onClick={(e) => { e.preventDefault(); onMove(point.id, 'down'); }} className="p-0.5 text-slate-400 hover:text-sky-600 rounded" title="Move down"><ArrowDown size={12} /></button>
+                        <button onClick={(e) => { e.preventDefault(); onMove(point.id, 'up'); }} className="p-0.5 text-slate-400 hover:text-sky-600 rounded" title="Move up within group"><ArrowUp size={12} /></button>
+                        <button onClick={(e) => { e.preventDefault(); onMove(point.id, 'down'); }} className="p-0.5 text-slate-400 hover:text-sky-600 rounded" title="Move down within group"><ArrowDown size={12} /></button>
                     </div>
                 )}
             </div>

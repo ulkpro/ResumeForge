@@ -6,8 +6,48 @@ import type { LayoutSettings } from '../types';
 import { defaultLayout } from '../types';
 import { saveResumeFileLocal } from '../utils/mdWriter';
 
+export const DEFAULT_EXPERIENCE_GROUPS = [
+    'General',
+    'AWS',
+    'Completablefuture',
+    'Kafka',
+    'Spring Boot',
+    'Database & Cache',
+    'CI/CD & DevOps',
+    'Architecture & Leadership'
+];
+
+export const sortPointsByGroup = (points: ResumePoint[], groupOrder: string[]): ResumePoint[] => {
+    return [...points].sort((a, b) => {
+        const gA = a.group || 'Other';
+        const gB = b.group || 'Other';
+        if (gA === gB) return 0;
+        if (gA === 'Other') return 1;
+        if (gB === 'Other') return -1;
+        const idxA = groupOrder.indexOf(gA);
+        const idxB = groupOrder.indexOf(gB);
+        const posA = idxA === -1 ? 999 : idxA;
+        const posB = idxB === -1 ? 999 : idxB;
+        if (posA !== posB) return posA - posB;
+        return gA.localeCompare(gB);
+    });
+};
+
 export function useResumeState() {
-    const [data, setData] = useState<ResumeData[]>(getResumeData());
+    const [data, setData] = useState<ResumeData[]>(() => {
+        const raw = getResumeData();
+        const savedOrder = localStorage.getItem('resume-experience-group-order');
+        let order = DEFAULT_EXPERIENCE_GROUPS;
+        if (savedOrder) {
+            try { order = JSON.parse(savedOrder); } catch (e) {}
+        }
+        return raw.map(sec => {
+            if (sec.type === 'experience') {
+                return { ...sec, points: sortPointsByGroup(sec.points, order) };
+            }
+            return sec;
+        });
+    });
 
     const [selectedPoints, setSelectedPoints] = useState<Record<string, boolean>>(() => {
         const initial: Record<string, boolean> = {};
@@ -121,16 +161,31 @@ export function useResumeState() {
         setCollapsedSections(prev => ({ ...prev, [sectionName]: !prev[sectionName] }));
     };
 
-    const handleAddPoint = (sectionId: string, text: string, tagsStr: string) => {
+    const [experienceGroupOrder, setExperienceGroupOrder] = useState<string[]>(() => {
+        const saved = localStorage.getItem('resume-experience-group-order');
+        if (saved) {
+            try {
+                return JSON.parse(saved);
+            } catch (e) { }
+        }
+        return DEFAULT_EXPERIENCE_GROUPS;
+    });
+
+    const handleAddPoint = (sectionId: string, text: string, tagsStr: string, group?: string) => {
         if (!text.trim()) return;
         const tags = tagsStr.split(',').map(t => t.trim()).filter(Boolean);
         const newPointId = `custom-${Date.now()}`;
-        const newPoint: ResumePoint = { id: newPointId, text: text.trim(), tags };
+        const newPoint: ResumePoint = { id: newPointId, text: text.trim(), tags, group: group || 'General' };
 
         setData(prev => {
-            const newData = prev.map(sec =>
-                sec.id === sectionId ? { ...sec, points: [...sec.points, newPoint] } : sec
-            );
+            const newData = prev.map(sec => {
+                if (sec.id !== sectionId) return sec;
+                const points = [...sec.points, newPoint];
+                const finalPoints = sec.type === 'experience'
+                    ? sortPointsByGroup(points, experienceGroupOrder)
+                    : points;
+                return { ...sec, points: finalPoints };
+            });
             const updatedSection = newData.find(s => s.id === sectionId);
             if (updatedSection) saveResumeFileLocal(updatedSection);
             return newData;
@@ -138,16 +193,22 @@ export function useResumeState() {
         setSelectedPoints(prev => ({ ...prev, [newPointId]: true }));
     };
 
-    const handleEditPoint = (sectionId: string, pointId: string, text: string, tagsStr: string) => {
+    const handleEditPoint = (sectionId: string, pointId: string, text: string, tagsStr: string, group?: string) => {
         if (!text.trim()) return;
         const tags = tagsStr.split(',').map(t => t.trim()).filter(Boolean);
 
         setData(prev => {
             const newData = prev.map(sec => {
                 if (sec.id !== sectionId) return sec;
+                const updatedPoints = sec.points.map(p =>
+                    p.id === pointId ? { ...p, text: text.trim(), tags, group: group || p.group || 'Other' } : p
+                );
+                const finalPoints = sec.type === 'experience'
+                    ? sortPointsByGroup(updatedPoints, experienceGroupOrder)
+                    : updatedPoints;
                 return {
                     ...sec,
-                    points: sec.points.map(p => p.id === pointId ? { ...p, text: text.trim(), tags } : p)
+                    points: finalPoints
                 };
             });
             const updatedSection = newData.find(s => s.id === sectionId);
@@ -254,17 +315,20 @@ export function useResumeState() {
     const movePoint = (sectionId: string, pointId: string, direction: 'up' | 'down') => {
         setData(prev => {
             let changed = false;
-            let updatedSection = null;
+            let updatedSection: any = null;
             const newData = prev.map(sec => {
                 if (sec.id !== sectionId) return sec;
 
                 const points = [...sec.points];
                 const ptIndex = points.findIndex(p => p.id === pointId);
-                const isSel = !!selectedPoints[pointId];
+                if (ptIndex === -1) return sec;
+
+                const currentPt = points[ptIndex];
+                const currentGrp = currentPt.group || 'Other';
 
                 if (direction === 'up') {
                     let swapIdx = ptIndex - 1;
-                    while (swapIdx >= 0 && !!selectedPoints[points[swapIdx].id] !== isSel) {
+                    while (swapIdx >= 0 && (points[swapIdx].group || 'Other') !== currentGrp) {
                         swapIdx--;
                     }
                     if (swapIdx >= 0) {
@@ -275,7 +339,7 @@ export function useResumeState() {
                     }
                 } else if (direction === 'down') {
                     let swapIdx = ptIndex + 1;
-                    while (swapIdx < points.length && !!selectedPoints[points[swapIdx].id] !== isSel) {
+                    while (swapIdx < points.length && (points[swapIdx].group || 'Other') !== currentGrp) {
                         swapIdx++;
                     }
                     if (swapIdx < points.length) {
@@ -298,6 +362,59 @@ export function useResumeState() {
                 return newData;
             }
             return prev;
+        });
+    };
+
+    const moveExperienceGroup = (sectionId: string, groupName: string, direction: 'up' | 'down') => {
+        setData(prevData => {
+            const sec = prevData.find(s => s.id === sectionId);
+            if (!sec) return prevData;
+
+            // Get unique non-Other groups in this section
+            const uniqueGroups = Array.from(new Set(sec.points.map(p => p.group || 'Other'))).filter(g => g !== 'Other');
+
+            let currentOrder = [...experienceGroupOrder];
+            uniqueGroups.forEach(g => {
+                if (!currentOrder.includes(g)) currentOrder.push(g);
+            });
+
+            // Sort present groups according to currentOrder
+            uniqueGroups.sort((a, b) => {
+                const idxA = currentOrder.indexOf(a);
+                const idxB = currentOrder.indexOf(b);
+                return (idxA === -1 ? 999 : idxA) - (idxB === -1 ? 999 : idxB);
+            });
+
+            const currIdx = uniqueGroups.indexOf(groupName);
+            if (currIdx === -1) return prevData;
+
+            let swapWithGroup = '';
+            if (direction === 'up' && currIdx > 0) {
+                swapWithGroup = uniqueGroups[currIdx - 1];
+            } else if (direction === 'down' && currIdx < uniqueGroups.length - 1) {
+                swapWithGroup = uniqueGroups[currIdx + 1];
+            }
+
+            if (!swapWithGroup) return prevData;
+
+            // In currentOrder, swap the relative positions of groupName and swapWithGroup
+            const idx1 = currentOrder.indexOf(groupName);
+            const idx2 = currentOrder.indexOf(swapWithGroup);
+            if (idx1 !== -1 && idx2 !== -1) {
+                const tmp = currentOrder[idx1];
+                currentOrder[idx1] = currentOrder[idx2];
+                currentOrder[idx2] = tmp;
+            }
+
+            setExperienceGroupOrder(currentOrder);
+            localStorage.setItem('resume-experience-group-order', JSON.stringify(currentOrder));
+
+            // Reorder points in this section
+            const sortedPoints = sortPointsByGroup(sec.points, currentOrder);
+            const updatedSection = { ...sec, points: sortedPoints };
+            saveResumeFileLocal(updatedSection);
+
+            return prevData.map(s => s.id === sectionId ? updatedSection : s);
         });
     };
 
@@ -347,6 +464,8 @@ export function useResumeState() {
         moveSection,
         moveSectionCategory,
         movePoint,
+        experienceGroupOrder,
+        moveExperienceGroup,
         filteredData,
         experienceData,
         projectData,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, BookOpen, Award, ArrowUp, ArrowDown } from 'lucide-react';
+import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, BookOpen, Award, ArrowUp, ArrowDown, ChevronDown, ChevronRight, Layers } from 'lucide-react';
 import { SectionHeader } from '../common/SectionHeader';
 import { CheckboxItem } from '../common/CheckboxItem';
 import { AddPointForm } from '../common/AddPointForm';
@@ -19,8 +19,8 @@ interface SidebarProps {
     onToggleVisibility: (key: string) => void;
     selectedPoints: Record<string, boolean>;
     onPointToggle: (id: string) => void;
-    onAddPoint: (sectionId: string, text: string, tagsStr: string) => void;
-    onEditPoint: (sectionId: string, pointId: string, text: string, tagsStr: string) => void;
+    onAddPoint: (sectionId: string, text: string, tagsStr: string, group?: string) => void;
+    onEditPoint: (sectionId: string, pointId: string, text: string, tagsStr: string, group?: string) => void;
     onUpdateCoursework: (sectionId: string, courseworkText: string) => void;
     onDeletePoint: (sectionId: string, pointId: string) => void;
     onMoveSection: (sectionId: string, direction: 'up' | 'down') => void;
@@ -33,6 +33,8 @@ interface SidebarProps {
     setTargetGroup: (group: string) => void;
     allGroups: string[];
     sectionOrder?: string[];
+    experienceGroupOrder?: string[];
+    onMoveExperienceGroup?: (sectionId: string, groupName: string, direction: 'up' | 'down') => void;
 }
 
 export function Sidebar({
@@ -41,12 +43,22 @@ export function Sidebar({
     selectedPoints, onPointToggle, onAddPoint, onEditPoint, onUpdateCoursework, onDeletePoint,
     onMoveSection, onMoveSectionCategory, onMovePoint,
     targetGroup, setTargetGroup, allGroups,
-    targetRole, setTargetRole, allRoles, sectionOrder = ['experience', 'projects', 'education', 'skills', 'publications']
+    targetRole, setTargetRole, allRoles, sectionOrder = ['experience', 'projects', 'education', 'skills', 'publications'],
+    experienceGroupOrder = ['General', 'AWS', 'Completablefuture', 'Kafka', 'Spring Boot', 'Database & Cache', 'Other'],
+    onMoveExperienceGroup
 }: SidebarProps) {
 
     const [draggedSkill, setDraggedSkill] = useState<{ itemId: string, index: number } | null>(null);
     const [editingSkill, setEditingSkill] = useState<{ itemId: string, index: number } | null>(null);
     const [editValue, setEditValue] = useState("");
+    const [collapsedSubGroups, setCollapsedSubGroups] = useState<Record<string, boolean>>({});
+
+    const toggleSubGroup = (key: string) => {
+        setCollapsedSubGroups(prev => ({
+            ...prev,
+            [key]: !prev[key]
+        }));
+    };
 
     const handleSaveSkill = (item: ResumeData, individualSkills: string[], index: number, newValue: string) => {
         const newSkills = [...individualSkills];
@@ -235,26 +247,146 @@ export function Sidebar({
                         </div>
                         {sectionKey !== 'certifications' && (
                             <>
-                                <div className="space-y-1">
-                                    {[...item.points].sort((a, b) => {
-                                        const aSel = !!selectedPoints[a.id];
-                                        const bSel = !!selectedPoints[b.id];
-                                        if (aSel && !bSel) return -1;
-                                        if (!aSel && bSel) return 1;
-                                        return 0;
-                                    }).map(point => (
-                                        <CheckboxItem
-                                            key={point.id}
-                                            point={point}
-                                            isSelected={!!selectedPoints[point.id]}
-                                            onToggle={onPointToggle}
-                                            onEdit={(id, text, tags) => onEditPoint(item.id, id, text, tags)}
-                                            onDelete={(id) => onDeletePoint(item.id, id)}
-                                            onMove={(id, dir) => onMovePoint(item.id, id, dir)}
-                                        />
-                                    ))}
-                                </div>
-                                <AddPointForm sectionId={item.id} onAdd={onAddPoint} />
+                                {sectionKey === 'experience' ? (
+                                    <div className="space-y-2 mt-2">
+                                        {(() => {
+                                            const groups: Record<string, typeof item.points> = {};
+                                            item.points.forEach(point => {
+                                                const grp = point.group || 'Other';
+                                                if (!groups[grp]) groups[grp] = [];
+                                                groups[grp].push(point);
+                                            });
+
+                                            const groupNames = Object.keys(groups).sort((a, b) => {
+                                                if (a === 'Other') return 1;
+                                                if (b === 'Other') return -1;
+                                                const idxA = experienceGroupOrder.indexOf(a);
+                                                const idxB = experienceGroupOrder.indexOf(b);
+                                                const posA = idxA === -1 ? 999 : idxA;
+                                                const posB = idxB === -1 ? 999 : idxB;
+                                                if (posA !== posB) return posA - posB;
+                                                return a.localeCompare(b);
+                                            });
+
+                                            const nonOtherCount = groupNames.filter(g => g !== 'Other').length;
+
+                                            return (
+                                                <>
+                                                    {groupNames.map((groupName, grpIdx) => {
+                                                        const subGroupKey = `${item.id}-${groupName}`;
+                                                        const isCollapsed = !!collapsedSubGroups[subGroupKey];
+                                                        const pts = groups[groupName];
+                                                        const selCount = pts.filter(p => selectedPoints[p.id]).length;
+                                                        const isOther = groupName === 'Other';
+                                                        const canMoveUp = !isOther && grpIdx > 0;
+                                                        const canMoveDown = !isOther && grpIdx < nonOtherCount - 1;
+
+                                                        return (
+                                                            <div key={subGroupKey} className="rounded-lg border border-slate-200/90 bg-white/80 overflow-hidden shadow-2xs">
+                                                                {/* Sub-group Header */}
+                                                                <div className="flex items-center justify-between px-2.5 py-1.5 bg-slate-50/90 border-b border-slate-100 hover:bg-slate-100/60 transition-colors">
+                                                                    <div
+                                                                        className="flex items-center gap-1.5 cursor-pointer select-none flex-1 min-w-0"
+                                                                        onClick={() => toggleSubGroup(subGroupKey)}
+                                                                    >
+                                                                        <span className="text-slate-400 hover:text-slate-600">
+                                                                            {isCollapsed ? <ChevronRight size={13} /> : <ChevronDown size={13} />}
+                                                                        </span>
+                                                                        <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+                                                                            groupName === 'General' ? 'bg-blue-100 text-blue-700' :
+                                                                            groupName === 'AWS' ? 'bg-amber-100 text-amber-800' :
+                                                                            groupName === 'Completablefuture' ? 'bg-purple-100 text-purple-800' :
+                                                                            groupName === 'Kafka' ? 'bg-emerald-100 text-emerald-800' :
+                                                                            groupName === 'Spring Boot' ? 'bg-teal-100 text-teal-800' :
+                                                                            groupName === 'Database & Cache' ? 'bg-indigo-100 text-indigo-800' :
+                                                                            groupName === 'Other' ? 'bg-slate-200 text-slate-700' :
+                                                                            'bg-sky-100 text-sky-800'
+                                                                        }`}>
+                                                                            {groupName}
+                                                                        </span>
+                                                                        <span className="text-[11px] text-slate-400 font-medium">
+                                                                            ({selCount}/{pts.length})
+                                                                        </span>
+                                                                    </div>
+
+                                                                    {!isOther && onMoveExperienceGroup && (
+                                                                        <div className="flex items-center gap-0.5">
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={(e) => {
+                                                                                    e.stopPropagation();
+                                                                                    onMoveExperienceGroup(item.id, groupName, 'up');
+                                                                                }}
+                                                                                disabled={!canMoveUp}
+                                                                                className="p-1 text-slate-400 hover:text-sky-600 hover:bg-sky-100/60 rounded disabled:opacity-20 disabled:cursor-not-allowed"
+                                                                                title={`Move ${groupName} group up`}
+                                                                            >
+                                                                                <ArrowUp size={12} />
+                                                                            </button>
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={(e) => {
+                                                                                    e.stopPropagation();
+                                                                                    onMoveExperienceGroup(item.id, groupName, 'down');
+                                                                                }}
+                                                                                disabled={!canMoveDown}
+                                                                                className="p-1 text-slate-400 hover:text-sky-600 hover:bg-sky-100/60 rounded disabled:opacity-20 disabled:cursor-not-allowed"
+                                                                                title={`Move ${groupName} group down`}
+                                                                            >
+                                                                                <ArrowDown size={12} />
+                                                                            </button>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+
+                                                                {/* Points in sub-group */}
+                                                                {!isCollapsed && (
+                                                                    <div className="p-1 space-y-1 bg-white">
+                                                                        {pts.map(point => (
+                                                                            <CheckboxItem
+                                                                                key={point.id}
+                                                                                point={point}
+                                                                                isSelected={!!selectedPoints[point.id]}
+                                                                                onToggle={onPointToggle}
+                                                                                onEdit={(id, text, tags, grp) => onEditPoint(item.id, id, text, tags, grp)}
+                                                                                onDelete={(id) => onDeletePoint(item.id, id)}
+                                                                                onMove={(id, dir) => onMovePoint(item.id, id, dir)}
+                                                                                availableGroups={experienceGroupOrder}
+                                                                            />
+                                                                        ))}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        );
+                                                    })}
+                                                    <AddPointForm
+                                                        sectionId={item.id}
+                                                        onAdd={onAddPoint}
+                                                        availableGroups={experienceGroupOrder}
+                                                        defaultGroup="General"
+                                                    />
+                                                </>
+                                            );
+                                        })()}
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className="space-y-1">
+                                            {[...item.points].map(point => (
+                                                <CheckboxItem
+                                                    key={point.id}
+                                                    point={point}
+                                                    isSelected={!!selectedPoints[point.id]}
+                                                    onToggle={onPointToggle}
+                                                    onEdit={(id, text, tags, grp) => onEditPoint(item.id, id, text, tags, grp)}
+                                                    onDelete={(id) => onDeletePoint(item.id, id)}
+                                                    onMove={(id, dir) => onMovePoint(item.id, id, dir)}
+                                                />
+                                            ))}
+                                        </div>
+                                        <AddPointForm sectionId={item.id} onAdd={onAddPoint} />
+                                    </>
+                                )}
                             </>
                         )}
                         {sectionKey === 'education' && <CourseworkEditor item={item} />}

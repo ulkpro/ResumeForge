@@ -2,6 +2,7 @@ export interface ResumePoint {
     id: string;
     text: string;
     tags: string[];
+    group?: string;
 }
 
 export interface ResumeData {
@@ -76,13 +77,47 @@ export function parseMarkdown(fileName: string, rawContent: string, filePath: st
         const textPart = line.trim().substring(1).trim();
         // Extract tags from the end like [Java, Spring]
         const tagMatch = textPart.match(/\[(.*?)\]$/);
-        const tags = tagMatch ? tagMatch[1].split(',').map(t => t.trim()) : [];
+        const rawTags = tagMatch ? tagMatch[1].split(',').map(t => t.trim()).filter(Boolean) : [];
         const text = tagMatch ? textPart.substring(0, tagMatch.index).trim() : textPart;
+
+        let group = '';
+        const cleanTags: string[] = [];
+        rawTags.forEach(t => {
+            const m = t.match(/^group:\s*(.+)$/i);
+            if (m) {
+                group = m[1].trim();
+            } else {
+                cleanTags.push(t);
+            }
+        });
+
+        // Infer group if not explicitly set
+        if (!group) {
+            const lowerText = text.toLowerCase();
+            const lowerTags = cleanTags.map(t => t.toLowerCase());
+
+            if (lowerTags.includes('completablefuture') || lowerText.includes('completablefuture') || lowerText.includes('completable future')) {
+                group = 'Completablefuture';
+            } else if (lowerTags.includes('kafka') || lowerText.includes('kafka')) {
+                group = 'Kafka';
+            } else if (lowerTags.includes('aws') || lowerText.includes('aws ') || lowerText.includes('aws-') || lowerText.includes('s3') || lowerText.includes('eks') || lowerText.includes('ecr') || lowerText.includes('lambda') || lowerText.includes('vpc')) {
+                group = 'AWS';
+            } else if (lowerTags.includes('spring') || lowerText.includes('spring boot') || lowerText.includes('springboot')) {
+                group = 'Spring Boot';
+            } else if (lowerTags.includes('sql') || lowerTags.includes('redis') || lowerTags.includes('postgres') || lowerText.includes('redis') || lowerText.includes('postgres') || lowerText.includes('database')) {
+                group = 'Database & Cache';
+            } else if (lowerTags.includes('general') || lowerText.includes('general')) {
+                group = 'General';
+            } else {
+                group = 'Other';
+            }
+        }
 
         points.push({
             id: `${fileName}-p${idx}`,
             text,
-            tags
+            tags: cleanTags,
+            group: group || 'Other'
         });
     });
 

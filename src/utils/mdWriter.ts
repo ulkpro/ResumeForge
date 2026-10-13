@@ -32,8 +32,19 @@ export async function saveResumeFileLocal(data: ResumeData) {
     // Reconstruct points
     data.points.forEach(point => {
         let line = `- ${point.text}`;
+        const allTags: string[] = [];
+        if (point.group && point.group !== 'Other') {
+            allTags.push(`group:${point.group}`);
+        }
         if (point.tags && point.tags.length > 0) {
-            line += ` [${point.tags.join(', ')}]`;
+            point.tags.forEach(t => {
+                if (!t.toLowerCase().startsWith('group:')) {
+                    allTags.push(t);
+                }
+            });
+        }
+        if (allTags.length > 0) {
+            line += ` [${allTags.join(', ')}]`;
         }
         md += line + '\n';
     });

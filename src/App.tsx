@@ -30,6 +30,8 @@ export default function App() {
     moveSection,
     moveSectionCategory,
     movePoint,
+    experienceGroupOrder,
+    moveExperienceGroup,
     experienceData,
     projectData,
     educationData,
@@ -94,6 +96,8 @@ export default function App() {
         setTargetRole={setTargetRole}
         allRoles={allRoles}
         sectionOrder={layout.sectionOrder}
+        experienceGroupOrder={experienceGroupOrder}
+        onMoveExperienceGroup={moveExperienceGroup}
       />
 
       {/* Main Preview Panel */}
