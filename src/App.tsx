@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { useResumeState } from './hooks/useResumeState';
 import { Sidebar } from './components/editor/Sidebar';
 import { ResumePreview } from './components/preview/ResumePreview';
 import { PreviewToolbar } from './components/preview/PreviewToolbar';
 import { handleExportPDF } from './utils/pdfExport';
+import { SaveSubmissionModal } from './components/modals/SaveSubmissionModal';
+import { SavedSubmissionsModal } from './components/modals/SavedSubmissionsModal';
+import { serializeResumeContent } from './utils/resumeSerializer';
 
 export default function App() {
   const {
@@ -32,14 +36,31 @@ export default function App() {
     certificationsData,
     skillsData,
     publicationsData,
-    toggleSectionVisibility
+    toggleSectionVisibility,
+    loadSavedSubmission
   } = useResumeState();
+
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+  const [isSavedListModalOpen, setIsSavedListModalOpen] = useState(false);
 
   const handleReset = () => {
     if (window.confirm("Are you sure you want to reset all data and layouts?")) {
       localStorage.clear();
       window.location.reload();
     }
+  };
+
+  const handleGetSubmissionContent = (company: string, jobId: string, jobName: string) => {
+    return serializeResumeContent({
+      company,
+      jobId,
+      jobName,
+      targetGroup,
+      targetRole,
+      data: filteredData,
+      selectedPoints,
+      layout
+    });
   };
 
   return (
@@ -80,6 +101,8 @@ export default function App() {
         <PreviewToolbar
           onReset={handleReset}
           onExportPDF={() => handleExportPDF(layout)}
+          onOpenSaveSubmission={() => setIsSaveModalOpen(true)}
+          onOpenSavedSubmissions={() => setIsSavedListModalOpen(true)}
           layout={layout}
           setLayout={setLayout}
         />
@@ -92,6 +115,24 @@ export default function App() {
           />
         </div>
       </div>
+
+      {/* Modals */}
+      <SaveSubmissionModal
+        isOpen={isSaveModalOpen}
+        onClose={() => setIsSaveModalOpen(false)}
+        getContent={handleGetSubmissionContent}
+        targetGroup={targetGroup}
+        targetRole={targetRole}
+      />
+
+      <SavedSubmissionsModal
+        isOpen={isSavedListModalOpen}
+        onClose={() => setIsSavedListModalOpen(false)}
+        onLoadInEditor={(sub) => {
+          loadSavedSubmission(sub);
+        }}
+        currentLayout={layout}
+      />
     </div>
   );
 }

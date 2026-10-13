@@ -314,6 +314,18 @@ export function useResumeState() {
     const skillsData = filteredData.filter(d => d.type === 'skills');
     const publicationsData = filteredData.filter(d => d.type === 'publications');
 
+    const loadSavedSubmission = (submission: {
+        targetGroup?: string;
+        targetRole?: string;
+        selectedPoints?: Record<string, boolean>;
+        layout?: LayoutSettings;
+    }) => {
+        if (submission.targetGroup) setTargetGroup(submission.targetGroup);
+        if (submission.targetRole) setTargetRole(submission.targetRole);
+        if (submission.selectedPoints) setSelectedPoints(submission.selectedPoints);
+        if (submission.layout) setLayout(submission.layout);
+    };
+
     return {
         data,
         targetGroup,
@@ -342,6 +354,7 @@ export function useResumeState() {
         certificationsData,
         skillsData,
         publicationsData,
-        toggleSectionVisibility
+        toggleSectionVisibility,
+        loadSavedSubmission
     };
 }

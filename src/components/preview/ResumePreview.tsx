@@ -6,9 +6,12 @@ interface ResumePreviewProps {
     data: ResumeData[];
     selectedPoints: Record<string, boolean>;
     layout: LayoutSettings;
+    customPersonalDetails?: typeof personalDetails;
 }
 
-export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewProps) {
+export function ResumePreview({ data, selectedPoints, layout, customPersonalDetails }: ResumePreviewProps) {
+    const details = customPersonalDetails || personalDetails;
+
     const getPageDimensions = () => {
         if (layout.pageSize === 'A4') {
             return { width: '210mm', minHeight: '296mm' };
@@ -45,24 +48,24 @@ export function ResumePreview({ data, selectedPoints, layout }: ResumePreviewPro
                 marginBottom: Math.min(0, layout.paddingTopBottom) + 'mm',
             }}>
             <div className="text-center" style={{ marginBottom: (layout.gapHeaderToFirstSection ?? 24) + 'px' }}>
-                <h1 className="font-bold tracking-tight" style={{ fontSize: (layout.fontSizeName || 25) + 'pt', marginBottom: (layout.gapNameAuth ?? 4) + 'px' }}>{personalDetails.name}</h1>
+                <h1 className="font-bold tracking-tight" style={{ fontSize: (layout.fontSizeName || 25) + 'pt', marginBottom: (layout.gapNameAuth ?? 4) + 'px' }}>{details.name}</h1>
                 
                 <p className="flex justify-center flex-wrap gap-2 items-center" style={{ fontSize: (layout.fontSizeContact || 10) + 'pt', marginBottom: (layout.gapAuthContact ?? 4) + 'px' }}>
                     {(() => {
                         const items = [];
 
                         let authLoc = [];
-                        if (personalDetails.workAuthorization) authLoc.push(personalDetails.workAuthorization);
-                        if (personalDetails.location) authLoc.push(personalDetails.location);
+                        if (details.workAuthorization) authLoc.push(details.workAuthorization);
+                        if (details.location) authLoc.push(details.location);
                         if (authLoc.length > 0) {
                             items.push(<span>{authLoc.join(' | ')}</span>);
                         }
 
-                        if (personalDetails.email) items.push(<a href={`mailto:${personalDetails.email}`} className="hover:underline text-black no-underline" style={{ color: '#000' }}>{personalDetails.email}</a>);
-                        if (personalDetails.phone) items.push(<span>{personalDetails.phone}</span>);
-                        if (personalDetails.github) items.push(<a href={`https://${personalDetails.github}`} target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>{personalDetails.github}</a>);
-                        if (personalDetails.linkedin) items.push(<a href={`https://${personalDetails.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>{personalDetails.linkedin}</a>);
-                        if (personalDetails.website) items.push(<a href={`https://${personalDetails.website}`} target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>{personalDetails.website}</a>);
+                        if (details.email) items.push(<a href={`mailto:${details.email}`} className="hover:underline text-black no-underline" style={{ color: '#000' }}>{details.email}</a>);
+                        if (details.phone) items.push(<span>{details.phone}</span>);
+                        if (details.github) items.push(<a href={`https://${details.github}`} target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>{details.github}</a>);
+                        if (details.linkedin) items.push(<a href={`https://${details.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>{details.linkedin}</a>);
+                        if (details.website) items.push(<a href={`https://${details.website}`} target="_blank" rel="noopener noreferrer" className="hover:underline text-black no-underline" style={{ color: '#000' }}>{details.website}</a>);
                         
                         return items.map((item, i) => (
                             <span key={i} className="flex gap-2 items-center">
