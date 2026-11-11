@@ -130,7 +130,14 @@ export function CheckboxItem({
                     </svg>
                 </div>
                 <div className="text-sm flex-1 mr-12">
-                    <span className="text-slate-700 leading-snug">{point.text}</span>
+                    <div className="flex items-start gap-1.5">
+                        {point.indexInGroup !== undefined && (
+                            <span className="text-[10px] font-bold px-1.5 py-0.5 bg-sky-100 text-sky-800 rounded border border-sky-200/80 flex-shrink-0 mt-0.5 select-none" title={`Point #${point.indexInGroup} in ${point.group || 'group'}`}>
+                                #{point.indexInGroup}
+                            </span>
+                        )}
+                        <span className="text-slate-700 leading-snug">{point.text}</span>
+                    </div>
                     <div className="flex flex-wrap items-center gap-1.5 mt-2">
                         {point.group && point.group !== 'Other' && (
                             <span className="text-[10px] font-bold px-2 py-0.5 bg-amber-50 text-amber-800 border border-amber-200/80 rounded-full select-none shadow-2xs">

@@ -3,6 +3,7 @@ export interface ResumePoint {
     text: string;
     tags: string[];
     group?: string;
+    indexInGroup?: number;
 }
 
 export interface ResumeData {

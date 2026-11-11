@@ -1,10 +1,11 @@
 import { useState, useMemo, useEffect } from 'react';
-import { getResumeData } from '../data';
+import { getResumeData, getMasterExperienceData } from '../data';
 import type { ResumeData, ResumePoint } from '../utils/parser';
 
 import type { LayoutSettings } from '../types';
 import { defaultLayout } from '../types';
 import { saveResumeFileLocal } from '../utils/mdWriter';
+import { executeQuickPick } from '../utils/quickPick';
 
 export const DEFAULT_EXPERIENCE_GROUPS = [
     'General',
@@ -53,6 +54,8 @@ export function useResumeState() {
         const initial: Record<string, boolean> = {};
         const allData = getResumeData();
         allData.forEach(sec => sec.points.forEach(p => initial[p.id] = true));
+        const masterExp = getMasterExperienceData();
+        masterExp.forEach(sec => sec.points.forEach(p => initial[p.id] = true));
 
         const saved = localStorage.getItem('resume-selected-points');
         if (saved) {
@@ -64,6 +67,34 @@ export function useResumeState() {
         }
         return initial;
     });
+
+    const [masterExperience] = useState<ResumeData[]>(() => getMasterExperienceData());
+    const [isQuickPickExperience, setIsQuickPickExperience] = useState<boolean>(() => {
+        return localStorage.getItem('resume-quick-pick-experience') === 'true';
+    });
+
+    const toggleQuickPickExperience = () => {
+        setIsQuickPickExperience(prev => {
+            const next = !prev;
+            localStorage.setItem('resume-quick-pick-experience', String(next));
+            return next;
+        });
+    };
+
+    const applyQuickPick = (command: string) => {
+        const result = executeQuickPick(command, masterExperience);
+        setSelectedPoints(prev => {
+            const next = { ...prev };
+            result.selectedIds.forEach(id => {
+                next[id] = true;
+            });
+            result.unselectedIds.forEach(id => {
+                next[id] = false;
+            });
+            return next;
+        });
+        return result;
+    };
 
     const [layout, setLayout] = useState<LayoutSettings>(() => {
         const saved = localStorage.getItem('resume-layout-settings');
@@ -419,12 +450,19 @@ export function useResumeState() {
     };
 
     const filteredData = useMemo(() => {
-        return data.filter(section => {
+        const roleFiltered = data.filter(section => {
             return section.role === targetRole && section.group === targetGroup;
         });
-    }, [data, targetRole, targetGroup]);
+        if (!isQuickPickExperience) {
+            return roleFiltered;
+        }
+        const nonExp = roleFiltered.filter(s => s.type !== 'experience');
+        return [...masterExperience, ...nonExp];
+    }, [data, targetRole, targetGroup, isQuickPickExperience, masterExperience]);
 
-    const experienceData = filteredData.filter(d => d.type === 'experience');
+    const experienceData = isQuickPickExperience
+        ? masterExperience
+        : filteredData.filter(d => d.type === 'experience');
     const projectData = filteredData.filter(d => d.type === 'project');
     const educationData = filteredData.filter(d => d.type === 'education');
     const certificationsData = filteredData.filter(d => d.type === 'certifications');
@@ -474,6 +512,10 @@ export function useResumeState() {
         skillsData,
         publicationsData,
         toggleSectionVisibility,
-        loadSavedSubmission
+        loadSavedSubmission,
+        isQuickPickExperience,
+        toggleQuickPickExperience,
+        applyQuickPick,
+        masterExperienceData: masterExperience
     };
 }

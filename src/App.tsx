@@ -39,7 +39,10 @@ export default function App() {
     skillsData,
     publicationsData,
     toggleSectionVisibility,
-    loadSavedSubmission
+    loadSavedSubmission,
+    isQuickPickExperience,
+    toggleQuickPickExperience,
+    applyQuickPick
   } = useResumeState();
 
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
@@ -98,6 +101,9 @@ export default function App() {
         sectionOrder={layout.sectionOrder}
         experienceGroupOrder={experienceGroupOrder}
         onMoveExperienceGroup={moveExperienceGroup}
+        isQuickPickExperience={isQuickPickExperience}
+        onToggleQuickPickExperience={toggleQuickPickExperience}
+        onApplyQuickPick={applyQuickPick}
       />
 
       {/* Main Preview Panel */}

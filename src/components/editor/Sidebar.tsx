@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, BookOpen, Award, ArrowUp, ArrowDown, ChevronDown, ChevronRight, Layers } from 'lucide-react';
+import { LayoutTemplate, BriefcaseBusiness, FolderGit2, GraduationCap, Code2, BookOpen, Award, ArrowUp, ArrowDown, ChevronDown, ChevronRight, Zap } from 'lucide-react';
 import { SectionHeader } from '../common/SectionHeader';
 import { CheckboxItem } from '../common/CheckboxItem';
 import { AddPointForm } from '../common/AddPointForm';
+import { QuickPickBar } from '../common/QuickPickBar';
 import type { ResumeData } from '../../utils/parser';
 // import type { LayoutSettings } from '../../types';
 
@@ -35,6 +36,9 @@ interface SidebarProps {
     sectionOrder?: string[];
     experienceGroupOrder?: string[];
     onMoveExperienceGroup?: (sectionId: string, groupName: string, direction: 'up' | 'down') => void;
+    isQuickPickExperience?: boolean;
+    onToggleQuickPickExperience?: () => void;
+    onApplyQuickPick?: (command: string) => any;
 }
 
 export function Sidebar({
@@ -45,7 +49,10 @@ export function Sidebar({
     targetGroup, setTargetGroup, allGroups,
     targetRole, setTargetRole, allRoles, sectionOrder = ['experience', 'projects', 'education', 'skills', 'publications'],
     experienceGroupOrder = ['General', 'AWS', 'Completablefuture', 'Kafka', 'Spring Boot', 'Database & Cache', 'Other'],
-    onMoveExperienceGroup
+    onMoveExperienceGroup,
+    isQuickPickExperience = false,
+    onToggleQuickPickExperience,
+    onApplyQuickPick
 }: SidebarProps) {
 
     const [draggedSkill, setDraggedSkill] = useState<{ itemId: string, index: number } | null>(null);
@@ -219,6 +226,58 @@ export function Sidebar({
         return (
             <div key={sectionKey}>
                 <SectionHeader icon={icon} title={title} sectionKey={sectionKey} isCollapsed={!!collapsedSections[sectionKey]} isVisible={!hiddenSections?.includes(sectionKey)} onToggle={onToggleSection} onToggleVisibility={onToggleVisibility} onMoveUp={onMoveUp} onMoveDown={onMoveDown} />
+                {!collapsedSections[sectionKey] && sectionKey === 'experience' && (
+                    <>
+                        <div className="flex items-center justify-between mb-2.5 mt-1.5 px-2 py-1.5 bg-slate-100/80 border border-slate-200/90 rounded-lg">
+                            <div className="flex items-center gap-1.5">
+                                <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Mode:</span>
+                                <div className="flex items-center bg-slate-200/80 p-0.5 rounded-md text-xs">
+                                    <button
+                                        type="button"
+                                        onClick={() => { if (isQuickPickExperience) onToggleQuickPickExperience?.(); }}
+                                        className={`px-2.5 py-0.5 rounded font-medium text-xs transition-all ${
+                                            !isQuickPickExperience
+                                                ? 'bg-white text-slate-800 shadow-2xs font-semibold'
+                                                : 'text-slate-600 hover:text-slate-900'
+                                        }`}
+                                    >
+                                        Role Standard
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => { if (!isQuickPickExperience) onToggleQuickPickExperience?.(); }}
+                                        className={`px-2.5 py-0.5 rounded font-medium text-xs flex items-center gap-1 transition-all ${
+                                            isQuickPickExperience
+                                                ? 'bg-sky-500 text-white shadow-2xs font-semibold'
+                                                : 'text-slate-600 hover:text-slate-900'
+                                        }`}
+                                    >
+                                        <Zap size={11} className={isQuickPickExperience ? 'fill-white' : ''} />
+                                        Quick Pick (Master)
+                                    </button>
+                                </div>
+                            </div>
+                            {isQuickPickExperience && (
+                                <span className="text-[10px] text-sky-700 font-mono font-medium bg-sky-100 px-2 py-0.5 rounded border border-sky-200" title="Reading from resume-points/master-experience.md">
+                                    master-experience.md
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Unified Quick Pick bar */}
+                        {isQuickPickExperience && (
+                            <QuickPickBar
+                                companies={data.map(sec => ({
+                                    name: sec.company || 'Company',
+                                    groups: Array.from(new Set(sec.points.map(p => p.group || 'General')))
+                                }))}
+                                onApply={(cmd) => onApplyQuickPick ? onApplyQuickPick(cmd) : { selectedIds: [], unselectedIds: [], summary: '' }}
+                                onSelectAll={() => data.forEach(sec => sec.points.forEach(p => { if (!selectedPoints[p.id]) onPointToggle(p.id); }))}
+                                onClearAll={() => data.forEach(sec => sec.points.forEach(p => { if (selectedPoints[p.id]) onPointToggle(p.id); }))}
+                            />
+                        )}
+                    </>
+                )}
                 {!collapsedSections[sectionKey] && data.map(item => (
                     <div
                         key={item.id}
@@ -307,6 +366,32 @@ export function Sidebar({
                                                                         <span className="text-[11px] text-slate-400 font-medium">
                                                                             ({selCount}/{pts.length})
                                                                         </span>
+                                                                        {pts.some(p => p.indexInGroup !== undefined) && (
+                                                                            <div className="flex items-center gap-1 ml-2 flex-wrap">
+                                                                                {pts.map(p => {
+                                                                                    const num = p.indexInGroup;
+                                                                                    const isSel = !!selectedPoints[p.id];
+                                                                                    return (
+                                                                                        <button
+                                                                                            key={p.id}
+                                                                                            type="button"
+                                                                                            onClick={(e) => {
+                                                                                                e.stopPropagation();
+                                                                                                onPointToggle(p.id);
+                                                                                            }}
+                                                                                            className={`w-4 h-4 text-[9px] font-bold rounded flex items-center justify-center transition-all ${
+                                                                                                isSel
+                                                                                                    ? 'bg-sky-500 text-white shadow-2xs hover:bg-sky-600'
+                                                                                                    : 'bg-slate-200 text-slate-600 hover:bg-sky-200 hover:text-sky-800'
+                                                                                            }`}
+                                                                                            title={`Point #${num} - Click to toggle: ${p.text.slice(0, 50)}`}
+                                                                                        >
+                                                                                            {num}
+                                                                                        </button>
+                                                                                    );
+                                                                                })}
+                                                                            </div>
+                                                                        )}
                                                                     </div>
 
                                                                     {!isOther && onMoveExperienceGroup && (

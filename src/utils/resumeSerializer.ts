@@ -352,7 +352,7 @@ function parseMarkdownToSubmission(rawContent: string, defaultLayoutFallback: La
             }
         }
 
-        if (currentSectionType === 'projects') {
+        if (currentSectionType === 'project') {
             if (line.startsWith('### ')) {
                 const titleLine = line.replace('### ', '').trim();
                 const urlMatch = titleLine.match(/\((https?:\/\/[^\)]+)\)/);
